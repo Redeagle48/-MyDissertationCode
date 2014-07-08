@@ -1,0 +1,403 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.d2pm.com/ontologies/ontology.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.d2pm.com/ontologies/ontology.owl">
+    <Prefix name="" IRI="http://www.d2pm.com/ontologies/ontology.owl#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Ontology to represent sequential and concurrent events in sequential pattern mining</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#Begin"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BinaryRelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ConcurrentialRelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#End"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Item"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Itemset"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Precedence"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Relation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RelationSequence"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Restriction"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Sequence"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SequentialRelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UnaryRelation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#antecedent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#consequent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasBegin"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasBinaryRelation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasEnd"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasGapPrecedence"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPrecedence"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasRelation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasUnaryRelation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#nextRelation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#nextRelationSequence"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasGap"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasGapPrecedence"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#Begin"/>
+        <Class IRI="#UnaryRelation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BinaryRelation"/>
+        <Class IRI="#Relation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ConcurrentialRelation"/>
+        <Class IRI="#RelationSequence"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#End"/>
+        <Class IRI="#UnaryRelation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Item"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Itemset"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Precedence"/>
+        <Class IRI="#BinaryRelation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Relation"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RelationSequence"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Restriction"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Sequence"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SequentialRelation"/>
+        <Class IRI="#RelationSequence"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UnaryRelation"/>
+        <Class IRI="#Relation"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Item"/>
+        <Class IRI="#Itemset"/>
+        <Class IRI="#Relation"/>
+        <Class IRI="#RelationSequence"/>
+        <Class IRI="#Restriction"/>
+        <Class IRI="#Sequence"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#Begin"/>
+        <NamedIndividual IRI="#Begin_Restriction1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ConcurrentialRelation"/>
+        <NamedIndividual IRI="#ConcurrentialProperty1_Restriction1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#End"/>
+        <NamedIndividual IRI="#End_Restriction1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Precedence"/>
+        <NamedIndividual IRI="#Precedence_Restriction1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Restriction"/>
+        <NamedIndividual IRI="#Restriction1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SequentialRelation"/>
+        <NamedIndividual IRI="#SequentialProperty1_Restriction1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#a"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#b"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#c"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#d"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasBegin"/>
+        <NamedIndividual IRI="#Begin_Restriction1"/>
+        <NamedIndividual IRI="#a"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nextRelationSequence"/>
+        <NamedIndividual IRI="#Begin_Restriction1"/>
+        <NamedIndividual IRI="#ConcurrentialProperty1_Restriction1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nextRelation"/>
+        <NamedIndividual IRI="#ConcurrentialProperty1_Restriction1"/>
+        <NamedIndividual IRI="#Precedence_Restriction1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasEnd"/>
+        <NamedIndividual IRI="#End_Restriction1"/>
+        <NamedIndividual IRI="#d"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#antecedent"/>
+        <NamedIndividual IRI="#Precedence_Restriction1"/>
+        <NamedIndividual IRI="#b"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#consequent"/>
+        <NamedIndividual IRI="#Precedence_Restriction1"/>
+        <NamedIndividual IRI="#c"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nextRelationSequence"/>
+        <NamedIndividual IRI="#Precedence_Restriction1"/>
+        <NamedIndividual IRI="#SequentialProperty1_Restriction1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasRelation"/>
+        <NamedIndividual IRI="#Restriction1"/>
+        <NamedIndividual IRI="#Begin_Restriction1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nextRelation"/>
+        <NamedIndividual IRI="#SequentialProperty1_Restriction1"/>
+        <NamedIndividual IRI="#End_Restriction1"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasGapPrecedence"/>
+        <NamedIndividual IRI="#Precedence_Restriction1"/>
+        <Literal datatypeIRI="&xsd;string">5</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasGap"/>
+        <NamedIndividual IRI="#SequentialProperty1_Restriction1"/>
+        <Literal datatypeIRI="&xsd;int">0</Literal>
+    </DataPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#antecedent"/>
+        <ObjectProperty IRI="#hasPrecedence"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#consequent"/>
+        <ObjectProperty IRI="#hasPrecedence"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasBegin"/>
+        <ObjectProperty IRI="#hasUnaryRelation"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasBinaryRelation"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasEnd"/>
+        <ObjectProperty IRI="#hasUnaryRelation"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasPrecedence"/>
+        <ObjectProperty IRI="#hasBinaryRelation"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasUnaryRelation"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#antecedent"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#consequent"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasBegin"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasEnd"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasRelation"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#nextRelation"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#nextRelationSequence"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#antecedent"/>
+        <Class IRI="#Precedence"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#consequent"/>
+        <Class IRI="#Precedence"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasGapPrecedence"/>
+        <Class IRI="#Precedence"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasRelation"/>
+        <Class IRI="#Restriction"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasUnaryRelation"/>
+        <Class IRI="#UnaryRelation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#nextRelation"/>
+        <Class IRI="#RelationSequence"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#nextRelationSequence"/>
+        <Class IRI="#Relation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#antecedent"/>
+        <Class IRI="#Item"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#consequent"/>
+        <Class IRI="#Item"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasBegin"/>
+        <Class IRI="#Item"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasEnd"/>
+        <Class IRI="#Item"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasRelation"/>
+        <Class IRI="#Relation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasUnaryRelation"/>
+        <Class IRI="#Item"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#nextRelation"/>
+        <Class IRI="#Relation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#nextRelationSequence"/>
+        <Class IRI="#RelationSequence"/>
+    </ObjectPropertyRange>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#hasGap"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#hasGapPrecedence"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasGap"/>
+    </FunctionalDataProperty>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasGap"/>
+        <Class IRI="#RelationSequence"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasGap"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasGapPrecedence"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasGap</IRI>
+        <Literal datatypeIRI="&xsd;string">Gap between relations in a restriction</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+
