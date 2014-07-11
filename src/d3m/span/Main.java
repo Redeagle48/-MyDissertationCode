@@ -13,8 +13,10 @@ import d3m.span.ontologies.io.OWLReader;
 public class Main {
 
 	private int m_alg = 3;
-	private double m_sup = 0.50;
+	private double m_sup = 0.60;
 	private int m_gap = 2;
+	
+	
 	private boolean m_profile = true;
 	//private String m_file = new File("").getAbsolutePath() + "/" + "data/tagus_consumptions/output_weekdays.txt";
 	//private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/N10Ns5000Ni10000DB10C10T2S4I2.txt";
@@ -87,8 +89,9 @@ public class Main {
 		// Instatiate the sequential ontology
 		// TODO
 		
+		
 		// Run the algorithm
-		SeqD2PrefixGrowth alg = new SeqD2PrefixGrowth((float)runner.m_sup,db,runner.m_gap, true);
+		SeqD2PrefixGrowth alg = new SeqD2PrefixGrowth(runner.m_sup,db,runner.m_gap, true);
 		System.gc();
 		Vector<String> result = alg.exec();
 

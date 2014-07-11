@@ -71,7 +71,7 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 	{
 		m_dataset = db;
 		d2seqconstraint.minSup = (float)minSup;
-		d2seqconstraint.m_globalNr = (long) Math.ceil(m_dataset.getSize()*minSup);
+		d2seqconstraint.m_globalNr = (long) Math.round(Math.ceil(m_dataset.getSize()*minSup));
 		d2seqconstraint.m_distance = distance;
 		//super(minSup, db, distance, on);
 	}
@@ -80,7 +80,7 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 	{
 		m_dataset = db;
 		d2seqconstraint.minSup = minSup;
-		d2seqconstraint.m_globalNr = (long) Math.ceil(m_dataset.getSize()*minSup);
+		d2seqconstraint.m_globalNr = (long) Math.round(Math.ceil(m_dataset.getSize()*minSup));
 		//super(minSup, db, distance, on);
 	}
 
@@ -163,6 +163,7 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 		long time = 0;
 		//if (m_profileOn) time = System.currentTimeMillis();
 		boolean ok = (d2seqconstraint.m_globalNr <= (double)sup);
+		
 		/*
 		if (m_profileOn)
 		{
@@ -284,6 +285,7 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 	public boolean satisfies(long sup)
 	{
 		boolean ok = (d2seqconstraint.m_globalNr <= (double)sup);
+		
 	    return ok;
 	}
 
