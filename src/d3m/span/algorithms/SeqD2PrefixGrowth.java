@@ -2,21 +2,14 @@ package d3m.span.algorithms;
 
 import java.util.Vector;
 
-import d3m.span.constraints.D2SeqConstraint;
+import d3m.span.constraints.SeqD2Constraint;
 import d3m.span.core.SeqDataset;
 import d3m.span.core.SeqItem;
 import d3m.span.core.SeqItemset;
 import d3m.span.core.SeqProjectedDB;
 import d3m.span.core.SeqSequence;
 import dm.pam.algorithms.PrefixPam;
-import dm.pam.core.Item;
-import dm.pam.core.Itemset;
 import dm.pam.core.Results;
-import dm.uspam.algorithms.*;
-import dm.uspam.core.Database;
-import dm.uspam.core.Element;
-import dm.uspam.core.ItemSet;
-import dm.uspam.core.ProjectedDB;
 import dm.uspam.core.Sequence;
 import dm.uspam.io.SequencesReader;
 
@@ -36,7 +29,7 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 	protected SeqItem[] flist;
 
 	/** Constraint guiding the algorithm. */
-	D2SeqConstraint d2seqconstraint = new D2SeqConstraint();
+	SeqD2Constraint d2seqconstraint = new SeqD2Constraint();
 
 	/** Creates a new empty instance of GenPrefixSpan */	
 	public SeqD2PrefixGrowth()
@@ -337,7 +330,7 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 			//System.out.println(b.toString());
 			b.setSupport((int)arrayItemsCount[i]);
 			// f_list only contains frequent items
-			if (satisfies(b, arrayItemsCount[i]))
+			if (satisfies(b, arrayItemsCount[i]) && d2seqconstraint.accept(b,m_dataset.getAlphabet()))
 			{
 				patterns.addElement(b);
 				//System.out.println("\n\n\n"+b.toString());

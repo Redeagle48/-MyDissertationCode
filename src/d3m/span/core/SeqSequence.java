@@ -145,7 +145,7 @@ public class SeqSequence extends Itemset {
 	 * Gets the last itemset in the sequence
 	 * @return the last item in the sequence
 	 */
-	public Itemset getLastItemset(){
+	public SeqItemset getLastItemset(){
 		return m_itemsets[m_itemsets.length-1];
 	}
 
@@ -153,7 +153,7 @@ public class SeqSequence extends Itemset {
 	 * Gets the first item in the itemset
 	 * @return the first item in the itemset
 	 */
-	public Itemset getFirstItemset(){
+	public SeqItemset getFirstItemset(){
 		return m_itemsets[0];
 	}
 

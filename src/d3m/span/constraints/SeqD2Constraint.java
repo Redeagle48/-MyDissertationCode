@@ -8,18 +8,14 @@ import java.util.Vector;
 import ontologies.OntoException;
 import d3m.d2pm.constraints.D2Constraint;
 import d3m.d2pm.core.D2Item;
+import d3m.span.constraints.contentConstraint.SeqD2Tree;
 import d3m.span.core.SeqDataset;
 import d3m.span.core.SeqItem;
 import d3m.span.core.SeqItemset;
 import d3m.span.core.SeqProjectedDB;
 import d3m.span.core.SeqSequence;
-import dm.uspam.core.Database;
-import dm.uspam.core.Element;
-import dm.uspam.core.ItemSet;
-import dm.uspam.core.ProjectedDB;
-import dm.uspam.core.Sequence;
 
-public class D2SeqConstraint extends D2Constraint {
+public class SeqD2Constraint extends D2Constraint {
 	
 	/** The large distance allowed between two elements in a sequence. */
     public int m_distance = 0;
@@ -28,8 +24,11 @@ public class D2SeqConstraint extends D2Constraint {
     public long m_globalNr = 0;
     /** The min support. */
     public float minSup = 0;
+    
+    /** The tree containing the constraints. */
+    public SeqD2Tree tree = new SeqD2Tree();
 
-	public D2SeqConstraint() {}
+	public SeqD2Constraint() {}
 
 	/**
 	 * Reads the file in name of the constraint, according to the received KB.
@@ -258,5 +257,11 @@ public class D2SeqConstraint extends D2Constraint {
 	    }
 	    */
 	    return proj;
+	}
+	
+	public boolean accept(SeqSequence b, SeqItem[] alphabet){
+		boolean accepted = tree.verify(b,alphabet);
+		return accepted;
+		
 	}
 }
