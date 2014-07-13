@@ -13,7 +13,7 @@ import d3m.span.ontologies.io.OWLReader;
 public class Main {
 
 	private int m_alg = 3;
-	private double m_sup = 0.30;
+	private double m_sup = 0.60;
 	private int m_gap = 2;
 	
 	

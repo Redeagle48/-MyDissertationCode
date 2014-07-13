@@ -24,7 +24,7 @@ public class SeqD2End extends SeqD2Relation {
 	}
 
 	@Override
-	public boolean accept(SeqSequence b, SeqItem[] alphabet) {
+	public boolean accept(SeqSequence b, SeqItem[] alphabet, int until) {
 		// TODO Auto-generated method stub
 		return false;
 	}

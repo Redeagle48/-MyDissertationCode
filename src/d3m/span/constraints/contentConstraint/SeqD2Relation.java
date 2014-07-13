@@ -8,6 +8,6 @@ public abstract class SeqD2Relation {
 	public SeqD2Relation() {
 	}
 
-	public abstract boolean accept(SeqSequence b,SeqItem[] alphabet);
+	public abstract boolean accept(SeqSequence b,SeqItem[] alphabet, int until);
 	
 }

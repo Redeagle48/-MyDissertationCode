@@ -25,10 +25,10 @@ public class SeqD2Begin extends SeqD2Relation{
 	}
 
 	@Override
-	public boolean accept(SeqSequence b,SeqItem[] alphabet) {
+	public boolean accept(SeqSequence b,SeqItem[] alphabet, int until) {
 		
 		SeqItemset itemset = b.getFirstItemset();
-		short item = itemset.elementIdAt(0); //retorna o id n o item mas pronto
+		short item = itemset.elementIdAt(until); //retorna o id n o item mas pronto
 		
 		return this.item.getElement().equals(alphabet[item].getElement());
 	}

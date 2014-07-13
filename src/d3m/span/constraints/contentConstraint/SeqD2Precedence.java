@@ -1,6 +1,7 @@
 package d3m.span.constraints.contentConstraint;
 
 import d3m.span.core.SeqItem;
+import d3m.span.core.SeqItemset;
 import d3m.span.core.SeqSequence;
 
 public class SeqD2Precedence extends SeqD2Relation{
@@ -25,13 +26,19 @@ public class SeqD2Precedence extends SeqD2Relation{
 	}
 	
 	public String toString(){
-		return "Seq2Precedence";
+		return "SeqD2Precedence";
 	}
 
 	@Override
-	public boolean accept(SeqSequence b, SeqItem[] alphabet) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean accept(SeqSequence b, SeqItem[] alphabet, int until) {
+		
+		SeqItemset itemset = b.getItemsetAt(until);
+		//short item = itemset.elementIdAt(0); //retorna o id n o item mas pronto
+		
+		//return this.item.getElement().equals(alphabet[item].getElement());
+		
+		
+		return true;
 	}
 	
 }
