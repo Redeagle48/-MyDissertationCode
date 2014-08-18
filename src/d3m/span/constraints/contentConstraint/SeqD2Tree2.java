@@ -2,19 +2,19 @@ package d3m.span.constraints.contentConstraint;
 
 import java.util.Vector;
 
-import d3m.spam.core.EventSequence;
-import d3m.spam.core.ItemSet;
 import d3m.span.core.SeqItem;
-import d3m.span.core.SeqItemset;
 import d3m.span.core.SeqSequence;
 
-public class SeqD2Tree {
+public class SeqD2Tree2 {
 
 	protected Vector<Vector<SeqD2Relation>> constraints = new Vector<Vector<SeqD2Relation>>();
 
-	//To Test
+	/*
 	public SeqD2Tree() {
 
+		//To Test 
+		/////////////////////////////////////
+		/////////////////////////////////////
 		SeqD2Begin begin_1 = new SeqD2Begin(new SeqItem("1"));
 		SeqD2Precedence precedence_1 = new SeqD2Precedence(new SeqItem("2"),new SeqItem("3"));
 
@@ -23,8 +23,11 @@ public class SeqD2Tree {
 		constraint1.add(precedence_1);
 
 		constraints.add(constraint1);
+		/////////////////////////////////////
+		/////////////////////////////////////
 
 	}
+	*/
 
 	public boolean verify(SeqSequence b, SeqItem[] alphabet){
 		//Vector<SeqD2Relation> constraint = constraints.get(0);
@@ -49,7 +52,18 @@ public class SeqD2Tree {
 		return 1;
 	}
 
+// --------------------------NEW STUFF -------------------------------- //
+	
+	/*
+	Vector<SeqD2StateTransition> statesTransictions = new Vector<SeqD2StateTransition>();
+	SeqD2StateTransition transiction0 = new SeqD2StateTransition(new SeqD2Begin(new SeqItem("1")),0);
+	SeqD2StateTransition transiction1 = new SeqD2StateTransition(new SeqD2Precedence(new SeqItem("2"), new SeqItem("3")),3);
+	
+	public SeqD2Tree(){
 
+		statesTransictions.add(transiction0);
+		statesTransictions.add(transiction1);
 
-
+	}
+	*/
 }

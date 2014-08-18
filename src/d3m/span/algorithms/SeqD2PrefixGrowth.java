@@ -331,7 +331,7 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 			b.setSupport((int)arrayItemsCount[i]);
 			// f_list only contains frequent items
 			// Occurrence tree verifying the patterns
-			if (satisfies(b, arrayItemsCount[i]) && d2seqconstraint.accept(b,m_dataset.getAlphabet()))
+			if (satisfies(b, arrayItemsCount[i]) && d2seqconstraint.isAccept(b, m_dataset.getAlphabet()))//,m_dataset.getAlphabet())*/)
 			{
 				patterns.addElement(b);
 				//System.out.println("\n\n\n"+b.toString());

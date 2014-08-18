@@ -8,7 +8,6 @@ import java.util.Vector;
 import ontologies.OntoException;
 import d3m.d2pm.constraints.D2Constraint;
 import d3m.d2pm.core.D2Item;
-import d3m.span.constraints.contentConstraint.SeqD2Tree;
 import d3m.span.core.SeqDataset;
 import d3m.span.core.SeqItem;
 import d3m.span.core.SeqItemset;
@@ -28,7 +27,25 @@ public class SeqD2Constraint extends D2Constraint {
     /** The tree containing the constraints. */
     public SeqD2Tree tree = new SeqD2Tree();
 
-	public SeqD2Constraint() {}
+    /** TO TEST **/
+	public SeqD2Constraint() {
+		// SeqD2Rule(short posAcumulated, short rule, short restriction,
+		//			short gap_interTransaction, short gap_intraRestriction, 
+		//			short itemset, short item)
+		SeqD2Rule rule1 = new SeqD2Rule
+				((short)0, (short)1, (short)1, (short)0, (short)0, (short)0, (short)2);
+		SeqD2Rule rule2 = new SeqD2Rule
+				((short)0, (short)2, (short)2, (short)0, (short)0, (short)0, (short)2);
+		tree.addRule(rule1);
+		tree.addRule(rule2);
+	}
+	
+	public boolean isAccept(SeqSequence b, SeqItem[] seqItems){
+		SeqD2State sequence_state = b.getState();
+		short item = (short)Integer.parseInt(seqItems[b.getLastItemset().elementIdAt(b.getLastItemset().size()-1)].getElement());
+		boolean res = tree.validate(item, sequence_state, b);
+		return res;
+	}
 
 	/**
 	 * Reads the file in name of the constraint, according to the received KB.
@@ -76,6 +93,7 @@ public class SeqD2Constraint extends D2Constraint {
 			seq.countSupportForEachElement(alphabetV, arrayItemsCount,
 					0, seq.size());
 		}
+		
 		/*
 	    if (m_profileOn)
 	    {
@@ -257,11 +275,5 @@ public class SeqD2Constraint extends D2Constraint {
 	    }
 	    */
 	    return proj;
-	}
-	
-	public boolean accept(SeqSequence b, SeqItem[] alphabet){
-		boolean accepted = tree.verify(b,alphabet);
-		return accepted;
-		
 	}
 }

@@ -2,9 +2,8 @@ package d3m.span.core;
 
 import java.util.Vector;
 
+import d3m.span.constraints.SeqD2State;
 import dm.pam.core.Itemset;
-import dm.uspam.core.Element;
-import dm.uspam.core.ItemSet;
 
 public class SeqSequence extends Itemset {
 
@@ -18,6 +17,11 @@ public class SeqSequence extends Itemset {
 	protected int m_support;
 	protected double m_conf;
 	static protected int m_nrOfSequences = 0;
+	
+	/** Restriction State **/
+	SeqD2State state; // PASSAR PARA TIPOS PRIMITIVOS PARA NAO SOBRECARREGAR MEMORIA
+	public SeqD2State getState(){ return this.state; }
+	public void setState(SeqD2State newState){ this.state = newState; }
 
 	/** ****** CONSTRUCTORS */
 	/**
@@ -67,6 +71,8 @@ public class SeqSequence extends Itemset {
 		m_itemsets = new SeqItemset[1];
 		m_itemsets[0] = itemset;
 		m_size = m_itemsets.length;
+		
+		state = new SeqD2State();
 	}
 
 	//________________________________________________________________
