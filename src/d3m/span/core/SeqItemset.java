@@ -77,7 +77,7 @@ public class SeqItemset extends Itemset {
 			//m_itemset[i] = ((SeqItem)elems.elementAt(i));
 			m_elems[i] = ((SeqItem)elems.elementAt(i)).getIndex();
 
-		//Arrays.sort(m_elems);
+		Arrays.sort(m_elems);
 	}
 
 	//________________________________________________________________
@@ -233,7 +233,7 @@ public class SeqItemset extends Itemset {
 				st+=",";
 			st += m_elems[i];
 		}
-		st += "):" + String.valueOf(m_frequency);
+		st += ")"; //"):" + String.valueOf(m_frequency);
 		return st;
 	}
 }

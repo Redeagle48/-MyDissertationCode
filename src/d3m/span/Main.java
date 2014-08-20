@@ -13,14 +13,14 @@ import d3m.span.ontologies.io.OWLReader;
 public class Main {
 
 	private int m_alg = 3;
-	private double m_sup = 0.60;
+	private double m_sup = 0.30;
 	private int m_gap = 2;
 	
 	
 	private boolean m_profile = true;
 	//private String m_file = new File("").getAbsolutePath() + "/" + "data/tagus_consumptions/output_weekdays.txt";
-	private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/N10Ns5000Ni10000DB10C10T2S4I2.txt";
-	//private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/sample.txt"; //
+	//private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/N10Ns5000Ni10000DB10C10T2S4I2.txt";
+	private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/sample.txt"; //
 
 	private String m_constraint = null;
 

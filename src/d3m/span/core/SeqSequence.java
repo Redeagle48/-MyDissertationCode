@@ -375,7 +375,7 @@ public class SeqSequence extends Itemset {
 		if (0<m_size)
 		{
 			for (int i=0; i<m_size; i++)
-				st+=((SeqItemset)m_itemsets[i]).toString() + " ";
+				st+=((SeqItemset)m_itemsets[i]).toString(); //+ " ";
 		}
 		st += ">:"+ String.valueOf(m_support)
 				+" c:"+ String.valueOf(m_conf*100)+"%";

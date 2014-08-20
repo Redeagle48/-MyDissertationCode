@@ -15,31 +15,36 @@ import d3m.span.core.SeqProjectedDB;
 import d3m.span.core.SeqSequence;
 
 public class SeqD2Constraint extends D2Constraint {
-	
-	/** The large distance allowed between two elements in a sequence. */
-    public int m_distance = 0;
-    
-    /** The global number of occurrences to consider a sequence frequent. */
-    public long m_globalNr = 0;
-    /** The min support. */
-    public float minSup = 0;
-    
-    /** The tree containing the constraints. */
-    public SeqD2Tree tree = new SeqD2Tree();
 
-    /** TO TEST **/
+	/** The large distance allowed between two elements in a sequence. */
+	public int m_distance = 0;
+
+	/** The global number of occurrences to consider a sequence frequent. */
+	public long m_globalNr = 0;
+	/** The min support. */
+	public float minSup = 0;
+
+	/** The tree containing the constraints. */
+	public SeqD2Tree tree = new SeqD2Tree();
+
+	/** TO TEST **/
 	public SeqD2Constraint() {
-		// SeqD2Rule(short posAcumulated, short rule, short restriction,
-		//			short gap_interTransaction, short gap_intraRestriction, 
-		//			short itemset, short item)
+		
 		SeqD2Rule rule1 = new SeqD2Rule
-				((short)0, (short)1, (short)1, (short)0, (short)0, (short)0, (short)2);
+				((short)1,		// rule
+				 (short)1, 		// restriction
+				 (short)0, 		// gap_interTransaction
+				 (short)0, 		// gap_intraRestriction
+				 (short)0, 		// itemset
+				 (short)3);		// item
+		
 		SeqD2Rule rule2 = new SeqD2Rule
-				((short)0, (short)2, (short)2, (short)0, (short)0, (short)0, (short)2);
+				((short)2, (short)2, (short)0, (short)0, (short)0, (short)2);
+		
 		tree.addRule(rule1);
-		tree.addRule(rule2);
+		//tree.addRule(rule2);
 	}
-	
+
 	public boolean isAccept(SeqSequence b, SeqItem[] seqItems){
 		SeqD2State sequence_state = b.getState();
 		short item = (short)Integer.parseInt(seqItems[b.getLastItemset().elementIdAt(b.getLastItemset().size()-1)].getElement());
@@ -93,7 +98,7 @@ public class SeqD2Constraint extends D2Constraint {
 			seq.countSupportForEachElement(alphabetV, arrayItemsCount,
 					0, seq.size());
 		}
-		
+
 		/*
 	    if (m_profileOn)
 	    {
@@ -140,7 +145,7 @@ public class SeqD2Constraint extends D2Constraint {
 					GENERATE_C1);
 		}
 		 */	
-	}
+					}
 
 	public SeqProjectedDB createProjectedDB(SeqSequence alfa, SeqDataset m_db){
 
@@ -224,7 +229,7 @@ public class SeqD2Constraint extends D2Constraint {
 		 */	
 		return proj;
 	}
-	
+
 	/**
 	 * Creates a vector with all of the projected databases, one for each frequent 
 	 * element that is near to the preeceding sequence.
@@ -235,45 +240,56 @@ public class SeqD2Constraint extends D2Constraint {
 	 */
 	public SeqProjectedDB createProjectedDB(SeqSequence alfa, SeqProjectedDB db, SeqDataset m_dataset) throws Exception
 	{
-	    long time = 0;
-	    //if (m_profileOn) time = System.currentTimeMillis();
-	    Vector<Integer> vecDB = new Vector<Integer>();
-	    Vector<Integer> vecInd = new Vector<Integer>();
-	    // b <-- the element to look for
-	    SeqItemset set = alfa.getItemsetAt(alfa.size()-1);
-	    SeqItem b = (SeqItem)m_dataset.getAlphabet()[set.elementIdAt(set.size()-1)];
-	    
-	    for (int i=0; i<db.size(); i++)
-	    {
-	        // pDB <-- the index of s in the original DB
-	        int pDB = db.indexOfSequenceAt(i);
-	        // pSub <-- the index of the start of subsequence
-	        int pSub = db.indexOfStartSubsequenceAt(i);
-	        // Getting the referenced sequence from the original DB
-	        SeqSequence s = m_dataset.getSequence(pDB);
-	        //If the element is sufficiently near
-	        // Searches for all occurrences of b
-	        int last = pSub+1;
-	        int ind;
-	        while ((-1!=(ind=s.indexOf(b, last))) && (ind-pSub-1<=m_distance))
-	        {
-	            // The index to store is the sequence index at original DB
-	            vecDB.addElement(new Integer(pDB));
-	            // ind+1 for using only postfixes 
-	            vecInd.addElement(new Integer(ind));
-	            last = ind+1;
-	        }
-	    }
-	//m_maxUsedMemory = Math.max(m_maxUsedMemory, Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory());				
-	    SeqProjectedDB proj = new SeqProjectedDB(vecDB, vecInd);
-	    /*
+		long time = 0;
+		//if (m_profileOn) time = System.currentTimeMillis();
+		Vector<Integer> vecDB = new Vector<Integer>();
+		Vector<Integer> vecInd = new Vector<Integer>();
+		// b <-- the element to look for
+		SeqItemset set = alfa.getItemsetAt(alfa.size()-1);
+		SeqItem b = (SeqItem)m_dataset.getAlphabet()[set.elementIdAt(set.size()-1)];
+
+		for (int i=0; i<db.size(); i++)
+		{
+			// pDB <-- the index of s in the original DB
+			int pDB = db.indexOfSequenceAt(i);
+			// pSub <-- the index of the start of subsequence
+			int pSub = db.indexOfStartSubsequenceAt(i);
+			// Getting the referenced sequence from the original DB
+			SeqSequence s = m_dataset.getSequence(pDB);
+			//If the element is sufficiently near
+			// Searches for all occurrences of b
+			int last = pSub+1;
+			int ind;
+			while ((-1!=(ind=s.indexOf(b, last))) && (ind-pSub-1<=m_distance))
+			{
+				// The index to store is the sequence index at original DB
+				vecDB.addElement(new Integer(pDB));
+				// ind+1 for using only postfixes 
+				vecInd.addElement(new Integer(ind));
+				last = ind+1;
+			}
+		}
+		//m_maxUsedMemory = Math.max(m_maxUsedMemory, Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory());				
+		SeqProjectedDB proj = new SeqProjectedDB(vecDB, vecInd);
+		/*
 	    if (m_profileOn)
 	    {
 	        Long old = (Long) m_membersProfiling.elementAt(CREATE_PROJECTED_DB);
 	        m_membersProfiling.setElementAt(new Long(old.longValue()+System.currentTimeMillis()-time), 
 	                            					  CREATE_PROJECTED_DB);
 	    }
-	    */
-	    return proj;
+		 */
+		return proj;
+	}
+
+	/**
+	 * Initializes the max itemset allowed for the first rule
+	 * @param b
+	 */
+	public void initializeSequenceState(SeqSequence b) {
+		if(this.tree.getRules().length != 0) {
+			int maxGap = this.tree.getRule(0).getMax_Gap();
+			b.getState().setMax_Allowed_Itemset((short)(b.getState().getMax_Allowed_Itemset() + maxGap));
+		}
 	}
 }

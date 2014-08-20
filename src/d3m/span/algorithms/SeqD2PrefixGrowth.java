@@ -156,7 +156,7 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 		long time = 0;
 		//if (m_profileOn) time = System.currentTimeMillis();
 		boolean ok = (d2seqconstraint.m_globalNr <= (double)sup);
-		
+
 		/*
 		if (m_profileOn)
 		{
@@ -209,32 +209,45 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 		{
 			SeqItem el = (SeqItem)alphabet.elementAt(i);
 			SeqItem sk_last = (SeqItem)m_dataset.getAlphabet()[sk.elementIdAt(sk.size()-1)];
-			
-	        //Element sk_last = (Element)m_db.getAlphabet().elementAt(sk.elementIdAt(sk.size()-1));
-			
+
+			//Element sk_last = (Element)m_db.getAlphabet().elementAt(sk.elementIdAt(sk.size()-1));
+
 			// If el can be assembled to the last event of alfa
-			if (satisfies(arParalelSup[i]) && (el.isGreaterThan(sk_last)))
+			if (satisfies(arParalelSup[i]) && (el.isGreaterThan(sk_last))) // compara indices em vez de valores
 			{
 				SeqItemset set = new SeqItemset(sk);
 				set.addElement(el);
 				SeqSequence alfa2 = alfa.subsequence(0, alfa.size()-2);
-				alfa2 = alfa2.addElement(set);  
-				alfa2.setSupport((int)arParalelSup[i]);
-				frequent.addElement(alfa2);
-				//System.out.println(alfa2.toString());
-				// 3. For each alfa', construct alfa'-projected database, and call 
-				// the procedure again with (alfa', alfaSize+1, alfa'-projectedDB) 
-				frequent.addAll(runRecursively(alfa2, alfaSize, alphabet, 
-						d2seqconstraint.createProjectedDB(set, db, m_dataset))); 
+				alfa2 = alfa2.addElement(set);
+				alfa2.setState(alfa.getState().cloneState());
+
+				// Validating the new sequence
+				if(d2seqconstraint.isAccept(alfa2, m_dataset.getAlphabet())){
+					alfa2.setSupport((int)arParalelSup[i]);
+					
+					if(alfa2.getState().getIsToCount())
+						frequent.addElement(alfa2);
+					
+					//System.out.println(alfa2.toString());
+					// 3. For each alfa', construct alfa'-projected database, and call 
+					// the procedure again with (alfa', alfaSize+1, alfa'-projectedDB) 
+					frequent.addAll(runRecursively(alfa2, alfaSize, alphabet, 
+							d2seqconstraint.createProjectedDB(set, db, m_dataset))); 
+				}
 			}
 			// el can be appended to alfa
 			SeqSequence b = new SeqSequence(new SeqItemset(el));
 			SeqSequence alfa2 = alfa.concatenateWith(b);
 			//System.out.println(alfa2.toString());
-			if (satisfies(alfa2, arSerialSup[i]))
+
+			// copy state of the sequence to the new possible accepted sequence
+			alfa2.setState(alfa.getState().cloneState());
+
+			if (satisfies(alfa2, arSerialSup[i]) 
+					&& d2seqconstraint.isAccept(alfa2, m_dataset.getAlphabet()))
 			{
 				alfa2.setSupport((int)arSerialSup[i]);
-				frequent.addElement(alfa2); //DEFINIR SUPPORTE
+				frequent.addElement(alfa2);
 				//System.out.println(alfa2.toString());
 				// 3. For each alfa', construct alfa'-projected database, and call 
 				// the procedure again with (alfa', alfaSize+1, alfa'-projectedDB) 
@@ -242,9 +255,11 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 						d2seqconstraint.createProjectedDB(alfa2, db, m_dataset)));
 			}
 		}
+
 		return frequent;
+
 	}
-	
+
 	//________________________________________________________________
 	/**
 	 * Verifies if the discovered sequence may be accepted as a pattern.
@@ -257,7 +272,7 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 		long time = 0;
 		//if (m_profileOn) time = System.currentTimeMillis();
 		boolean ok = (d2seqconstraint.m_globalNr <= (double)sup);
-		
+
 		/*
 		if (m_profileOn)
 		{
@@ -265,10 +280,10 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 			m_membersProfiling.setElementAt(new Long(old.longValue()+System.currentTimeMillis()-time), 
 										  SATISFIES);
 		}
-		*/	
-	    return ok;
+		 */	
+		return ok;
 	}
-	
+
 	//________________________________________________________________		
 	/**
 	 * Verifies if the sequence support is enough (greater or equal to m_minSup).
@@ -278,8 +293,8 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 	public boolean satisfies(long sup)
 	{
 		boolean ok = (d2seqconstraint.m_globalNr <= (double)sup);
-		
-	    return ok;
+
+		return ok;
 	}
 
 	//________________________________________________________________
@@ -329,15 +344,22 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 			SeqSequence b = new SeqSequence(new SeqItemset(el));
 			//System.out.println(b.toString());
 			b.setSupport((int)arrayItemsCount[i]);
+
+			d2seqconstraint.initializeSequenceState(b);
+
 			// f_list only contains frequent items
 			// Occurrence tree verifying the patterns
-			if (satisfies(b, arrayItemsCount[i]) && d2seqconstraint.isAccept(b, m_dataset.getAlphabet()))//,m_dataset.getAlphabet())*/)
+			if (satisfies(b, arrayItemsCount[i]) && d2seqconstraint.isAccept(b, m_dataset.getAlphabet()))
 			{
-				patterns.addElement(b);
+				if(b.getState().getIsToCount())
+					patterns.addElement(b);
 				//System.out.println("\n\n\n"+b.toString());
+				
 				try {
+
 					b_patterns = runRecursively(b, 1, f_list, d2seqconstraint.createProjectedDB(b,m_dataset));
 					patterns.addAll(b_patterns);
+
 					System.out.println(b.toString()+"# _PATTERNS = "+ b_patterns.size());
 					System.out.println(b.toString()+"===>>>"+b_patterns.toString());
 				} catch (Exception e) {
@@ -350,7 +372,9 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 		m_litemsets.addElement(patterns);
 		m_nrOfPatterns = patterns.size();			
 
+		System.out.println("\n =======>>>>>> FINAL RESULTS");
 		System.out.println("# PATTERNS = "+ m_nrOfPatterns);
+		System.out.println("PATTERNS ===>>> " + patterns);
 
 		/*
 		if (m_profileOn)
