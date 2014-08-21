@@ -34,17 +34,21 @@ public class SeqD2Constraint extends D2Constraint {
 		SeqD2Rule rule1 = new SeqD2Rule
 				((short)1,		// rule
 				 (short)1, 		// restriction
-				 (short)5, 		// gap_interTransaction
+				 (short)0, 		// gap_interTransaction
 				 (short)0, 		// gap_intraRestriction
 				 (short)0, 		// itemset
-				 (short)5,		// item
+				 (short)2,		// item
 				 false);		// isParallel
 		
 		SeqD2Rule rule2 = new SeqD2Rule
-				((short)2, (short)2, (short)0, (short)0, (short)0, (short)6,true);
+				((short)2, (short)2, (short)10, (short)0, (short)0, (short)2,false);
 		
-		tree.addRule(rule1);
+		SeqD2Rule rule3 = new SeqD2Rule
+				((short)3, (short)3, (short)2, (short)0, (short)0, (short)6,true);
+		
+		//tree.addRule(rule1);
 		//tree.addRule(rule2);
+		//tree.addRule(rule3);
 	}
 
 	public boolean isAccept(SeqSequence b, SeqItem[] seqItems){

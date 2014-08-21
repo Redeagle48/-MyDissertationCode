@@ -5,8 +5,9 @@ public class SeqD2State {
 	
 	public enum State {
 		NO_RULES,
-	    OUT,IN,PASS // OUT -> outside rule/restriction; IN -> inside ...; PASS -> validated rule/restriction
-	    , ALL_PASSED // ALL RULES/RESTRICTIONS WERE ACCEPTED
+	    IN,
+	    PASS,
+	    ALL_PASSED // ALL RULES/RESTRICTIONS WERE ACCEPTED
 	}
 	
 	short max_allowed_itemset;

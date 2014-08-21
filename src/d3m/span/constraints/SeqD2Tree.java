@@ -45,47 +45,6 @@ public class SeqD2Tree {
 	 */
 	boolean validate(short item, SeqD2State sequence_state, SeqSequence sequence) {
 
-		/*
-		if(this.rules.length != 0 && this.rules.length >= sequence_state.getRule()) { // Protect when there are no rules or all the rules where passed
-			int sequence_size = sequence.size();
-			int res = this.rules[sequence_state.getRule()-1].validate(item, sequence_state, sequence_size);
-			if (res == -1) return false;
-
-			if(res == 1) {
-
-				if(sequence_state.getRule() < rules.length ) {
-
-					SeqD2Rule newRule = rules[(sequence_state.getRule()-1)+1]; // rule nr. is +1 than in this.rules position
-
-					short currentItemset = sequence_state.getCurrentItemset();
-					short max_allowed_itemset = (short) (newRule.getMax_Gap() + sequence_state.getCurrentItemset());
-					short rule = newRule.getRule();
-					short restriction = newRule.getRestriction();
-
-					State new_RestrictionState = 
-							(sequence_state.getRestrictionState() == State.PASS ? State.OUT : sequence_state.getRestrictionState());
-
-					SeqD2State new_sequence_state = new SeqD2State(
-							max_allowed_itemset,		//max_allowed_itemset
-							rule,						//rule
-							restriction,				//restriction
-							currentItemset,				//itemset
-							false,						//insideRestriction --> MODIFICAR
-							State.IN,					//ruleState
-							new_RestrictionState);		//restrictionState
-
-					sequence.setState(new_sequence_state);
-
-				}
-
-				else if (sequence_state.getRule() == rules.length) {
-					sequence_state.setAllPassedRestrictionState();
-				}
-			}
-		}
-		return true;
-		 */
-
 		if(this.rules.length != 0 && this.rules.length >= sequence_state.getRule()) { // Protect when there are no rules or all the rules where passed
 
 			// actual size of the sequence to be analyzed

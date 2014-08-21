@@ -43,64 +43,6 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 	 */
 	public int validate(short item, SeqD2State sequence_state, int currentItemset) {
 
-		/*
-		// Se passou todas as restricoes rejeita tudo o resto que vier a seguir (itemsets para a frente)
-		if(sequence_state.getRestrictionState() == State.ALL_PASSED) {
-			if(currentItemset == sequence_state.getMax_Allowed_Itemset()){
-				return 0;
-			}
-		}
-
-		int currentItemset_tmp = currentItemset;
-
-		// Se ainda n chegou ao gap maximo
-		if(sequence_state.getMax_Allowed_Itemset() >= currentItemset_tmp) {
-			if(item == this.item) {
-				sequence_state.setPassRuleState();
-				//if(verify_if_the_restriction_is_passed_too){
-				//sequence_state.resetVariable(gap_intraRestriction);
-				//}
-
-				if(!sequence_state.getIsToCount()) // DISCOVER '3' --> (1) NO PATTERN --> (1 2) NO PATTERN --> (1 2 3) PATTERN ---> (1 2 3 ...) PATTERN
-					sequence_state.setIsToCount(true);
-
-				return 1; // CASO EM QUE CARREGA NOVO RULE
-			}
-
-			if(sequence_state.getRestrictionState() == State.PASS){
-				if(currentItemset_tmp == sequence_state.getLastVisitedItemset()){
-					return 0;
-				}
-			}
-
-
-			// Escrever isto melhor
-			if(sequence_state.getMax_Allowed_Itemset() >= currentItemset_tmp // transformar o gap_interTransaction no itemset max em vez de estar a fazer estas duas verificacoes 
-					&& currentItemset_tmp != sequence_state.getLastVisitedItemset() // para items paralelos
-					&& sequence_state.getRestrictionState() == State.OUT)
-			{
-				sequence_state.setCurrentItemset((short)currentItemset);
-				sequence_state.setLastVisitedItemset((short)currentItemset);
-
-				if(sequence_state.getMax_Allowed_Itemset() == currentItemset_tmp){
-					if(sequence_state.getIsToCount())
-						sequence_state.setIsToCount(false);
-				}
-				return 0;
-
-			} else if (sequence_state.getMax_Allowed_Itemset() >= currentItemset_tmp){
-				if(sequence_state.getMax_Allowed_Itemset() == currentItemset_tmp){
-					if(sequence_state.getIsToCount())
-						sequence_state.setIsToCount(false);
-				}
-				return 0;
-			}
-		}
-
-		// Chumbar a sequencia
-		return -1;
-		 */
-
 		if(sequence_state.getMax_Allowed_Itemset() >= currentItemset) {
 			
 			if(sequence_state.getRuleState() == State.ALL_PASSED) {
