@@ -8,6 +8,7 @@ import java.util.Vector;
 import ontologies.OntoException;
 import d3m.d2pm.constraints.D2Constraint;
 import d3m.d2pm.core.D2Item;
+import d3m.span.constraints.SeqD2State.State;
 import d3m.span.core.SeqDataset;
 import d3m.span.core.SeqItem;
 import d3m.span.core.SeqItemset;
@@ -36,10 +37,11 @@ public class SeqD2Constraint extends D2Constraint {
 				 (short)2, 		// gap_interTransaction
 				 (short)0, 		// gap_intraRestriction
 				 (short)0, 		// itemset
-				 (short)2);		// item
+				 (short)2,		// item
+				 false);		// isParallel
 		
 		SeqD2Rule rule2 = new SeqD2Rule
-				((short)2, (short)2, (short)0, (short)0, (short)0, (short)2);
+				((short)2, (short)2, (short)1, (short)0, (short)0, (short)4,false);
 		
 		tree.addRule(rule1);
 		//tree.addRule(rule2);
@@ -289,7 +291,14 @@ public class SeqD2Constraint extends D2Constraint {
 	public void initializeSequenceState(SeqSequence b) {
 		if(this.tree.getRules().length != 0) {
 			int maxGap = this.tree.getRule(0).getMax_Gap();
-			b.getState().setMax_Allowed_Itemset((short)(b.getState().getMax_Allowed_Itemset() + maxGap));
+			if(!this.tree.getRule(0).isParallel) {
+				b.getState().setMax_Allowed_Itemset((short)(b.getState().getMax_Allowed_Itemset() + maxGap));
+			} else {
+				b.getState().setMax_Allowed_Itemset((short)1);
+			}
+			b.getState().setRuleState(State.IN);
+		} else {
+			b.getState().setRuleState(State.NO_RULES);
 		}
 	}
 }

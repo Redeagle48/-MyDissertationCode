@@ -224,10 +224,11 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 				// Validating the new sequence
 				if(d2seqconstraint.isAccept(alfa2, m_dataset.getAlphabet())){
 					alfa2.setSupport((int)arParalelSup[i]);
-					
-					if(alfa2.getState().getIsToCount())
+
+					// Check if this sequence respect all the constraints, if yes it is a frequent one
+					if(alfa2.getState().isAllPassTheRuleState() || alfa2.getState().isNoRulesTheRuleState())
 						frequent.addElement(alfa2);
-					
+
 					//System.out.println(alfa2.toString());
 					// 3. For each alfa', construct alfa'-projected database, and call 
 					// the procedure again with (alfa', alfaSize+1, alfa'-projectedDB) 
@@ -247,7 +248,11 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 					&& d2seqconstraint.isAccept(alfa2, m_dataset.getAlphabet()))
 			{
 				alfa2.setSupport((int)arSerialSup[i]);
-				frequent.addElement(alfa2);
+				
+				// Check if this sequence respect all the constraints, if yes it is a frequent one
+				if(alfa2.getState().isAllPassTheRuleState() || alfa2.getState().isNoRulesTheRuleState())
+					frequent.addElement(alfa2);
+				
 				//System.out.println(alfa2.toString());
 				// 3. For each alfa', construct alfa'-projected database, and call 
 				// the procedure again with (alfa', alfaSize+1, alfa'-projectedDB) 
@@ -351,10 +356,11 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 			// Occurrence tree verifying the patterns
 			if (satisfies(b, arrayItemsCount[i]) && d2seqconstraint.isAccept(b, m_dataset.getAlphabet()))
 			{
-				if(b.getState().getIsToCount())
+				// Check if this sequence respect all the constraints, if yes it is a frequent one
+				if(b.getState().isAllPassTheRuleState() || b.getState().isNoRulesTheRuleState())
 					patterns.addElement(b);
 				//System.out.println("\n\n\n"+b.toString());
-				
+
 				try {
 
 					b_patterns = runRecursively(b, 1, f_list, d2seqconstraint.createProjectedDB(b,m_dataset));

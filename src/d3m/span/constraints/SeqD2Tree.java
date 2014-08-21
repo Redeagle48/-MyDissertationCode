@@ -86,7 +86,55 @@ public class SeqD2Tree {
 		return true;
 		 */
 
-		
-	}
+		if(this.rules.length != 0 && this.rules.length >= sequence_state.getRule()) { // Protect when there are no rules or all the rules where passed
 
+			// actual size of the sequence to be analyzed
+			int sequence_size = sequence.size();
+			sequence_state.setCurrentItemset((short)sequence_size);
+			int res = this.rules[sequence_state.getRule()-1].validate(item, sequence_state, sequence_size);
+			if (res == -1) return false; // rejecting the sequence
+
+			// when is inside the gap but not the item
+			if(res == 0) {
+
+			}
+
+			if (res == 1){
+				if(sequence_state.getRule() < rules.length ) {
+
+					SeqD2Rule newRule = rules[(sequence_state.getRule()-1)+1]; // rule nr. is +1 than in this.rules position
+					
+					short currentItemset = sequence_state.getCurrentItemset();
+					int startRuleItemset = (newRule.getIsParallel() ? sequence_size : sequence_size+1);
+					short max_allowed_itemset = 
+							(newRule.isParallel? currentItemset : (short) (newRule.getMax_Gap() + startRuleItemset));
+					short rule = newRule.getRule();
+					short restriction = newRule.getRestriction();
+					
+					State new_RuleState = 
+							(sequence_state.getRuleState() == State.PASS ? State.IN : sequence_state.getRuleState());
+					
+					SeqD2State new_sequence_state = new SeqD2State(
+							max_allowed_itemset,		//max_allowed_itemset
+							rule,						//rule
+							restriction,				//restriction
+							currentItemset,				//itemset
+							(short)startRuleItemset,	//startRuleItemset
+							//false,					//insideRestriction --> MODIFICAR
+							new_RuleState				//ruleState
+							//new_RestrictionState,		//restrictionState
+							);
+
+					sequence.setState(new_sequence_state);
+					
+				} 
+				// when all the rules were passed
+				else {
+					sequence_state.setRuleState(State.ALL_PASSED);
+				}
+			}
+
+		}
+		return true;
+	}
 }

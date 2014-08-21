@@ -10,16 +10,18 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 	short max_gap;
 	short itemset;
 	short item; // item to be discovered
+	boolean isParallel;
 
 	short pos; // position in the analyzed sequence
 
 	SeqD2Rule(short rule, short restriction, 
-			short gap_interTransaction, short gap_intraRestriction, short itemset, short item){
+			short gap_interTransaction, short gap_intraRestriction, short itemset, short item, boolean isParallel){
 		this.rule = rule;
 		this.restriction = restriction;
 		this.max_gap = gap_interTransaction;
 		this.itemset = itemset;
 		this.item = item;
+		this.isParallel = isParallel;
 	}
 
 	short getRestriction() { return this.restriction; }
@@ -27,6 +29,7 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 	short getItemset() { return this.itemset; }
 	short getMax_Gap() { return this.max_gap; }
 	short getItem() { return this.item; }
+	boolean getIsParallel() { return this.isParallel; }
 
 
 	/**
@@ -98,5 +101,29 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 		return -1;
 		 */
 
+		if(sequence_state.getMax_Allowed_Itemset() >= currentItemset) {
+			
+			if(sequence_state.getRuleState() == State.ALL_PASSED) {
+				if(sequence_state.getItemFoundItemset() == currentItemset) {
+					return 1;
+				} else{
+					return -1;
+				}
+			}
+			
+			// when we found the item we were looking for
+			if(item == this.item && sequence_state.getRuleState() == State.IN
+					&& sequence_state.getStartRuleItemset() <= currentItemset) {
+				sequence_state.setPassRuleState(); // Change rule state to pass
+				sequence_state.setItemFoundItemset((short)currentItemset);
+			
+				return 1; // CASO EM QUE CARREGA NOVO RULE
+			}
+			else {
+				return 0;
+			}
+			
+		}
+		return -1;
 	}
 }
