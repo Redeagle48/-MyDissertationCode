@@ -19,7 +19,8 @@ public class Main {
 	
 	private boolean m_profile = true;
 	//private String m_file = new File("").getAbsolutePath() + "/" + "data/tagus_consumptions/output_weekdays.txt";
-	private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/N10Ns5000Ni10000DB10C10T2S4I2.txt";
+	//private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/N10Ns5000Ni10000DB10C10T2S4I2.txt";
+	private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/full_N10Ns5000Ni10000DB10C10T2S4I2.txt";
 	//private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/sample.txt"; //
 
 	private String m_constraint = null;
