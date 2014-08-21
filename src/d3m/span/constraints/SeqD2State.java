@@ -26,7 +26,7 @@ public class SeqD2State {
 		restriction = 1; // first restriction to be validated
 		currentItemset = 1;
 		insideRestriction = false;
-		ruleState = State.OUT;
+		ruleState = State.IN;
 		restrictionState = State.OUT;
 		lastVisitedItemset = -1;
 		isToCount = true;

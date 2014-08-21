@@ -44,6 +44,8 @@ public class SeqD2Tree {
 	 * @param sequence
 	 */
 	boolean validate(short item, SeqD2State sequence_state, SeqSequence sequence) {
+
+		/*
 		if(this.rules.length != 0 && this.rules.length >= sequence_state.getRule()) { // Protect when there are no rules or all the rules where passed
 			int sequence_size = sequence.size();
 			int res = this.rules[sequence_state.getRule()-1].validate(item, sequence_state, sequence_size);
@@ -75,13 +77,16 @@ public class SeqD2Tree {
 					sequence.setState(new_sequence_state);
 
 				}
-				
+
 				else if (sequence_state.getRule() == rules.length) {
 					sequence_state.setAllPassedRestrictionState();
 				}
 			}
 		}
 		return true;
+		 */
+
+		
 	}
 
 }

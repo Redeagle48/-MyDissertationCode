@@ -33,10 +33,10 @@ public class SeqD2Constraint extends D2Constraint {
 		SeqD2Rule rule1 = new SeqD2Rule
 				((short)1,		// rule
 				 (short)1, 		// restriction
-				 (short)0, 		// gap_interTransaction
+				 (short)2, 		// gap_interTransaction
 				 (short)0, 		// gap_intraRestriction
 				 (short)0, 		// itemset
-				 (short)3);		// item
+				 (short)2);		// item
 		
 		SeqD2Rule rule2 = new SeqD2Rule
 				((short)2, (short)2, (short)0, (short)0, (short)0, (short)2);
