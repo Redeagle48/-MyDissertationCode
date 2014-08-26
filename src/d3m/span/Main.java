@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import d3m.span.algorithms.SeqD2PrefixGrowth;
 import d3m.span.core.SeqDataset;
+import d3m.span.io.LogicProcess;
 import d3m.span.io.SeqReader;
 import d3m.span.ontologies.Ontology;
 import d3m.span.ontologies.io.OWLReader;
@@ -15,17 +16,21 @@ public class Main {
 	private int m_alg = 3;
 	private double m_sup = 0.30;
 	private int m_gap = 2;
-	
-	
+
+
 	private boolean m_profile = true;
 	//private String m_file = new File("").getAbsolutePath() + "/" + "data/tagus_consumptions/output_weekdays.txt";
 	//private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/N10Ns5000Ni10000DB10C10T2S4I2.txt"; //
 	private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/full_N10Ns5000Ni10000DB10C10T2S4I2.txt";
 	//private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/sample.txt"; //
+	
+	private String m_input = new File("").getAbsolutePath() + "/" + "src/d3m/span/assets/input3.xml";
+	private String m_inputSchema = new File("").getAbsolutePath() + "/" + "src/d3m/span/assets/inputSchema.xsd";
+
 
 	private String m_constraint = null;
 
-	private String m_fileOntology = new File("").getAbsolutePath() + "/" + "src/d3m/span/ontologyV3.owl";
+	private String m_fileOntology = new File("").getAbsolutePath() + "/" + "src/d3m/span/ontologyV4.owl";
 
 	private void parseCommandLine(String args[])
 	{
@@ -62,39 +67,53 @@ public class Main {
 	public static void main(String[] args) {
 
 		Main runner = new Main();
-		
+
+		//////////////////////////////////////////////
 		// Parse the commands in the CommandLine
 		runner.parseCommandLine(args);
-		
+		//////////////////////////////////////////////
+
+		//////////////////////////////////////////////
 		// Read the database to a SeqDataset object
+		//////////////////////////////////////////////
 		SeqDataset db = null;
 		try {
 			db = (new SeqReader(runner.m_file)).getSequences();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		//////////////////////////////////////////////
+		// Read the taxonomy relation of the items to be analyzed
+		//////////////////////////////////////////////
+		// TODO
 		
+		//////////////////////////////////////////////
 		// Read the sequential ontology
+		//////////////////////////////////////////////
 		OWLReader reader = null; 
 		try {
 			reader = new OWLReader(runner.m_fileOntology);
 			Ontology ont = new Ontology();
 			reader.updateOntology(ont);
-			
+
 			System.out.println("==> RESULT: " + ont.toString());
-			
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
+		//////////////////////////////////////////////
 		// Instatiate the sequential ontology
-		// TODO
-		
-		
+		//////////////////////////////////////////////
+		new LogicProcess().execute();
+
+		//////////////////////////////////////////////
 		// Run the algorithm
+		//////////////////////////////////////////////
 		SeqD2PrefixGrowth alg = new SeqD2PrefixGrowth(runner.m_sup,db,runner.m_gap, true);
 		System.gc();
-		Vector<String> result = alg.exec();
+		//Vector<String> result = alg.exec();
 
 
 	}

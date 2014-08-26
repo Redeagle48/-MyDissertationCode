@@ -23,8 +23,8 @@ import java.util.*;
 
 /**
  * Class <CODE><B>OWLReader</B></CODE> for reading ontologies in the context of <CODE><B>D3M</B></CODE>.
- * @author Joao Vieira
- * @version 0.3
+ * @author Antonio Pereira (based on Joao Vieira's work)
+ * @version 0.1
  */
 
 public class OWLReader implements OntologyReader {
@@ -125,6 +125,8 @@ public class OWLReader implements OntologyReader {
 		ontology.addRelations(relations_);
 		
 		//ontology.setAxioms(axioms);
+		
+		Concept c = ontology.getConcept(0);
 	}
 	
 	@SuppressWarnings("unused")
