@@ -3,6 +3,7 @@ package d3m.span.algorithms;
 import java.util.Vector;
 
 import d3m.span.constraints.SeqD2Constraint;
+import d3m.span.constraints.SeqD2Rule;
 import d3m.span.core.SeqDataset;
 import d3m.span.core.SeqItem;
 import d3m.span.core.SeqItemset;
@@ -60,12 +61,13 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 	 * @param reader The reader created to read a file with sequences
 	 * @param distance The large distance accepted to consider subsequences
 	 */
-	public SeqD2PrefixGrowth(double minSup, SeqDataset db, int distance, boolean on)
+	public SeqD2PrefixGrowth(double minSup, SeqDataset db, int distance, boolean on, Vector<SeqD2Rule> rules)
 	{
 		m_dataset = db;
 		d2seqconstraint.minSup = (float)minSup;
 		d2seqconstraint.m_globalNr = (long) Math.round(Math.ceil(m_dataset.getSize()*minSup));
 		d2seqconstraint.m_distance = distance;
+		d2seqconstraint.setRules(rules);
 		//super(minSup, db, distance, on);
 	}
 

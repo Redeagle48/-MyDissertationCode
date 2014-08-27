@@ -14,7 +14,7 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 
 	short pos; // position in the analyzed sequence
 
-	SeqD2Rule(short rule, short restriction, 
+	public SeqD2Rule(short rule, short restriction, 
 			short gap_interTransaction, short gap_intraRestriction, short itemset, short item, boolean isParallel){
 		this.rule = rule;
 		this.restriction = restriction;
@@ -67,5 +67,15 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 			
 		}
 		return -1;
+	}
+	
+	@Override
+	public String toString(){
+		String output = "Rule nr: " + this.rule + "\n"
+						+ "Restriction nr: " + this.restriction + "\n"
+						+ "Gap Allowed: " + this.max_gap + "\n"
+						+ "Item: " + this.item + "\n"
+						+ "Is Parallel? " + this.isParallel;
+		return output;
 	}
 }

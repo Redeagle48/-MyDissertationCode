@@ -30,7 +30,8 @@ public class SeqD2Constraint extends D2Constraint {
 
 	/** TO TEST **/
 	public SeqD2Constraint() {
-		
+
+		/*
 		SeqD2Rule rule1 = new SeqD2Rule
 				((short)1,		// rule
 				 (short)1, 		// restriction
@@ -39,16 +40,23 @@ public class SeqD2Constraint extends D2Constraint {
 				 (short)0, 		// itemset
 				 (short)2,		// item
 				 false);		// isParallel
-		
+
 		SeqD2Rule rule2 = new SeqD2Rule
 				((short)2, (short)2, (short)2, (short)0, (short)0, (short)5,true);
-		
+
 		SeqD2Rule rule3 = new SeqD2Rule
 				((short)3, (short)3, (short)2, (short)0, (short)0, (short)6,true);
-		
+
 		tree.addRule(rule1);
 		tree.addRule(rule2);
 		//tree.addRule(rule3);
+		 */
+	}
+
+	public void setRules(Vector<SeqD2Rule> rulesVector) {
+		for (SeqD2Rule seqD2Rule : rulesVector) {
+			tree.addRule(seqD2Rule);
+		}
 	}
 
 	public boolean isAccept(SeqSequence b, SeqItem[] seqItems){

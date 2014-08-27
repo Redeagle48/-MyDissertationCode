@@ -153,6 +153,16 @@ public class OntologyHolder {
         } 
 	}
 	
+	public String individual_Asserted_listClasses (OWLNamedIndividual individual) {
+		//find to which classes the individual belongs 
+        Set<OWLClassExpression> assertedClasses = individual.getTypes(ontology); 
+        for (OWLClass c : reasoner.getTypes(individual, false).getFlattened()) { 
+            boolean asserted = assertedClasses.contains(c); 
+            if(asserted) { return c.toStringID(); }
+        }
+        return null;
+	}
+	
 	public void processReasoner() {
 		
 		List<InferredAxiomGenerator<? extends OWLAxiom>> generators=new ArrayList<InferredAxiomGenerator<? extends OWLAxiom>>();
