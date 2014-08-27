@@ -1,9 +1,16 @@
 package d3m.span.io;
 
 import java.io.File;
+import java.util.Set;
 
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyID;
@@ -11,14 +18,18 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
 public class LogicProcess {
 
-	ProcessXMLv2 processxmlv2;
+	ProcessXML processxmlv2;
 	OntologyHolder ontologyHolder;
 	ProcessSequences processSequences;
 
 	public LogicProcess(){}
 
-	public void initv2() {
-		processxmlv2 = new ProcessXMLv2();
+	public OntologyHolder getOntologyHolder() {
+		return ontologyHolder;
+	}
+
+	public void init() {
+		processxmlv2 = new ProcessXML();
 		ontologyHolder = new OntologyHolder();
 		//processSequences = new ProcessSequences();
 		
@@ -41,9 +52,11 @@ public class LogicProcess {
 		
 		//OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory(); //Standard reasoner
 		OWLReasonerFactory reasonerFactory = new Reasoner.ReasonerFactory(); //Hermit reasoner
+		
 		//ConsoleProgressMonitor progressMonitor = new ConsoleProgressMonitor();
 		//OWLReasonerConfiguration config = new SimpleConfiguration(
 		//		progressMonitor);
+		
 		ontologyHolder.setOWLReasoner(reasonerFactory.createNonBufferingReasoner(ontologyHolder.getOWLOntology()/*,config*/));
 		
 		ontologyHolder.setPrefixOWLOntologyFormat(ontologyHolder.getOWLOntology().getOntologyID().getOntologyIRI().toString());
@@ -51,7 +64,7 @@ public class LogicProcess {
 	}
 	
 	public void execute() {
-		initv2();
+		init();
 		processxmlv2.execute(ontologyHolder);
 	}
 	

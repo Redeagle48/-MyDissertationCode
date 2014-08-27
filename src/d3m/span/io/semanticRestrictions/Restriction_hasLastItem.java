@@ -8,14 +8,14 @@ public class Restriction_hasLastItem extends RestrictionSemantic {
 
 	String item;
 
-	public Restriction_hasLastItem(String item, RestrictionSequence restrictionSequence) {
+	public Restriction_hasLastItem(String item, ConstraintSequence restrictionSequence) {
 		this.item = item;
 		//this.restrictionSequence = restrictionSequence;
 		super.restrictionSequence = restrictionSequence;
 	}
 
 	@Override
-	public RestrictionSequence getRestrictionSequence() {
+	public ConstraintSequence getRestrictionSequence() {
 		return restrictionSequence;
 	}
 

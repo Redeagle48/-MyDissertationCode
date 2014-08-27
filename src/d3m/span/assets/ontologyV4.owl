@@ -1,14 +1,4 @@
 <?xml version="1.0"?>
-
-
-<!DOCTYPE Ontology [
-    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
-    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-]>
-
-
 <Ontology xmlns="http://www.w3.org/2002/07/owl#"
      xml:base="http://www.d2pm.com/ontologies/ontology.owl"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
@@ -16,14 +6,14 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      ontologyIRI="http://www.d2pm.com/ontologies/ontology.owl">
-    <Prefix name="" IRI="http://www.d2pm.com/ontologies/ontology.owl#"/>
-    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
-    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="" IRI="http://www.d2pm.com/ontologies/ontology.owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Annotation>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Ontology to represent sequential and concurrent events in sequential pattern mining</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Ontology to represent sequential and concurrent events in sequential pattern mining</Literal>
     </Annotation>
     <Declaration>
         <Class IRI="#Begin"/>
@@ -95,6 +85,9 @@
         <ObjectProperty IRI="#hasEnd"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#hasExists"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#hasGapPrecedence"/>
     </Declaration>
     <Declaration>
@@ -175,10 +168,6 @@
         <Class IRI="#BinaryConstraint"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#Restriction"/>
-        <Class abbreviatedIRI="owl:Thing"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#Sequence"/>
         <Class abbreviatedIRI="owl:Thing"/>
     </SubClassOf>
@@ -200,104 +189,26 @@
     </DisjointClasses>
     <ClassAssertion>
         <Class IRI="#Begin"/>
-        <NamedIndividual IRI="#Begin_Restriction1"/>
+        <NamedIndividual IRI="#Begin_RestrictionTest"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="#End"/>
-        <NamedIndividual IRI="#End_Restriction1"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Precedence"/>
-        <NamedIndividual IRI="#Precedence_Restriction1"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Restriction"/>
-        <NamedIndividual IRI="#Restriction1"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#SequentialConstraint"/>
-        <NamedIndividual IRI="#SequentialProperty1_Restriction1"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#SequentialConstraint"/>
-        <NamedIndividual IRI="#SequentialProperty2_Restriction1"/>
+        <Class IRI="#ConstraintComposition"/>
+        <NamedIndividual IRI="#RestrictionTest"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#Item"/>
         <NamedIndividual IRI="#a"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Item"/>
-        <NamedIndividual IRI="#b"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Item"/>
-        <NamedIndividual IRI="#c"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Item"/>
-        <NamedIndividual IRI="#d"/>
     </ClassAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#hasBegin"/>
-        <NamedIndividual IRI="#Begin_Restriction1"/>
+        <NamedIndividual IRI="#Begin_RestrictionTest"/>
         <NamedIndividual IRI="#a"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#nextConstraintSequence"/>
-        <NamedIndividual IRI="#Begin_Restriction1"/>
-        <NamedIndividual IRI="#SequentialProperty1_Restriction1"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#hasEnd"/>
-        <NamedIndividual IRI="#End_Restriction1"/>
-        <NamedIndividual IRI="#d"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#antecedent"/>
-        <NamedIndividual IRI="#Precedence_Restriction1"/>
-        <NamedIndividual IRI="#b"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#consequent"/>
-        <NamedIndividual IRI="#Precedence_Restriction1"/>
-        <NamedIndividual IRI="#c"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#nextConstraintSequence"/>
-        <NamedIndividual IRI="#Precedence_Restriction1"/>
-        <NamedIndividual IRI="#SequentialProperty2_Restriction1"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
         <ObjectProperty IRI="#hasConstraint"/>
-        <NamedIndividual IRI="#Restriction1"/>
-        <NamedIndividual IRI="#Begin_Restriction1"/>
+        <NamedIndividual IRI="#RestrictionTest"/>
+        <NamedIndividual IRI="#Begin_RestrictionTest"/>
     </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#nextConstraint"/>
-        <NamedIndividual IRI="#SequentialProperty1_Restriction1"/>
-        <NamedIndividual IRI="#Precedence_Restriction1"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#nextConstraint"/>
-        <NamedIndividual IRI="#SequentialProperty2_Restriction1"/>
-        <NamedIndividual IRI="#End_Restriction1"/>
-    </ObjectPropertyAssertion>
-    <DataPropertyAssertion>
-        <DataProperty IRI="#hasGapPrecedence"/>
-        <NamedIndividual IRI="#Precedence_Restriction1"/>
-        <Literal datatypeIRI="&xsd;int">5</Literal>
-    </DataPropertyAssertion>
-    <DataPropertyAssertion>
-        <DataProperty IRI="#hasGap"/>
-        <NamedIndividual IRI="#SequentialProperty1_Restriction1"/>
-        <Literal datatypeIRI="&xsd;int">4</Literal>
-    </DataPropertyAssertion>
-    <DataPropertyAssertion>
-        <DataProperty IRI="#hasGap"/>
-        <NamedIndividual IRI="#SequentialProperty2_Restriction1"/>
-        <Literal datatypeIRI="&xsd;int">0</Literal>
-    </DataPropertyAssertion>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#antecedent"/>
         <ObjectProperty IRI="#hasPrecedence"/>
@@ -320,6 +231,10 @@
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#hasEnd"/>
+        <ObjectProperty IRI="#hasUnaryConstraint"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasExists"/>
         <ObjectProperty IRI="#hasUnaryConstraint"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -417,6 +332,10 @@
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#hasEnd"/>
+        <Class IRI="#Item"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasExists"/>
         <Class IRI="#Item"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
@@ -461,16 +380,16 @@
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#hasGap</IRI>
-        <Literal datatypeIRI="&xsd;string">Gap between relations in a restriction</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Gap between relations in a restriction</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#hasItemset</IRI>
-        <Literal datatypeIRI="&xsd;string">A sequence has an itemset</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">A sequence has an itemset</Literal>
     </AnnotationAssertion>
 </Ontology>
 
 
 
-<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 3.2.4.1806) http://owlapi.sourceforge.net -->
 

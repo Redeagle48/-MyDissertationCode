@@ -3,17 +3,17 @@ package d3m.span.io;
 import java.util.ArrayList;
 
 public class RestrictionManager {
-	ArrayList<RestrictionSequence> restrictions;
+	ArrayList<ConstraintSequence> restrictions;
 	
 	public RestrictionManager() {
 		restrictions = new ArrayList<>();
 	}
 	
-	public void addRestriction(RestrictionSequence restriction){
+	public void addRestriction(ConstraintSequence restriction){
 		restrictions.add(restriction);
 	}
 	
-	public ArrayList<RestrictionSequence> getRestrictionSet(){
+	public ArrayList<ConstraintSequence> getRestrictionSet(){
 		return restrictions;
 	}
 }

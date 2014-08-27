@@ -8,12 +8,12 @@ import d3m.span.io.semanticRestrictions.RestrictionSemantic;
 
 
 /****************
- * Class representing the restriction being analyzed
+ * Class representing the constraint being analyzed
  * @author antoniopereira
  *
  */
 
-public class RestrictionSequence {
+public class ConstraintSequence {
 
 	final int ID;
 	String sequenceName;
@@ -27,7 +27,7 @@ public class RestrictionSequence {
 	boolean hasRoot;
 	boolean hasLeaf;
 	
-	public RestrictionSequence(String sequence) {
+	public ConstraintSequence(String sequence) {
 		ID = 1;
 		this.sequenceName = sequence;
 		relations = new ArrayList<Relation>();
@@ -43,11 +43,11 @@ public class RestrictionSequence {
 		this.sequenceName = sequence;
 	}
 	
-	public void addRelation(Relation relation){
+	public void addConstraint(Relation relation){
 		relations.add(relation);
 	}
 	
-	public ArrayList<Relation> getRelations(){
+	public ArrayList<Relation> getConstraints(){
 		return relations;
 	}
 	

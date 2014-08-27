@@ -9,7 +9,7 @@ public class Restriction_hasFirst extends RestrictionSemantic {
 	String item;
 	//RestrictionSequence restrictionSequence;
 	
-	public Restriction_hasFirst(String item, RestrictionSequence restrictionSequence) {
+	public Restriction_hasFirst(String item, ConstraintSequence restrictionSequence) {
 		this.item = item;
 		//this.restrictionSequence = restrictionSequence;
 		super.restrictionSequence = restrictionSequence;
@@ -19,7 +19,7 @@ public class Restriction_hasFirst extends RestrictionSemantic {
 		return item;
 	}
 	
-	public RestrictionSequence getRestrictionSequence() {
+	public ConstraintSequence getRestrictionSequence() {
 		return super.restrictionSequence;
 	}
 	

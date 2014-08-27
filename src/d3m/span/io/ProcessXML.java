@@ -10,7 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import d3m.span.io.FilesLocation;
 import d3m.span.io.GlobalVariables;
 import d3m.span.io.OntologyHolder;
-import d3m.span.io.RestrictionSequence;
+import d3m.span.io.ConstraintSequence;
 
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -34,15 +34,16 @@ import org.xml.sax.SAXException;
 
 import d3m.span.io.processrestrictionselements.Process_begin;
 import d3m.span.io.processrestrictionselements.Process_end;
+import d3m.span.io.processrestrictionselements.Process_exists;
 import d3m.span.io.processrestrictionselements.Process_precedence;
 import d3m.span.io.relations.Relation;
 
-public class ProcessXMLv2 {
+public class ProcessXML {
 	boolean debug_parserXML = true;
 	OWLOntologyManager manager;
 	OWLOntology ont;
 
-	public ProcessXMLv2() {}
+	public ProcessXML() {}
 
 	public static void main(String [] args) throws Exception
 	{
@@ -56,7 +57,7 @@ public class ProcessXMLv2 {
 		//System.out.println("Analyzing restriction's XML..........isValid?: " + isValidXML());
 		try {
 			readXML(ontologyHolder);
-			
+
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
@@ -97,7 +98,7 @@ public class ProcessXMLv2 {
 		for(int i = 0; i < nodeList.getLength(); i++){
 
 			Node node = nodeList.item(i);
-			
+
 			String s = nodeList.item(i).getNodeName();
 
 			if (node instanceof Element && nodeList.item(1).getNodeName().equals("constraintSet")) {
@@ -105,11 +106,11 @@ public class ProcessXMLv2 {
 				System.out.println("======================= Analyzing a constraint =======================");
 
 				Element restrictionElement = (Element) node;
-				System.out.println("Restriction's name: " + restrictionElement.getElementsByTagName("title").item(0).getTextContent());
+				System.out.println("Constraint's name: " + restrictionElement.getElementsByTagName("title").item(0).getTextContent());
 				System.out.println("Note: " + restrictionElement.getElementsByTagName("note").item(0).getTextContent());
-				
+
 				//Object that represents the present restriction
-				RestrictionSequence restrictionSequence = new RestrictionSequence(restrictionElement.getElementsByTagName("title").item(0).getTextContent());
+				ConstraintSequence restrictionSequence = new ConstraintSequence(restrictionElement.getElementsByTagName("title").item(0).getTextContent());
 
 				// Add the restriction to the resrictionManager
 				GlobalVariables.restrictonManager.addRestriction(restrictionSequence);
@@ -130,14 +131,28 @@ public class ProcessXMLv2 {
 
 						System.out.println("Node: " + restriction2.getNodeName());
 
+						// TODO TO REFACTOR
+						
+						// Unary constraints
 						if(restriction2.getNodeName().equals("begin")) {
 							new Process_begin(ontologyHolder).proceed(restriction2,restrictionSequence);
 						}
-						if(restriction2.getNodeName().equals("end")) {
+						else if(restriction2.getNodeName().equals("exists")){
+							new Process_exists(ontologyHolder).proceed(restriction2, restrictionSequence);
+						}
+						else if(restriction2.getNodeName().equals("end")) {
 							new Process_end(ontologyHolder).proceed(restriction2,restrictionSequence);
 						}
-						if(restriction2.getNodeName().equals("precedence")) {
+						// Binary constraints
+						else if(restriction2.getNodeName().equals("precedence")) {
 							new Process_precedence(ontologyHolder).proceed(restrictionElements,restrictionSequence);
+						}
+						// Complex constraints
+						else if(restriction2.getNodeName().equals("palindrome")){
+
+						}
+						else if(restriction2.getNodeName().equals("cardinalExistence")){
+
 						}
 
 
@@ -169,8 +184,8 @@ public class ProcessXMLv2 {
 								String gap = relationProperty.getAttributes().getNamedItem("relation_gap").getNodeValue();
 
 								//IR buscar o nome das relations envolvidas
-								String rel1 = restrictionSequence.getRelations().get(rel1ID-1).getInstanceName();
-								String rel2 = restrictionSequence.getRelations().get(rel2ID-1).getInstanceName();
+								String rel1 = restrictionSequence.getConstraints().get(rel1ID-1).getInstanceName();
+								String rel2 = restrictionSequence.getConstraints().get(rel2ID-1).getInstanceName();
 
 								System.out.println("Relation to insert: " + rel1);
 								System.out.println("Relation to insert: " + rel2);
@@ -213,7 +228,7 @@ public class ProcessXMLv2 {
 									//******Add Gap
 									OWLDataProperty hasGap = factoryOnt.getOWLDataProperty(":hasGap",ontologyHolder.getPrefixOWLOntologyFormat());
 									OWLDatatype integerDatatype = factoryOnt
-							                .getOWLDatatype(OWL2Datatype.XSD_INT.getIRI());
+											.getOWLDatatype(OWL2Datatype.XSD_INT.getIRI());
 									OWLDataPropertyAssertionAxiom addaxiom_precedenceGap = factoryOnt
 											.getOWLDataPropertyAssertionAxiom(hasGap, relationIndividual, factoryOnt.getOWLLiteral(gap, integerDatatype));
 									manager.addAxiom(ont, addaxiom_precedenceGap);
@@ -257,11 +272,13 @@ public class ProcessXMLv2 {
 				//Debug
 				System.out.println("========================================================");
 				System.out.println("Relations in this constraint:");
-				for (Relation relation : restrictionSequence.getRelations()) {
+				for (Relation relation : restrictionSequence.getConstraints()) {
 					System.out.println(relation.getRelationName());
 				}
-
-				Relation relation = restrictionSequence.getRelations().get(0);
+				
+				
+				
+				Relation relation = restrictionSequence.getConstraints().get(0);
 
 				//Sequence from which this items belong
 				OWLIndividual RestrictionIndividual = factoryOnt.getOWLNamedIndividual(":"+restrictionSequence.getSequenceName(),
@@ -283,7 +300,7 @@ public class ProcessXMLv2 {
 				} catch (OWLOntologyStorageException e) {
 					e.printStackTrace();
 				}
-				
+
 				ontologyHolder.processReasoner();
 			}
 		}

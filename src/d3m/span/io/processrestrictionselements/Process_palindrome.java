@@ -22,9 +22,9 @@ import org.w3c.dom.Node;
 
 import d3m.span.io.relations.RelationPrecedence;
 
-public class Process_precedence extends ProcessRestrictionElements{
+public class Process_palindrome extends ProcessRestrictionElements{
 
-	public Process_precedence(OntologyHolder ontologyHolder) {
+	public Process_palindrome(OntologyHolder ontologyHolder) {
 		// TODO Auto-generated constructor stub
 		super.ontologyHolder = ontologyHolder;
 	}
@@ -32,7 +32,7 @@ public class Process_precedence extends ProcessRestrictionElements{
 	@Override
 	public void proceed(Node node, ConstraintSequence restrictionSequence) {
 
-		System.out.println("========> Processing Precedence restriction");
+		System.out.println("========> Processing Palindrome restriction");
 
 		//antecedent and consequent items
 		String antecedentValue, consequentValue;
@@ -40,7 +40,7 @@ public class Process_precedence extends ProcessRestrictionElements{
 
 		Element eElement = (Element)node;
 
-		gap = eElement.getElementsByTagName("precedence").item(0).getAttributes().item(0).getNodeValue();
+		gap = eElement.getElementsByTagName("palindrome").item(0).getAttributes().item(0).getNodeValue();
 
 		Element precedesElement = (Element) eElement.getElementsByTagName("antecedent").item(0);
 		Element procedesElement = (Element) eElement.getElementsByTagName("consequent").item(0);

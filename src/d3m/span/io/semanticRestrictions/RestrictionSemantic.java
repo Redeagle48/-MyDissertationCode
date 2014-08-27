@@ -6,9 +6,9 @@ import logicprocess.RestrictionSequence;
 
 public abstract class RestrictionSemantic {
 	
-	RestrictionSequence restrictionSequence;
+	ConstraintSequence restrictionSequence;
 	
-	public abstract RestrictionSequence getRestrictionSequence();
+	public abstract ConstraintSequence getRestrictionSequence();
 	public abstract String getItem();
 	
 	public abstract String getRelationName();

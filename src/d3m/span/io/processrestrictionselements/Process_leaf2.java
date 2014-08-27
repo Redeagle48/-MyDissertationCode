@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import d3m.span.io.OntologyHolder;
-import d3m.span.io.RestrictionSequence;
+import d3m.span.io.ConstraintSequence;
 
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -37,7 +37,7 @@ public class Process_leaf2 extends ProcessRestrictionElements {
 	}
 
 	@Override
-	public void proceed(org.w3c.dom.Node node, RestrictionSequence restrictionSequence) {
+	public void proceed(org.w3c.dom.Node node, ConstraintSequence restrictionSequence) {
 		System.out.println("========> Processing Leaf restriction");
 		NodeList nodeElements = node.getChildNodes();
 		String itemValue = nodeElements.item(0).getNodeValue();

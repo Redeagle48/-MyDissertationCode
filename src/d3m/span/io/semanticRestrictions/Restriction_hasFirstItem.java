@@ -8,13 +8,13 @@ public class Restriction_hasFirstItem extends RestrictionSemantic {
 	
 	String item;
 	
-	public Restriction_hasFirstItem(String item, RestrictionSequence restrictionSequence) {
+	public Restriction_hasFirstItem(String item, ConstraintSequence restrictionSequence) {
 		this.item = item;
 		super.restrictionSequence = restrictionSequence;
 	}
 
 	@Override
-	public RestrictionSequence getRestrictionSequence() {
+	public ConstraintSequence getRestrictionSequence() {
 		return restrictionSequence;
 	}
 

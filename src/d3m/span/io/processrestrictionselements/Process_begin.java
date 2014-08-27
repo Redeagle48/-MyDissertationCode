@@ -1,7 +1,7 @@
 package d3m.span.io.processrestrictionselements;
 
 import d3m.span.io.OntologyHolder;
-import d3m.span.io.RestrictionSequence;
+import d3m.span.io.ConstraintSequence;
 
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
@@ -28,7 +28,7 @@ public class Process_begin extends ProcessRestrictionElements{
 	}
 
 	@Override
-	public void proceed(Node node, RestrictionSequence restrictionSequence) {
+	public void proceed(Node node, ConstraintSequence restrictionSequence) {
 		System.out.println("========> Processing Begin restriction");
 		NodeList nodeElements = node.getChildNodes();
 		System.out.println("Item name to be inserted: " + nodeElements.item(0).getNodeValue());
@@ -71,7 +71,7 @@ public class Process_begin extends ProcessRestrictionElements{
 			//Get the instance of the present restriction
 			// Get some new classes. 
 			OWLClass restriction = factory.getOWLClass(IRI.create(ont.getOntologyID()
-					.getOntologyIRI().toString() + "#Restriction"));
+					.getOntologyIRI().toString() + "#ConstraintComposition"));
 
 			OWLIndividual restrictionIndividual = factory.getOWLNamedIndividual(":"+restrictionSequence.getSequenceName(),
 					ontologyHolder.getPrefixOWLOntologyFormat());
@@ -104,7 +104,7 @@ public class Process_begin extends ProcessRestrictionElements{
 			//ontologyHolder.listIndividualsFromClass(item);
 
 			//ontologyHolder.processReasoner();
-			restrictionSequence.addRelation(new RelationBegin(individualName,itemValue));
+			restrictionSequence.addConstraint(new RelationBegin(individualName,itemValue));
 
 			try {
 				manager.saveOntology(ont);

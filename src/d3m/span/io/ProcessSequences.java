@@ -62,7 +62,7 @@ public class ProcessSequences {
 
 		//Get relations evolving each individual restriction
 		for (OWLIndividual owlIndividual : individuals) {
-			RestrictionSequence restrictionSequence = new RestrictionSequence(owlIndividual.toStringID());
+			ConstraintSequence restrictionSequence = new ConstraintSequence(owlIndividual.toStringID());
 			System.out.println("Restriciton Name: " + owlIndividual.toStringID());
 			Map<OWLObjectPropertyExpression, Set<OWLIndividual>> properties = owlIndividual.getObjectPropertyValues(ont);
 
@@ -84,7 +84,7 @@ public class ProcessSequences {
 						Constructor c = null;
 						RestrictionSemantic restrictionSemantic = null;
 						try {
-							c = Class.forName("semanticRestrictions.Restriction_"+relation).getConstructor(String.class, RestrictionSequence.class);
+							c = Class.forName("semanticRestrictions.Restriction_"+relation).getConstructor(String.class, ConstraintSequence.class);
 							try {
 								restrictionSemantic = (RestrictionSemantic) c.newInstance(element, restrictionSequence);
 								System.out.println("The relation: " + restrictionSemantic.getRestrictionSequence().getSequenceName());
@@ -101,7 +101,7 @@ public class ProcessSequences {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						restrictionSequence.addRelation(restrictionSemantic);
+						restrictionSequence.addConstraint(restrictionSemantic);
 
 					} catch (InstantiationException | IllegalAccessException
 							| ClassNotFoundException e) {
@@ -137,12 +137,12 @@ public class ProcessSequences {
 		for(int i = 0; i < sequences.size() ; i++) {
 			//Verificar se a sequence verifica a restricao
 			System.out.println("\nSequence here: " + sequences.get(i));
-			ArrayList<RestrictionSequence> restrictionSet= GlobalVariables.restrictonManager.getRestrictionSet();
+			ArrayList<ConstraintSequence> restrictionSet= GlobalVariables.restrictonManager.getRestrictionSet();
 			//For each restriction
 			for (int j = 0; j < restrictionSet.size(); j++) {
-				RestrictionSequence restrictionSequence = restrictionSet.get(j);
+				ConstraintSequence restrictionSequence = restrictionSet.get(j);
 				System.out.println("===> Handling restriction: " + restrictionSequence.getSequenceName());
-				ArrayList<RestrictionSemantic> relations = restrictionSequence.getRelations();
+				ArrayList<RestrictionSemantic> relations = restrictionSequence.getConstraints();
 				//For each relation in the restriction
 				for (RestrictionSemantic restrictionSemantic : relations) {
 					System.out.println("=======> Handling relation: " + restrictionSemantic.getRelationName());

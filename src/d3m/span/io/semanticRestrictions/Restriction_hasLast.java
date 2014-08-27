@@ -7,7 +7,7 @@ import logicprocess.RestrictionSequence;
 public class Restriction_hasLast extends RestrictionSemantic {
 	String item;
 
-	public Restriction_hasLast(String item, RestrictionSequence restrictionSequence) {
+	public Restriction_hasLast(String item, ConstraintSequence restrictionSequence) {
 		this.item = item;
 		super.restrictionSequence = restrictionSequence;
 	}
@@ -18,7 +18,7 @@ public class Restriction_hasLast extends RestrictionSemantic {
 	}
 
 	@Override
-	public RestrictionSequence getRestrictionSequence() {
+	public ConstraintSequence getRestrictionSequence() {
 		return super.restrictionSequence;
 	}
 

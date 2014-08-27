@@ -1,7 +1,7 @@
 package d3m.span.io.processrestrictionselements;
 
 import d3m.span.io.OntologyHolder;
-import d3m.span.io.RestrictionSequence;
+import d3m.span.io.ConstraintSequence;
 
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
@@ -26,7 +26,7 @@ public class Process_minPrecedes extends ProcessRestrictionElements{
 	}
 
 	@Override
-	public void proceed(Node node, RestrictionSequence restrictionSequence) {
+	public void proceed(Node node, ConstraintSequence restrictionSequence) {
 
 		System.out.println("========> Processing Precedence restriction");
 		NodeList nodeElements = node.getChildNodes();

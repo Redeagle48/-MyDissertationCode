@@ -1,11 +1,20 @@
 package d3m.span;
 
 import java.io.File;
+import java.util.Set;
 import java.util.Vector;
+
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 import d3m.span.algorithms.SeqD2PrefixGrowth;
 import d3m.span.core.SeqDataset;
 import d3m.span.io.LogicProcess;
+import d3m.span.io.OntologyHolder;
 import d3m.span.io.SeqReader;
 import d3m.span.ontologies.Ontology;
 import d3m.span.ontologies.io.OWLReader;
@@ -23,14 +32,14 @@ public class Main {
 	//private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/N10Ns5000Ni10000DB10C10T2S4I2.txt"; //
 	private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/full_N10Ns5000Ni10000DB10C10T2S4I2.txt";
 	//private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/sample.txt"; //
-	
+
 	private String m_input = new File("").getAbsolutePath() + "/" + "src/d3m/span/assets/input3.xml";
 	private String m_inputSchema = new File("").getAbsolutePath() + "/" + "src/d3m/span/assets/inputSchema.xsd";
 
 
 	private String m_constraint = null;
 
-	private String m_fileOntology = new File("").getAbsolutePath() + "/" + "src/d3m/span/ontologyV4.owl";
+	private String m_fileOntology = new File("").getAbsolutePath() + "/" + "src/d3m/span/assets/ontologyV4.owl";
 
 	private void parseCommandLine(String args[])
 	{
@@ -87,7 +96,7 @@ public class Main {
 		// Read the taxonomy relation of the items to be analyzed
 		//////////////////////////////////////////////
 		// TODO
-		
+
 		//////////////////////////////////////////////
 		// Read the sequential ontology
 		//////////////////////////////////////////////
@@ -106,7 +115,9 @@ public class Main {
 		//////////////////////////////////////////////
 		// Instatiate the sequential ontology
 		//////////////////////////////////////////////
-		new LogicProcess().execute();
+		LogicProcess logicProcess = new LogicProcess();
+		logicProcess.execute();
+		readFromOntology(logicProcess);
 
 		//////////////////////////////////////////////
 		// Run the algorithm
@@ -116,6 +127,56 @@ public class Main {
 		//Vector<String> result = alg.exec();
 
 
+	}
+	
+	static void readFromOntology(LogicProcess logicProcess){
+		OntologyHolder ontologyHolder = logicProcess.getOntologyHolder();
+
+		// Read the ontology
+		OWLOntology ont = ontologyHolder.getOWLOntology();
+		OWLDataFactory factory = ontologyHolder.getOWLDataFactory();
+
+		OWLClass constraintClass = factory.getOWLClass(IRI.create(ont.getOntologyID()
+				.getOntologyIRI().toString() + "#ConstraintComposition"));
+
+		System.out.println("------->>>>> List Individuals from Constraint Composition");
+
+		Set<OWLIndividual> individuals = constraintClass.getIndividuals(ont);
+
+		for (OWLIndividual owlIndividual : individuals) {
+			System.out.println(owlIndividual.toString());
+
+			OWLObjectProperty hasConstraint = factory.getOWLObjectProperty(":hasConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
+
+			Set<OWLIndividual> individualsNamed = owlIndividual.getObjectPropertyValues(hasConstraint, ont);
+			for (OWLIndividual individualNamed : individualsNamed) {
+				System.out.println(individualNamed.toString());
+				
+				ontologyHolder.individual_listClasses(individualNamed.asOWLNamedIndividual());
+				
+				String begin = individualNamed.toString();
+				begin = begin.split("#")[1];
+				begin = begin.split("_")[0];
+				System.out.println("Aqui: " + begin);
+				
+				OWLObjectProperty hasBegin = factory.getOWLObjectProperty(":hasBegin",ontologyHolder.getPrefixOWLOntologyFormat());
+
+				Set<OWLIndividual> item = individualNamed.getObjectPropertyValues(hasBegin, ont);
+				
+				for (OWLIndividual owlIndividual2 : item) {
+					System.out.println("Item: " + owlIndividual2.toStringID());
+					begin = owlIndividual2.toStringID();
+					begin = begin.split("#")[1];
+					begin = begin.split("_")[0];
+					System.out.println(begin);
+					readFromOntology_begin(begin);
+				}
+			}
+		}
+	}
+	
+	static void readFromOntology_begin(String item){
+		
 	}
 
 }

@@ -41,13 +41,13 @@ public class SeqD2Constraint extends D2Constraint {
 				 false);		// isParallel
 		
 		SeqD2Rule rule2 = new SeqD2Rule
-				((short)2, (short)2, (short)10, (short)0, (short)0, (short)2,false);
+				((short)2, (short)2, (short)2, (short)0, (short)0, (short)5,true);
 		
 		SeqD2Rule rule3 = new SeqD2Rule
 				((short)3, (short)3, (short)2, (short)0, (short)0, (short)6,true);
 		
-		//tree.addRule(rule1);
-		//tree.addRule(rule2);
+		tree.addRule(rule1);
+		tree.addRule(rule2);
 		//tree.addRule(rule3);
 	}
 
