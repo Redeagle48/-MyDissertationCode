@@ -30,90 +30,75 @@ public class Process_exists extends ProcessRestrictionElements{
 		System.out.println("========> Processing Exists constraint");
 		NodeList nodeElements = node.getChildNodes();
 		System.out.println("Item name to be inserted: " + nodeElements.item(0).getNodeValue());
-		
+
 		String itemValue = nodeElements.item(0).getNodeValue();
 
-		if(!restrictionSequence.existsRoot()){
-			OWLOntology ont = ontologyHolder.getOWLOntology();
-			OWLDataFactory factory = ontologyHolder.getOWLDataFactory();
-			OWLOntologyManager manager = ontologyHolder.getOWLOntologyManager();
-			
-			System.out.println("%%%%%%%%%%% Processando");
+		OWLOntology ont = ontologyHolder.getOWLOntology();
+		OWLDataFactory factory = ontologyHolder.getOWLDataFactory();
+		OWLOntologyManager manager = ontologyHolder.getOWLOntologyManager();
 
-			/* Get some new classes. */
-			OWLClass item = factory.getOWLClass(IRI.create(ont.getOntologyID()
-					.getOntologyIRI().toString() + "#Exists"));
+		System.out.println("%%%%%%%%%%% Processando");
 
-			String individualName = "Exists_" + restrictionSequence.getSequenceName();
-			
-			// Add individual
-			OWLIndividual relationIndividual = factory.getOWLNamedIndividual(":"+individualName, ontologyHolder.getPrefixOWLOntologyFormat());
+		/* Get some new classes. */
+		OWLClass item = factory.getOWLClass(IRI.create(ont.getOntologyID()
+				.getOntologyIRI().toString() + "#Exists"));
 
-			//Create an individual of Root
-			OWLClassAssertionAxiom classAssertionAx = factory.getOWLClassAssertionAxiom(
-					item, relationIndividual);
+		String individualName = "Exists_" + restrictionSequence.getSequenceName();
 
-			manager.addAxiom(ont, classAssertionAx);
+		// Add individual
+		OWLIndividual relationIndividual = factory.getOWLNamedIndividual(":"+individualName, ontologyHolder.getPrefixOWLOntologyFormat());
 
-			OWLIndividual itemIndividual = factory.getOWLNamedIndividual(":"+itemValue, ontologyHolder.getPrefixOWLOntologyFormat());
+		//Create an individual of Root
+		OWLClassAssertionAxiom classAssertionAx = factory.getOWLClassAssertionAxiom(
+				item, relationIndividual);
 
-			OWLClass itemClass = factory.getOWLClass(IRI.create(ont.getOntologyID()
-					.getOntologyIRI().toString() + "#Item"));
+		manager.addAxiom(ont, classAssertionAx);
 
-			//Create an individual of Item
-			OWLClassAssertionAxiom classAssertionAx2 = factory.getOWLClassAssertionAxiom(itemClass,
-					itemIndividual);
+		OWLIndividual itemIndividual = factory.getOWLNamedIndividual(":"+itemValue, ontologyHolder.getPrefixOWLOntologyFormat());
 
-			manager.addAxiom(ont, classAssertionAx2);
+		OWLClass itemClass = factory.getOWLClass(IRI.create(ont.getOntologyID()
+				.getOntologyIRI().toString() + "#Item"));
 
-			//Get the instance of the present restriction
-			// Get some new classes. 
-			OWLClass restriction = factory.getOWLClass(IRI.create(ont.getOntologyID()
-					.getOntologyIRI().toString() + "#ConstraintComposition"));
+		//Create an individual of Item
+		OWLClassAssertionAxiom classAssertionAx2 = factory.getOWLClassAssertionAxiom(itemClass,
+				itemIndividual);
 
-			OWLIndividual restrictionIndividual = factory.getOWLNamedIndividual(":"+restrictionSequence.getSequenceName(),
-					ontologyHolder.getPrefixOWLOntologyFormat());
+		manager.addAxiom(ont, classAssertionAx2);
 
-			OWLClassAssertionAxiom classAssertionBx = factory.getOWLClassAssertionAxiom(
-					restriction, restrictionIndividual);
+		//OWLObjectProperty hasRelation = factory.getOWLObjectProperty(":hasRelation", ontologyHolder.getPrefixOWLOntologyFormat());
 
-			manager.addAxiom(ont, classAssertionBx);
-
-			//OWLObjectProperty hasRelation = factory.getOWLObjectProperty(":hasRelation", ontologyHolder.getPrefixOWLOntologyFormat());
-
-			OWLObjectProperty hasBegin = factory.getOWLObjectProperty(":hasExists",ontologyHolder.getPrefixOWLOntologyFormat());
+		OWLObjectProperty hasItem = factory.getOWLObjectProperty(":hasItem",ontologyHolder.getPrefixOWLOntologyFormat());
 
 
-			//OWLObjectPropertyAssertionAxiom axiom1 = factory
-			//		.getOWLObjectPropertyAssertionAxiom(hasRelation, restrictionIndividual, relationIndividual);
+		//OWLObjectPropertyAssertionAxiom axiom1 = factory
+		//		.getOWLObjectPropertyAssertionAxiom(hasRelation, restrictionIndividual, relationIndividual);
 
-			OWLObjectPropertyAssertionAxiom axiom2 = factory
-					.getOWLObjectPropertyAssertionAxiom(hasBegin, relationIndividual, itemIndividual);
+		OWLObjectPropertyAssertionAxiom axiom2 = factory
+				.getOWLObjectPropertyAssertionAxiom(hasItem, relationIndividual, itemIndividual);
 
-			//AddAxiom addAxiom1 = new AddAxiom(ont, axiom1);
-			AddAxiom addAxiom2 = new AddAxiom(ont,axiom2);
-			// Now we apply the change using the manager.
-			//manager.applyChange(addAxiom1);
-			manager.applyChange(addAxiom2);
+		//AddAxiom addAxiom1 = new AddAxiom(ont, axiom1);
+		AddAxiom addAxiom2 = new AddAxiom(ont,axiom2);
+		// Now we apply the change using the manager.
+		//manager.applyChange(addAxiom1);
+		manager.applyChange(addAxiom2);
 
-			//ontologyHolder.printProperties(item);
+		//ontologyHolder.printProperties(item);
 
-			//ontologyHolder.listIndividualsFromClass(itemset);
-			//ontologyHolder.listIndividualsFromClass(item);
+		//ontologyHolder.listIndividualsFromClass(itemset);
+		//ontologyHolder.listIndividualsFromClass(item);
 
-			//ontologyHolder.processReasoner();
-			restrictionSequence.addConstraint(new RelationExists(individualName,itemValue));
+		//ontologyHolder.processReasoner();
+		restrictionSequence.addConstraint(new RelationExists(individualName,itemValue));
 
-			try {
-				manager.saveOntology(ont);
-				restrictionSequence.insertItem(itemValue);
-				restrictionSequence.insertRoot();
-			} catch (OWLOntologyStorageException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+		try {
+			manager.saveOntology(ont);
+			restrictionSequence.insertItem(itemValue);
+			restrictionSequence.insertRoot();
+		} catch (OWLOntologyStorageException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 
 	}
 

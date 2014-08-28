@@ -85,14 +85,14 @@ public class Process_end extends ProcessRestrictionElements {
 
 			//OWLObjectProperty hasRelation = factory.getOWLObjectProperty(":hasRelation", ontologyHolder.getPrefixOWLOntologyFormat());
 
-			OWLObjectProperty hasEnd = factory.getOWLObjectProperty(":hasEnd",ontologyHolder.getPrefixOWLOntologyFormat());
+			OWLObjectProperty hasItem = factory.getOWLObjectProperty(":hasItem",ontologyHolder.getPrefixOWLOntologyFormat());
 
 
 			//OWLObjectPropertyAssertionAxiom axiom1 = factory
 				//	.getOWLObjectPropertyAssertionAxiom(hasRelation, restrictionIndividual, relationIndividual);
 
 			OWLObjectPropertyAssertionAxiom axiom2 = factory
-					.getOWLObjectPropertyAssertionAxiom(hasEnd, relationIndividual, itemIndividual);
+					.getOWLObjectPropertyAssertionAxiom(hasItem, relationIndividual, itemIndividual);
 
 			//AddAxiom addAxiom1 = new AddAxiom(ont, axiom1);
 			AddAxiom addAxiom2 = new AddAxiom(ont,axiom2);

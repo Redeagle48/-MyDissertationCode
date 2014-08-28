@@ -1,6 +1,7 @@
 package d3m.span.io;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -13,13 +14,16 @@ import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.InferredAxiomGenerator;
 import org.semanticweb.owlapi.util.InferredClassAssertionAxiomGenerator;
 import org.semanticweb.owlapi.util.InferredOntologyGenerator;
 import org.semanticweb.owlapi.util.InferredPropertyAssertionGenerator;
 import org.semanticweb.owlapi.util.InferredSubClassAxiomGenerator;
+import org.semanticweb.owlapi.util.OWLEntityRemover;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 
 import uk.ac.manchester.cs.owlapi.dlsyntax.DLSyntaxObjectRenderer;
@@ -29,9 +33,9 @@ public class OntologyHolder {
 	OWLOntology ontology;
 	OWLDataFactory factory;
 	OWLReasoner reasoner;
-	
+
 	PrefixOWLOntologyFormat pm;
-	
+
 	public OntologyHolder() {}
 
 	public OWLOntologyManager getOWLOntologyManager() {
@@ -57,7 +61,7 @@ public class OntologyHolder {
 	public void setOWLDataFactory(OWLDataFactory factory) {
 		this.factory = factory;
 	}
-	
+
 	public OWLReasoner getOWLReasoner() {
 		return reasoner;
 	}
@@ -65,7 +69,7 @@ public class OntologyHolder {
 	public void setOWLReasoner(OWLReasoner reasoner) {
 		this.reasoner = reasoner;
 	}
-	
+
 	public PrefixOWLOntologyFormat getPrefixOWLOntologyFormat() {
 		return pm;
 	}
@@ -88,7 +92,7 @@ public class OntologyHolder {
 				.toQuotedString());
 		System.out.println(" from " + documentIRI.toQuotedString());
 	}
-	
+
 	/** Prints out the properties that instances of a class expression must have.
 	 *
 	 * @param man
@@ -115,7 +119,7 @@ public class OntologyHolder {
 			}
 		}
 	}
-	
+
 	private boolean hasProperty(OWLOntologyManager man, OWLReasoner reasoner,
 			OWLClass cls, OWLObjectPropertyExpression prop) {
 		// To test whether the instances of a class must have a property we
@@ -134,7 +138,7 @@ public class OntologyHolder {
 				complement);
 		return !reasoner.isSatisfiable(intersection);
 	}
-	
+
 	public void listIndividualsFromClass(OWLClass cls){
 		Set<OWLIndividual> individuals = cls.getIndividuals(getOWLOntology());
 		System.out.println("The individuals from class " + cls + " are:");
@@ -142,29 +146,58 @@ public class OntologyHolder {
 			System.out.println(owlIndividual.toString());
 		}
 	}
-	
+
 	public void individual_listClasses (OWLNamedIndividual individual) {
 		//find to which classes the individual belongs 
 		DLSyntaxObjectRenderer renderer = new DLSyntaxObjectRenderer(); 
-        Set<OWLClassExpression> assertedClasses = individual.getTypes(ontology); 
-        for (OWLClass c : reasoner.getTypes(individual, false).getFlattened()) { 
-            boolean asserted = assertedClasses.contains(c); 
-            System.out.println((asserted ? "asserted" : "inferred") + " class for individual: " + renderer.render(c)); 
-        } 
+		Set<OWLClassExpression> assertedClasses = individual.getTypes(ontology); 
+		for (OWLClass c : reasoner.getTypes(individual, false).getFlattened()) { 
+			boolean asserted = assertedClasses.contains(c); 
+			System.out.println((asserted ? "asserted" : "inferred") + " class for individual: " + renderer.render(c)); 
+		} 
 	}
-	
+
 	public String individual_Asserted_listClasses (OWLNamedIndividual individual) {
 		//find to which classes the individual belongs 
-        Set<OWLClassExpression> assertedClasses = individual.getTypes(ontology); 
-        for (OWLClass c : reasoner.getTypes(individual, false).getFlattened()) { 
-            boolean asserted = assertedClasses.contains(c); 
-            if(asserted) { return c.toStringID(); }
-        }
-        return null;
+		Set<OWLClassExpression> assertedClasses = individual.getTypes(ontology); 
+		for (OWLClass c : reasoner.getTypes(individual, false).getFlattened()) { 
+			boolean asserted = assertedClasses.contains(c); 
+			if(asserted) { return c.toStringID(); }
+		}
+		return null;
 	}
-	
-	public void processReasoner() {
+
+	// Delete all the instances of the previous constraints
+	public void deleteIndividuals() {
 		
+		OWLEntityRemover remover = new OWLEntityRemover(owlManager,
+				Collections.singleton(ontology));
+		
+		//System.out.println("Number of individuals: "
+		//		+ ontology.getIndividualsInSignature().size());
+
+		for (OWLNamedIndividual ind : ontology.getIndividualsInSignature()) {
+			ind.accept(remover);
+		}
+
+		owlManager.applyChanges(remover.getChanges());
+		
+		//System.out.println("Number of individuals: "
+		//		+ ontology.getIndividualsInSignature().size());
+
+		// To reuse it
+		remover.reset();
+
+		try {
+			owlManager.saveOntology(ontology);
+		} catch (OWLOntologyStorageException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void processReasoner() {
+
 		List<InferredAxiomGenerator<? extends OWLAxiom>> generators=new ArrayList<InferredAxiomGenerator<? extends OWLAxiom>>();
 		generators.add(new InferredSubClassAxiomGenerator()); //infere classes
 		//generators.add(new InferredClassAssertionAxiomGenerator());
@@ -176,6 +209,6 @@ public class OntologyHolder {
 
 		InferredOntologyGenerator ioghermit  =new InferredOntologyGenerator(reasoner,generators);
 		ioghermit.fillOntology(owlManager, ontology);
-		
+
 	}
 }

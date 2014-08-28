@@ -154,6 +154,22 @@
         <Class IRI="#Constraint"/>
     </SubClassOf>
     <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#5"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#6"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#Begin"/>
         <NamedIndividual IRI="#Begin_RestrictionTest"/>
     </ClassAssertion>
@@ -162,17 +178,34 @@
         <NamedIndividual IRI="#ConstraintComposition_RestrictionTest"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#Exists"/>
+        <NamedIndividual IRI="#Exists_RestrictionTest"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Precedence"/>
+        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#ConstraintDefinition"/>
         <NamedIndividual IRI="#RestrictionTest"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="#Item"/>
-        <NamedIndividual IRI="#a"/>
+        <Class IRI="#SequentialConstraint"/>
+        <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SequentialConstraint"/>
+        <NamedIndividual IRI="#SequentialProperty2_RestrictionTest"/>
     </ClassAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#hasItem"/>
         <NamedIndividual IRI="#Begin_RestrictionTest"/>
-        <NamedIndividual IRI="#a"/>
+        <NamedIndividual IRI="#2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nextConstraintSequence"/>
+        <NamedIndividual IRI="#Begin_RestrictionTest"/>
+        <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#nextConstraint"/>
@@ -180,10 +213,60 @@
         <NamedIndividual IRI="#Begin_RestrictionTest"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasItem"/>
+        <NamedIndividual IRI="#Exists_RestrictionTest"/>
+        <NamedIndividual IRI="#3"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#antecedent"/>
+        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
+        <NamedIndividual IRI="#6"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#consequent"/>
+        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
+        <NamedIndividual IRI="#5"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nextConstraintSequence"/>
+        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
+        <NamedIndividual IRI="#SequentialProperty2_RestrictionTest"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="#hasConstraint"/>
         <NamedIndividual IRI="#RestrictionTest"/>
         <NamedIndividual IRI="#ConstraintComposition_RestrictionTest"/>
     </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nextConstraint"/>
+        <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
+        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nextConstraint"/>
+        <NamedIndividual IRI="#SequentialProperty2_RestrictionTest"/>
+        <NamedIndividual IRI="#Exists_RestrictionTest"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasGap"/>
+        <NamedIndividual IRI="#ConstraintComposition_RestrictionTest"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasGap"/>
+        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasGap"/>
+        <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasGap"/>
+        <NamedIndividual IRI="#SequentialProperty2_RestrictionTest"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">0</Literal>
+    </DataPropertyAssertion>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#antecedent"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
@@ -294,10 +377,6 @@
         <ObjectProperty IRI="#nextConstraintSequence"/>
         <Class IRI="#ConstraintType"/>
     </ObjectPropertyRange>
-    <SubDataPropertyOf>
-        <DataProperty IRI="#hasGap"/>
-        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
-    </SubDataPropertyOf>
     <DataPropertyDomain>
         <DataProperty IRI="#hasGap"/>
         <Class IRI="#Constraint"/>

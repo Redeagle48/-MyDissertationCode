@@ -7,7 +7,9 @@ import java.util.Vector;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 
@@ -124,17 +126,17 @@ public class Main {
 		//////////////////////////////////////////////
 		// Correspond the instantiated ontology to rules
 		//////////////////////////////////////////////
-		System.out.println("\n=====>>> Printing rules of tree");
+		//System.out.println("\n=====>>> Printing rules of tree");
 		Vector<SeqD2Rule> ruleVector = readFromOntology(logicProcess);
-		for (SeqD2Rule seqD2Rule : ruleVector) {
-			System.out.println(seqD2Rule);
-		}
-		System.out.println("===============================\n");
+		//for (SeqD2Rule seqD2Rule : ruleVector) {
+		//	System.out.println(seqD2Rule);
+		//}
+		//System.out.println("===============================\n");
 
 		//////////////////////////////////////////////
 		// Run the algorithm
 		//////////////////////////////////////////////
-		SeqD2PrefixGrowth alg = new SeqD2PrefixGrowth(runner.m_sup,db,runner.m_gap, true,ruleVector);
+		//SeqD2PrefixGrowth alg = new SeqD2PrefixGrowth(runner.m_sup,db,runner.m_gap, true,ruleVector);
 		System.gc();
 		//Vector<String> result = alg.exec();
 
@@ -161,7 +163,7 @@ public class Main {
 		for (OWLIndividual owlIndividual : individuals) {
 			System.out.println(owlIndividual.toString());
 
-			OWLObjectProperty hasConstraint = factory.getOWLObjectProperty(":hasConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
+			OWLObjectProperty hasConstraint = factory.getOWLObjectProperty(":nextConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
 
 			Set<OWLIndividual> individualsNamed = owlIndividual.getObjectPropertyValues(hasConstraint, ont);
 
@@ -177,9 +179,21 @@ public class Main {
 				// TODO To refactor
 				if(constraint.equals("Begin")){
 
-					OWLObjectProperty hasBegin = factory.getOWLObjectProperty(":hasBegin",ontologyHolder.getPrefixOWLOntologyFormat());
-
+					System.out.println("--> In the Begin");
+					
+					// Obtain item
+					OWLObjectProperty hasBegin = factory.getOWLObjectProperty(":hasItem",ontologyHolder.getPrefixOWLOntologyFormat());
 					Set<OWLIndividual> item = individualNamed.getObjectPropertyValues(hasBegin, ont);
+					
+					// TODO Obtain gap
+					OWLDataProperty hasGap = factory.getOWLDataProperty(":hasGap",ontologyHolder.getPrefixOWLOntologyFormat());
+					Set<OWLLiteral> item_set = individualNamed.getDataPropertyValues(hasGap, ont);
+					
+					int hasGap_int = -1;
+					for(OWLLiteral hasGap_value : item_set){
+						hasGap_int = Integer.parseInt(hasGap_value.getLiteral());
+						System.out.println("OLAOLAOLAODADQ$: hasGap: "  + hasGap_int);
+					}
 
 					for (OWLIndividual owlIndividual2 : item) {
 						System.out.println("Item: " + owlIndividual2.toStringID());

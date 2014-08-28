@@ -49,6 +49,8 @@ public class LogicProcess {
 			e.printStackTrace();
 		}
 		ontologyHolder.setOWLDataFactory(ontologyHolder.getOWLOntologyManager().getOWLDataFactory());
+
+		ontologyHolder.deleteIndividuals();
 		
 		//OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory(); //Standard reasoner
 		OWLReasonerFactory reasonerFactory = new Reasoner.ReasonerFactory(); //Hermit reasoner

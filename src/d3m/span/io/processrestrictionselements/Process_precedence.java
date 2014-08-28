@@ -79,7 +79,7 @@ public class Process_precedence extends ProcessRestrictionElements{
 		manager.addAxiom(ont, classAssertionAx);
 
 		//******Add Gap
-		OWLDataProperty hasGap = factory.getOWLDataProperty(":hasGapPrecedence",ontologyHolder.getPrefixOWLOntologyFormat());
+		OWLDataProperty hasGap = factory.getOWLDataProperty(":hasGap",ontologyHolder.getPrefixOWLOntologyFormat());
 		OWLDatatype integerDatatype = factory
                 .getOWLDatatype(OWL2Datatype.XSD_INT.getIRI());
 		OWLDataPropertyAssertionAxiom addaxiom_precedenceGap = factory

@@ -7,11 +7,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import d3m.span.io.FilesLocation;
-import d3m.span.io.GlobalVariables;
-import d3m.span.io.OntologyHolder;
-import d3m.span.io.ConstraintSequence;
-
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
@@ -114,7 +109,7 @@ public class ProcessXML {
 
 				// Add the restriction to the resrictionManager
 				GlobalVariables.restrictonManager.addRestriction(restrictionSequence);
-				
+
 				// Instantiate ConstraintDefinition in the ontology
 				OWLClass restriction = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
 						.getOntologyIRI().toString() + "#ConstraintDefinition"));
@@ -123,21 +118,6 @@ public class ProcessXML {
 				OWLClassAssertionAxiom classAssertionBx = factoryOnt.getOWLClassAssertionAxiom(
 						restriction, restrictionIndividual);
 				manager.addAxiom(ont, classAssertionBx);
-				
-				// Instantiate ConstraintComposition in the ontology
-				OWLClass restrictionComposition = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
-						.getOntologyIRI().toString() + "#ConstraintComposition"));
-				OWLIndividual restrictionCompositionIndividual = factoryOnt.getOWLNamedIndividual(":ConstraintComposition_"+restrictionSequence.getSequenceName(),
-						ontologyHolder.getPrefixOWLOntologyFormat());
-				OWLClassAssertionAxiom classAssertionCx = factoryOnt.getOWLClassAssertionAxiom(
-						restrictionComposition, restrictionCompositionIndividual);
-				manager.addAxiom(ont, classAssertionCx);
-				
-				// Connect ConstraintDefinition instance to the ConstraintComposition
-				OWLObjectProperty hasConstraint = factoryOnt.getOWLObjectProperty(":hasConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
-				OWLObjectPropertyAssertionAxiom addaxiom3 = factoryOnt
-						.getOWLObjectPropertyAssertionAxiom(hasConstraint, restrictionIndividual, restrictionCompositionIndividual);
-				manager.addAxiom(ont, addaxiom3);
 
 				NodeList restrictions = node.getChildNodes();
 
@@ -156,7 +136,7 @@ public class ProcessXML {
 						System.out.println("Node: " + restriction2.getNodeName());
 
 						// TODO TO REFACTOR
-						
+
 						// Unary constraints
 						if(restriction2.getNodeName().equals("begin")) {
 							new Process_begin(ontologyHolder).proceed(restriction2,restrictionSequence);
@@ -182,7 +162,7 @@ public class ProcessXML {
 
 					}
 
-					if (restrictionElements instanceof Element && restrictionElements.getNodeName().equals("constraintProperties")) {
+					else if (restrictionElements instanceof Element && restrictionElements.getNodeName().equals("constraintProperties")) {
 
 						System.out.println("======================= Restriction's Property =======================");
 
@@ -195,96 +175,130 @@ public class ProcessXML {
 							Node relationProperty = relationProperties.item(k);
 
 							if(node instanceof Element && relationProperty.getNodeName().equals("constraintSequence")) {
-								System.out.println("========> Encontrei esta relation: " + relationProperty.getNodeName());
-								System.out.println("Type: " + relationProperty.getAttributes().getNamedItem("type").getNodeValue());
-								System.out.println("Relations involved: " +
-										relationProperty.getAttributes().getNamedItem("rel1").getNodeValue() +
-										" -> " + relationProperty.getAttributes().getNamedItem("rel2").getNodeValue());
-								System.out.println("Gap: " + relationProperty.getAttributes().getNamedItem("relation_gap").getNodeValue());
 
 								String type = relationProperty.getAttributes().getNamedItem("type").getNodeValue();
-								int rel1ID = Integer.parseInt(relationProperty.getAttributes().getNamedItem("rel1").getNodeValue());
-								int rel2ID = Integer.parseInt(relationProperty.getAttributes().getNamedItem("rel2").getNodeValue());
-								String gap = relationProperty.getAttributes().getNamedItem("relation_gap").getNodeValue();
 
-								//IR buscar o nome das relations envolvidas
-								String rel1 = restrictionSequence.getConstraints().get(rel1ID-1).getInstanceName();
-								String rel2 = restrictionSequence.getConstraints().get(rel2ID-1).getInstanceName();
+								if(type.equals("start")){
 
-								System.out.println("Relation to insert: " + rel1);
-								System.out.println("Relation to insert: " + rel2);
+									System.out.println("\nSTART");
 
-								OWLIndividual Relation1Individual = factoryOnt.getOWLNamedIndividual(":"+rel1,
-										ontologyHolder.getPrefixOWLOntologyFormat());
+									// Instantiate ConstraintComposition in the ontology
+									OWLClass restrictionComposition = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
+											.getOntologyIRI().toString() + "#ConstraintComposition"));
+									OWLIndividual restrictionCompositionIndividual = factoryOnt.getOWLNamedIndividual(":ConstraintComposition_"+restrictionSequence.getSequenceName(),
+											ontologyHolder.getPrefixOWLOntologyFormat());
+									OWLClassAssertionAxiom classAssertionCx = factoryOnt.getOWLClassAssertionAxiom(
+											restrictionComposition, restrictionCompositionIndividual);
+									manager.addAxiom(ont, classAssertionCx);
 
-								OWLIndividual Relation2Individual = factoryOnt.getOWLNamedIndividual(":"+rel2,
-										ontologyHolder.getPrefixOWLOntologyFormat());
+									// Connect ConstraintDefinition instance to the ConstraintComposition
+									OWLObjectProperty hasConstraint = factoryOnt.getOWLObjectProperty(":hasConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
+									OWLObjectPropertyAssertionAxiom addaxiom3 = factoryOnt
+											.getOWLObjectPropertyAssertionAxiom(hasConstraint, restrictionIndividual, restrictionCompositionIndividual);
+									manager.addAxiom(ont, addaxiom3);
 
-								/* Get some new classes. */
-								OWLClass relationSequenceClass = null;
-								if(type.equals("sequential")){
-
-									relationSequenceClass = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
-											.getOntologyIRI().toString() + "#SequentialConstraint"));
-
-									OWLIndividual relationIndividual = factoryOnt.getOWLNamedIndividual(":" +
-											"SequentialProperty" + restrictionSequence.getcountSequentialProperties() + "_" + restrictionSequence.getSequenceName(),ontologyHolder.getPrefixOWLOntologyFormat());
-
-									OWLClassAssertionAxiom classAssertionAx = factoryOnt.getOWLClassAssertionAxiom(
-											relationSequenceClass, relationIndividual);
-
-									manager.addAxiom(ont, classAssertionAx);
-
-									OWLObjectProperty nextRelationSequence = factoryOnt.getOWLObjectProperty(":nextConstraintSequence",ontologyHolder.getPrefixOWLOntologyFormat());
-
-									OWLObjectPropertyAssertionAxiom axiom2 = factoryOnt
-											.getOWLObjectPropertyAssertionAxiom(nextRelationSequence, Relation1Individual, relationIndividual);
-
-									manager.addAxiom(ont, axiom2);
-
-									OWLObjectProperty nextRelation = factoryOnt.getOWLObjectProperty(":nextConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
-
-									OWLObjectPropertyAssertionAxiom axiom3 = factoryOnt
-											.getOWLObjectPropertyAssertionAxiom(nextRelation, relationIndividual, Relation2Individual);
-
-									manager.addAxiom(ont, axiom3);
-
-									//******Add Gap
+									String initial_gap = relationProperty.getAttributes().getNamedItem("gap").getNodeValue();
+									// NAO ESTA A APANHAR O GAP
 									OWLDataProperty hasGap = factoryOnt.getOWLDataProperty(":hasGap",ontologyHolder.getPrefixOWLOntologyFormat());
 									OWLDatatype integerDatatype = factoryOnt
 											.getOWLDatatype(OWL2Datatype.XSD_INT.getIRI());
 									OWLDataPropertyAssertionAxiom addaxiom_precedenceGap = factoryOnt
-											.getOWLDataPropertyAssertionAxiom(hasGap, relationIndividual, factoryOnt.getOWLLiteral(gap, integerDatatype));
+											.getOWLDataPropertyAssertionAxiom(hasGap, restrictionCompositionIndividual, factoryOnt.getOWLLiteral(initial_gap, integerDatatype));
 									manager.addAxiom(ont, addaxiom_precedenceGap);
-									//******
 
-								} else if(type.equals("concurrential")){
+								} else {
 
-									relationSequenceClass = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
-											.getOntologyIRI().toString() + "#ConcurrentialConstraint"));
+									System.out.println("========> Encontrei esta relation: " + relationProperty.getNodeName());
+									System.out.println("Type: " + relationProperty.getAttributes().getNamedItem("type").getNodeValue());
+									System.out.println("Relations involved: " +
+											relationProperty.getAttributes().getNamedItem("rel1").getNodeValue() +
+											" -> " + relationProperty.getAttributes().getNamedItem("rel2").getNodeValue());
+									System.out.println("Gap: " + relationProperty.getAttributes().getNamedItem("gap").getNodeValue());
 
-									OWLIndividual relationIndividual = factoryOnt.getOWLNamedIndividual(":" +
-											"ConcurrentialProperty" + restrictionSequence.getcountConcurrentialProperties() + "_" + restrictionSequence.getSequenceName(),ontologyHolder.getPrefixOWLOntologyFormat());
+									int rel1ID = Integer.parseInt(relationProperty.getAttributes().getNamedItem("rel1").getNodeValue());
+									int rel2ID = Integer.parseInt(relationProperty.getAttributes().getNamedItem("rel2").getNodeValue());
+									String gap = relationProperty.getAttributes().getNamedItem("gap").getNodeValue();
 
-									OWLClassAssertionAxiom classAssertionAx = factoryOnt.getOWLClassAssertionAxiom(
-											relationSequenceClass, relationIndividual);
+									//IR buscar o nome das relations envolvidas
+									String rel1 = restrictionSequence.getConstraints().get(rel1ID-1).getInstanceName();
+									String rel2 = restrictionSequence.getConstraints().get(rel2ID-1).getInstanceName();
 
-									manager.addAxiom(ont, classAssertionAx);
+									System.out.println("\n----------------CONSTRAINTS PROPERTIES-----------------");
+									System.out.println("Relation to insert: " + rel1);
+									System.out.println("Relation to insert: " + rel2);
 
-									OWLObjectProperty nextRelationSequence = factoryOnt.getOWLObjectProperty(":nextConstraintSequence",ontologyHolder.getPrefixOWLOntologyFormat());
+									OWLIndividual Relation1Individual = factoryOnt.getOWLNamedIndividual(":"+rel1,
+											ontologyHolder.getPrefixOWLOntologyFormat());
 
-									OWLObjectPropertyAssertionAxiom axiom2 = factoryOnt
-											.getOWLObjectPropertyAssertionAxiom(nextRelationSequence, Relation1Individual, relationIndividual);
+									OWLIndividual Relation2Individual = factoryOnt.getOWLNamedIndividual(":"+rel2,
+											ontologyHolder.getPrefixOWLOntologyFormat());
 
-									manager.addAxiom(ont, axiom2);
+									/* Get some new classes. */
+									OWLClass relationSequenceClass = null;
+									if(type.equals("sequential")){
 
-									OWLObjectProperty nextRelation = factoryOnt.getOWLObjectProperty(":nextConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
+										relationSequenceClass = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
+												.getOntologyIRI().toString() + "#SequentialConstraint"));
 
-									OWLObjectPropertyAssertionAxiom axiom3 = factoryOnt
-											.getOWLObjectPropertyAssertionAxiom(nextRelation, relationIndividual, Relation2Individual);
+										OWLIndividual relationIndividual = factoryOnt.getOWLNamedIndividual(":" +
+												"SequentialProperty" + restrictionSequence.getcountSequentialProperties() + "_" + restrictionSequence.getSequenceName(),ontologyHolder.getPrefixOWLOntologyFormat());
 
-									manager.addAxiom(ont, axiom3);
+										OWLClassAssertionAxiom classAssertionAx = factoryOnt.getOWLClassAssertionAxiom(
+												relationSequenceClass, relationIndividual);
 
+										manager.addAxiom(ont, classAssertionAx);
+
+										OWLObjectProperty nextRelationSequence = factoryOnt.getOWLObjectProperty(":nextConstraintSequence",ontologyHolder.getPrefixOWLOntologyFormat());
+
+										OWLObjectPropertyAssertionAxiom axiom2 = factoryOnt
+												.getOWLObjectPropertyAssertionAxiom(nextRelationSequence, Relation1Individual, relationIndividual);
+
+										manager.addAxiom(ont, axiom2);
+
+										OWLObjectProperty nextRelation = factoryOnt.getOWLObjectProperty(":nextConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
+
+										OWLObjectPropertyAssertionAxiom axiom3 = factoryOnt
+												.getOWLObjectPropertyAssertionAxiom(nextRelation, relationIndividual, Relation2Individual);
+
+										manager.addAxiom(ont, axiom3);
+
+										//******Add Gap
+										OWLDataProperty hasGap = factoryOnt.getOWLDataProperty(":hasGap",ontologyHolder.getPrefixOWLOntologyFormat());
+										OWLDatatype integerDatatype = factoryOnt
+												.getOWLDatatype(OWL2Datatype.XSD_INT.getIRI());
+										OWLDataPropertyAssertionAxiom addaxiom_precedenceGap = factoryOnt
+												.getOWLDataPropertyAssertionAxiom(hasGap, relationIndividual, factoryOnt.getOWLLiteral(gap, integerDatatype));
+										manager.addAxiom(ont, addaxiom_precedenceGap);
+										//******
+
+									} else if(type.equals("concurrential")){
+
+										relationSequenceClass = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
+												.getOntologyIRI().toString() + "#ConcurrentialConstraint"));
+
+										OWLIndividual relationIndividual = factoryOnt.getOWLNamedIndividual(":" +
+												"ConcurrentialProperty" + restrictionSequence.getcountConcurrentialProperties() + "_" + restrictionSequence.getSequenceName(),ontologyHolder.getPrefixOWLOntologyFormat());
+
+										OWLClassAssertionAxiom classAssertionAx = factoryOnt.getOWLClassAssertionAxiom(
+												relationSequenceClass, relationIndividual);
+
+										manager.addAxiom(ont, classAssertionAx);
+
+										OWLObjectProperty nextRelationSequence = factoryOnt.getOWLObjectProperty(":nextConstraintSequence",ontologyHolder.getPrefixOWLOntologyFormat());
+
+										OWLObjectPropertyAssertionAxiom axiom2 = factoryOnt
+												.getOWLObjectPropertyAssertionAxiom(nextRelationSequence, Relation1Individual, relationIndividual);
+
+										manager.addAxiom(ont, axiom2);
+
+										OWLObjectProperty nextRelation = factoryOnt.getOWLObjectProperty(":nextConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
+
+										OWLObjectPropertyAssertionAxiom axiom3 = factoryOnt
+												.getOWLObjectPropertyAssertionAxiom(nextRelation, relationIndividual, Relation2Individual);
+
+										manager.addAxiom(ont, axiom3);
+
+									}  
 								}
 							}
 						}
@@ -299,15 +313,15 @@ public class ProcessXML {
 				for (Relation relation : restrictionSequence.getConstraints()) {
 					System.out.println(relation.getRelationName());
 				}
-				
-				
+
+
 				// Get first constraint
 				Relation relation = restrictionSequence.getConstraints().get(0);
 
 				//Sequence from which this items belong
 				OWLIndividual contraintComposition_Individual = factoryOnt.getOWLNamedIndividual(":ConstraintComposition_"+restrictionSequence.getSequenceName(),
 						ontologyHolder.getPrefixOWLOntologyFormat());
-				
+
 				OWLIndividual ConstraintIndividual = factoryOnt.getOWLNamedIndividual(":"+relation.getInstanceName(),ontologyHolder.getPrefixOWLOntologyFormat());
 
 				OWLObjectProperty hasRelation = factoryOnt.getOWLObjectProperty(":nextConstraint",ontologyHolder.getPrefixOWLOntologyFormat());

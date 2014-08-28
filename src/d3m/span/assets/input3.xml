@@ -11,24 +11,25 @@
 	  	<note>Simple Constraint just to test</note>
 	  	
 	  	<constraint id="1">
-	  		<begin>a</begin>
+	  		<begin>2</begin>
 	  	</constraint>
-	  	<!--  
+	  	  
 	  	<constraint id="2">
 	  		<precedence gap="2">
-	  			<antecedent>b</antecedent>
-	  			<consequent>c</consequent>
+	  			<antecedent>6</antecedent>
+	  			<consequent>5</consequent>
 	  		</precedence>
 	  	</constraint>
+
 		<constraint id="3">
-			<end>d</end>
+			<exists>3</exists>
 		</constraint>
-		-->
 	  
 	  
 	  <constraintProperties>
-	  	<!--<constraintSequence type="sequential" rel1="1" rel2="2" relation_gap="1"/>-->
-	  	<!--<constraintSequence type="sequential" rel1="2" rel2="3" relation_gap="0"/>-->
+	  	<constraintSequence type="start" gap="3"/>
+	  	<constraintSequence type="sequential" rel1="1" rel2="2" gap="1"/>
+	  	<constraintSequence type="sequential" rel1="2" rel2="3" gap="0"/>
 	  </constraintProperties>
   
   </constraintSet>

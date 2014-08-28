@@ -68,21 +68,6 @@ public class Process_begin extends ProcessRestrictionElements{
 
 			manager.addAxiom(ont, classAssertionAx2);
 
-			//Get the instance of the present restriction
-			// Get some new classes. 
-			OWLClass restriction = factory.getOWLClass(IRI.create(ont.getOntologyID()
-					.getOntologyIRI().toString() + "#ConstraintDefinition"));
-
-			OWLIndividual restrictionIndividual = factory.getOWLNamedIndividual(":"+restrictionSequence.getSequenceName(),
-					ontologyHolder.getPrefixOWLOntologyFormat());
-
-			OWLClassAssertionAxiom classAssertionBx = factory.getOWLClassAssertionAxiom(
-					restriction, restrictionIndividual);
-
-			manager.addAxiom(ont, classAssertionBx);
-
-			//OWLObjectProperty hasRelation = factory.getOWLObjectProperty(":hasRelation", ontologyHolder.getPrefixOWLOntologyFormat());
-
 			OWLObjectProperty hasBegin = factory.getOWLObjectProperty(":hasItem",ontologyHolder.getPrefixOWLOntologyFormat());
 
 
