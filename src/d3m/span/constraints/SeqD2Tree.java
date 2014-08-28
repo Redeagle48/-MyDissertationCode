@@ -96,4 +96,12 @@ public class SeqD2Tree {
 		}
 		return true;
 	}
+	
+	public void printRules(){
+		System.out.println("\n=====>>> Printing rules of tree");
+		for (SeqD2Rule seqD2Rule : this.rules) {
+			System.out.println(seqD2Rule.toString());
+		}
+		System.out.println("===============================\n");
+	}
 }

@@ -99,7 +99,7 @@ public class ProcessXML {
 
 			Node node = nodeList.item(i);
 
-			String s = nodeList.item(i).getNodeName();
+			//String s = nodeList.item(i).getNodeName();
 
 			if (node instanceof Element && nodeList.item(1).getNodeName().equals("constraintSet")) {
 
@@ -114,6 +114,30 @@ public class ProcessXML {
 
 				// Add the restriction to the resrictionManager
 				GlobalVariables.restrictonManager.addRestriction(restrictionSequence);
+				
+				// Instantiate ConstraintDefinition in the ontology
+				OWLClass restriction = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
+						.getOntologyIRI().toString() + "#ConstraintDefinition"));
+				OWLIndividual restrictionIndividual = factoryOnt.getOWLNamedIndividual(":"+restrictionSequence.getSequenceName(),
+						ontologyHolder.getPrefixOWLOntologyFormat());
+				OWLClassAssertionAxiom classAssertionBx = factoryOnt.getOWLClassAssertionAxiom(
+						restriction, restrictionIndividual);
+				manager.addAxiom(ont, classAssertionBx);
+				
+				// Instantiate ConstraintComposition in the ontology
+				OWLClass restrictionComposition = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
+						.getOntologyIRI().toString() + "#ConstraintComposition"));
+				OWLIndividual restrictionCompositionIndividual = factoryOnt.getOWLNamedIndividual(":ConstraintComposition_"+restrictionSequence.getSequenceName(),
+						ontologyHolder.getPrefixOWLOntologyFormat());
+				OWLClassAssertionAxiom classAssertionCx = factoryOnt.getOWLClassAssertionAxiom(
+						restrictionComposition, restrictionCompositionIndividual);
+				manager.addAxiom(ont, classAssertionCx);
+				
+				// Connect ConstraintDefinition instance to the ConstraintComposition
+				OWLObjectProperty hasConstraint = factoryOnt.getOWLObjectProperty(":hasConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
+				OWLObjectPropertyAssertionAxiom addaxiom3 = factoryOnt
+						.getOWLObjectPropertyAssertionAxiom(hasConstraint, restrictionIndividual, restrictionCompositionIndividual);
+				manager.addAxiom(ont, addaxiom3);
 
 				NodeList restrictions = node.getChildNodes();
 
@@ -277,19 +301,19 @@ public class ProcessXML {
 				}
 				
 				
-				
+				// Get first constraint
 				Relation relation = restrictionSequence.getConstraints().get(0);
 
 				//Sequence from which this items belong
-				OWLIndividual RestrictionIndividual = factoryOnt.getOWLNamedIndividual(":"+restrictionSequence.getSequenceName(),
+				OWLIndividual contraintComposition_Individual = factoryOnt.getOWLNamedIndividual(":ConstraintComposition_"+restrictionSequence.getSequenceName(),
 						ontologyHolder.getPrefixOWLOntologyFormat());
+				
+				OWLIndividual ConstraintIndividual = factoryOnt.getOWLNamedIndividual(":"+relation.getInstanceName(),ontologyHolder.getPrefixOWLOntologyFormat());
 
-				OWLIndividual RelationIndividual = factoryOnt.getOWLNamedIndividual(":"+relation.getInstanceName(),ontologyHolder.getPrefixOWLOntologyFormat());
-
-				OWLObjectProperty hasRelation = factoryOnt.getOWLObjectProperty(":hasConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
+				OWLObjectProperty hasRelation = factoryOnt.getOWLObjectProperty(":nextConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
 
 				OWLObjectPropertyAssertionAxiom addaxiom2 = factoryOnt
-						.getOWLObjectPropertyAssertionAxiom(hasRelation, RestrictionIndividual, RelationIndividual);
+						.getOWLObjectPropertyAssertionAxiom(hasRelation, contraintComposition_Individual, ConstraintIndividual);
 
 				manager.addAxiom(ont, addaxiom2);
 

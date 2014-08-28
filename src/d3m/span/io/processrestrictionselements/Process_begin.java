@@ -71,7 +71,7 @@ public class Process_begin extends ProcessRestrictionElements{
 			//Get the instance of the present restriction
 			// Get some new classes. 
 			OWLClass restriction = factory.getOWLClass(IRI.create(ont.getOntologyID()
-					.getOntologyIRI().toString() + "#ConstraintComposition"));
+					.getOntologyIRI().toString() + "#ConstraintDefinition"));
 
 			OWLIndividual restrictionIndividual = factory.getOWLNamedIndividual(":"+restrictionSequence.getSequenceName(),
 					ontologyHolder.getPrefixOWLOntologyFormat());
@@ -83,7 +83,7 @@ public class Process_begin extends ProcessRestrictionElements{
 
 			//OWLObjectProperty hasRelation = factory.getOWLObjectProperty(":hasRelation", ontologyHolder.getPrefixOWLOntologyFormat());
 
-			OWLObjectProperty hasBegin = factory.getOWLObjectProperty(":hasBegin",ontologyHolder.getPrefixOWLOntologyFormat());
+			OWLObjectProperty hasBegin = factory.getOWLObjectProperty(":hasItem",ontologyHolder.getPrefixOWLOntologyFormat());
 
 
 			//OWLObjectPropertyAssertionAxiom axiom1 = factory
