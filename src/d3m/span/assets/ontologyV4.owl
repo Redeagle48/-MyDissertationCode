@@ -258,6 +258,11 @@
         <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">2</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
+        <DataProperty IRI="#isParallel"/>
+        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">false</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
         <DataProperty IRI="#hasGap"/>
         <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
         <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">1</Literal>

@@ -15,7 +15,7 @@
 	  	</constraint>
 	  	  
 	  	<constraint id="2">
-	  		<precedence gap="2">
+	  		<precedence gap="2" isParallel="false">
 	  			<antecedent>6</antecedent>
 	  			<consequent>5</consequent>
 	  		</precedence>

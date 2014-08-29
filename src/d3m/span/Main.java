@@ -18,6 +18,7 @@ import d3m.span.constraints.SeqD2Rule;
 import d3m.span.core.SeqDataset;
 import d3m.span.io.LogicProcess;
 import d3m.span.io.OntologyHolder;
+import d3m.span.io.ProcessExtractOntology;
 import d3m.span.io.ProcessXMLTaxonomy;
 import d3m.span.io.SeqReader;
 import d3m.span.ontologies.Ontology;
@@ -37,13 +38,7 @@ public class Main {
 	private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/full_N10Ns5000Ni10000DB10C10T2S4I2.txt";
 	//private String m_file = new File("").getAbsolutePath() + "/" + "src/d3m/span/sample.txt"; //
 
-	private String m_input = new File("").getAbsolutePath() + "/" + "src/d3m/span/assets/input3.xml";
-	private String m_inputSchema = new File("").getAbsolutePath() + "/" + "src/d3m/span/assets/inputSchema.xsd";
-
-
 	private String m_constraint = null;
-
-	private String m_fileOntology = new File("").getAbsolutePath() + "/" + "src/d3m/span/assets/ontologyV4.owl";
 
 	private void parseCommandLine(String args[])
 	{
@@ -105,17 +100,17 @@ public class Main {
 		//////////////////////////////////////////////
 		// Read the sequential ontology
 		//////////////////////////////////////////////
-		OWLReader reader = null; 
-		try {
-			reader = new OWLReader(runner.m_fileOntology);
-			Ontology ont = new Ontology();
+		//OWLReader reader = null; 
+		//try {
+		//	reader = new OWLReader(runner.m_fileOntology);
+		//	Ontology ont = new Ontology();
 			//reader.updateOntology(ont);
 
 			//System.out.println("==> RESULT: " + ont.toString());
 
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		//} catch(Exception e) {
+		//	e.printStackTrace();
+		//}
 
 		//////////////////////////////////////////////
 		// Instatiate the sequential ontology
@@ -127,7 +122,8 @@ public class Main {
 		// Correspond the instantiated ontology to rules
 		//////////////////////////////////////////////
 		//System.out.println("\n=====>>> Printing rules of tree");
-		Vector<SeqD2Rule> ruleVector = readFromOntology(logicProcess);
+		ProcessExtractOntology processExtractOntology = new ProcessExtractOntology();
+		Vector<SeqD2Rule> ruleVector =  processExtractOntology.readFromOntology(logicProcess);
 		//for (SeqD2Rule seqD2Rule : ruleVector) {
 		//	System.out.println(seqD2Rule);
 		//}
@@ -141,218 +137,5 @@ public class Main {
 		//Vector<String> result = alg.exec();
 
 
-	}
-
-	static Vector<SeqD2Rule> readFromOntology(LogicProcess logicProcess){
-		OntologyHolder ontologyHolder = logicProcess.getOntologyHolder();
-
-		// Vector with the rules to be applied to the algorithm
-		Vector<SeqD2Rule> ruleVec = new Vector<SeqD2Rule>();
-
-		// Read the ontology
-		OWLOntology ont = ontologyHolder.getOWLOntology();
-		OWLDataFactory factory = ontologyHolder.getOWLDataFactory();
-
-		OWLClass constraintClass = factory.getOWLClass(IRI.create(ont.getOntologyID()
-				.getOntologyIRI().toString() + "#ConstraintComposition"));
-
-		System.out.println("------->>>>> List Individuals from Constraint Composition");
-
-		Set<OWLIndividual> individuals = constraintClass.getIndividuals(ont);
-
-		for (OWLIndividual owlIndividual : individuals) {
-			System.out.println(owlIndividual.toString());
-
-			OWLObjectProperty hasConstraint = factory.getOWLObjectProperty(":nextConstraint",ontologyHolder.getPrefixOWLOntologyFormat());
-
-			Set<OWLIndividual> individualsNamed = owlIndividual.getObjectPropertyValues(hasConstraint, ont);
-
-
-			for (OWLIndividual individualNamed : individualsNamed) {
-				System.out.println(individualNamed.toString());
-
-				System.out.println("Constraint's Individual class: " + ontologyHolder.individual_Asserted_listClasses(individualNamed.asOWLNamedIndividual()));
-
-				String constraint = ontologyHolder.individual_Asserted_listClasses(individualNamed.asOWLNamedIndividual());
-				constraint = constraint.split("#")[1];
-
-				// TODO To refactor
-				if(constraint.equals("Begin")){
-
-					System.out.println("--> In the Begin");
-					
-					// Obtain item
-					OWLObjectProperty hasBegin = factory.getOWLObjectProperty(":hasItem",ontologyHolder.getPrefixOWLOntologyFormat());
-					Set<OWLIndividual> item = individualNamed.getObjectPropertyValues(hasBegin, ont);
-					
-					// TODO Obtain gap
-					OWLDataProperty hasGap = factory.getOWLDataProperty(":hasGap",ontologyHolder.getPrefixOWLOntologyFormat());
-					Set<OWLLiteral> item_set = individualNamed.getDataPropertyValues(hasGap, ont);
-					
-					int hasGap_int = -1;
-					for(OWLLiteral hasGap_value : item_set){
-						hasGap_int = Integer.parseInt(hasGap_value.getLiteral());
-						System.out.println("OLAOLAOLAODADQ$: hasGap: "  + hasGap_int);
-					}
-
-					for (OWLIndividual owlIndividual2 : item) {
-						System.out.println("Item: " + owlIndividual2.toStringID());
-						String item_begin = owlIndividual2.toStringID();
-						item_begin = item_begin.split("#")[1];
-						item_begin = item_begin.split("_")[0];
-						System.out.println(item_begin);
-
-						SeqD2Rule[] res = readFromOntology_begin(item_begin,0);
-						for (SeqD2Rule seqD2Rule : res) {
-							ruleVec.add(seqD2Rule);
-						}
-					}
-				}
-
-				else if(constraint.equals("Exists")){
-					System.out.println("Exists");
-					OWLObjectProperty hasExists = factory.getOWLObjectProperty(":hasExists",ontologyHolder.getPrefixOWLOntologyFormat());
-					Set<OWLIndividual> item = individualNamed.getObjectPropertyValues(hasExists, ont);
-
-
-					for (OWLIndividual owlIndividual2 : item) {
-						System.out.println("Item: " + owlIndividual2.toStringID());
-						String item_exists = owlIndividual2.toStringID();
-						item_exists = item_exists.split("#")[1];
-						item_exists = item_exists.split("_")[0];
-
-
-						SeqD2Rule[] res = readFromOntology_exists(item_exists,0);
-						for (SeqD2Rule seqD2Rule : res) {
-							ruleVec.add(seqD2Rule);
-						}
-					}
-
-				}
-
-				else if(constraint.equals("End")){
-					System.out.println("End");
-					OWLObjectProperty hasEnd = factory.getOWLObjectProperty(":hasEnd",ontologyHolder.getPrefixOWLOntologyFormat());
-					Set<OWLIndividual> item = individualNamed.getObjectPropertyValues(hasEnd, ont);
-
-
-					for (OWLIndividual owlIndividual2 : item) {
-						System.out.println("Item: " + owlIndividual2.toStringID());
-						String item_end = owlIndividual2.toStringID();
-						item_end = item_end.split("#")[1];
-						item_end = item_end.split("_")[0];
-
-
-						SeqD2Rule[] res = readFromOntology_end(item_end,0);
-						for (SeqD2Rule seqD2Rule : res) {
-							ruleVec.add(seqD2Rule);
-						}
-					}
-				}
-
-				else if(constraint.equals("Precedence")){
-					System.out.println("Precedence");
-					OWLObjectProperty hasAntecedent = factory.getOWLObjectProperty(":antecedent",ontologyHolder.getPrefixOWLOntologyFormat());
-					Set<OWLIndividual> itemAntecedent_set = individualNamed.getObjectPropertyValues(hasAntecedent, ont);
-					
-					String item_antecedent = null, item_consequent = null;
-					for (OWLIndividual owlIndividual2 : itemAntecedent_set) {
-						System.out.println("Antecedent Item: " + owlIndividual2.toStringID());
-						item_antecedent = owlIndividual2.toStringID();
-						item_antecedent = item_antecedent.split("#")[1];
-						item_antecedent = item_antecedent.split("_")[0];
-						
-					}
-					
-					OWLObjectProperty hasConsequent = factory.getOWLObjectProperty(":consequent",ontologyHolder.getPrefixOWLOntologyFormat());
-					Set<OWLIndividual> itemConsequent_set = individualNamed.getObjectPropertyValues(hasConsequent, ont);
-					
-					for (OWLIndividual owlIndividual2 : itemConsequent_set) {
-						System.out.println("Consequent Item: " + owlIndividual2.toStringID());
-						item_consequent = owlIndividual2.toStringID();
-						item_consequent = item_consequent.split("#")[1];
-						item_consequent = item_consequent.split("_")[0];
-						
-					}
-					
-					SeqD2Rule[] res = readFromOntology_precedence(item_antecedent, item_consequent, 0);
-					for (SeqD2Rule seqD2Rule : res) {
-						ruleVec.add(seqD2Rule);
-					}
-				}
-			}
-		}
-		return ruleVec;
-	}
-
-	static SeqD2Rule[] readFromOntology_begin(String item,int gap){
-		
-		int item_int = Integer.parseInt(item);
-		
-		SeqD2Rule rule = new SeqD2Rule
-				((short)1,		// rule
-						(short)1, 		// restriction
-						(short)0, 		// gap_interTransaction
-						(short)0, 		// gap_intraRestriction
-						(short)0, 		// itemset
-						(short)item_int,		// item
-						false);		// isParallel
-		return new SeqD2Rule[]{rule};
-	}
-
-	static SeqD2Rule[] readFromOntology_exists(String item, int gap){
-		
-		int item_int = Integer.parseInt(item);
-		
-		SeqD2Rule rule = new SeqD2Rule
-				((short)1,		// rule
-						(short)1, 		// restriction
-						(short)gap, 		// gap_interTransaction
-						(short)0, 		// gap_intraRestriction
-						(short)0, 		// itemset
-						(short)item_int,		// item
-						false);		// isParallel
-		return new SeqD2Rule[]{rule};
-	}
-
-	static SeqD2Rule[] readFromOntology_end(String item, int gap){
-		
-		int item_int = Integer.parseInt(item);
-		
-		SeqD2Rule rule = new SeqD2Rule
-				((short)1,		// rule
-						(short)1, 		// restriction
-						(short)gap, 		// gap_interTransaction
-						(short)0, 		// gap_intraRestriction
-						(short)0, 		// itemset
-						(short)item_int,		// item
-						false);		// isParallel
-		return new SeqD2Rule[]{rule};
-	}
-
-	static SeqD2Rule[] readFromOntology_precedence(String item1, String item2, int gap){
-		
-		int antecedent = Integer.parseInt(item1);
-		int consequent = Integer.parseInt(item2);
-		
-		SeqD2Rule rule1 = new SeqD2Rule
-				((short)1,		// rule
-						(short)1, 		// restriction
-						(short)gap, 		// gap_interTransaction
-						(short)0, 		// gap_intraRestriction
-						(short)0, 		// itemset
-						(short)antecedent,		// item
-						false);		// isParallel
-
-		SeqD2Rule rule2 = new SeqD2Rule
-				((short)1,		// rule
-						(short)1, 		// restriction
-						(short)gap, 		// gap_interTransaction
-						(short)0, 		// gap_intraRestriction
-						(short)0, 		// itemset
-						(short)consequent,		// item
-						false);		// isParallel
-
-		return new SeqD2Rule[]{rule1,rule2};
 	}
 }

@@ -36,18 +36,20 @@ public class Process_precedence extends ProcessRestrictionElements{
 
 		//antecedent and consequent items
 		String antecedentValue, consequentValue;
-		String gap;
+		String gap, isParallel;
 
 		Element eElement = (Element)node;
 
 		gap = eElement.getElementsByTagName("precedence").item(0).getAttributes().item(0).getNodeValue();
-
+		isParallel = eElement.getElementsByTagName("precedence").item(0).getAttributes().item(1).getNodeValue();
+		
 		Element precedesElement = (Element) eElement.getElementsByTagName("antecedent").item(0);
 		Element procedesElement = (Element) eElement.getElementsByTagName("consequent").item(0);
 
 		System.out.println("Antecedent: " + precedesElement.getTextContent());
 		System.out.println("Consequent: " + procedesElement.getTextContent());
 		System.out.println("Gap: " + gap);
+		System.out.println("IsParallel? " + (Boolean.parseBoolean(isParallel)? "yes" : "no"));
 
 		antecedentValue = precedesElement.getTextContent();
 		consequentValue = procedesElement.getTextContent();
@@ -58,23 +60,12 @@ public class Process_precedence extends ProcessRestrictionElements{
 
 		String restrictionName = restrictionSequence.getSequenceName();
 
-		//Sequence from which this items belong
-		//OWLIndividual RestrictionIndividual = factory.getOWLNamedIndividual(":"+restrictionSequence.getSequenceName(),
-		//	ontologyHolder.getPrefixOWLOntologyFormat());
-
-		//OWLIndividual RelationIndividual = factory.getOWLNamedIndividual(":",ontologyHolder.getPrefixOWLOntologyFormat());
-
-		//OWLObjectProperty hasRelation = factory.getOWLObjectProperty(":hasRelation",ontologyHolder.getPrefixOWLOntologyFormat());
-
 		OWLIndividual precedenceIndividual = factory.getOWLNamedIndividual(":Precedence_"+restrictionName, ontologyHolder.getPrefixOWLOntologyFormat());
 
 		OWLClass precedenceClass = factory.getOWLClass(":Precedence", ontologyHolder.getPrefixOWLOntologyFormat());
 
 		OWLClassAssertionAxiom classAssertionAx = factory.getOWLClassAssertionAxiom(
 				precedenceClass, precedenceIndividual);
-
-		//OWLObjectPropertyAssertionAxiom addaxiom2 = factory
-		//	.getOWLObjectPropertyAssertionAxiom(hasRelation, RestrictionIndividual, minPrecedesIndividual);
 
 		manager.addAxiom(ont, classAssertionAx);
 
@@ -87,6 +78,15 @@ public class Process_precedence extends ProcessRestrictionElements{
 		
 		manager.addAxiom(ont, addaxiom_precedenceGap);
 		//******
+		
+		//******Is Parallel
+		OWLDataProperty conc = factory.getOWLDataProperty(":isParallel",ontologyHolder.getPrefixOWLOntologyFormat());
+		OWLDatatype booleanDatatype = factory
+                .getOWLDatatype(OWL2Datatype.XSD_BOOLEAN.getIRI());
+		OWLDataPropertyAssertionAxiom addaxiom_precedenceConc = factory
+				.getOWLDataPropertyAssertionAxiom(conc, precedenceIndividual, factory.getOWLLiteral(isParallel, booleanDatatype));
+		
+		manager.addAxiom(ont, addaxiom_precedenceConc);
 
 		OWLIndividual precedesIndividual = factory.getOWLNamedIndividual(":"+antecedentValue, ontologyHolder.getPrefixOWLOntologyFormat());
 

@@ -16,9 +16,15 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
+/**
+ * Class that handles the instantiation of the 
+ * constraint in the ontology
+ * @author antoniopereira
+ *
+ */
 public class LogicProcess {
 
-	ProcessXML processxmlv2;
+	ProcessXML processxml;
 	OntologyHolder ontologyHolder;
 	ProcessSequences processSequences;
 
@@ -29,7 +35,7 @@ public class LogicProcess {
 	}
 
 	public void init() {
-		processxmlv2 = new ProcessXML();
+		processxml = new ProcessXML();
 		ontologyHolder = new OntologyHolder();
 		//processSequences = new ProcessSequences();
 		
@@ -40,16 +46,17 @@ public class LogicProcess {
 		// commonly used options (such as which parsers are registered etc.
 		// etc.)
 		ontologyHolder.setOWLOntologyManager(OWLManager.createOWLOntologyManager());
+		
 		// Load the ontology
 		try {
 			ontologyHolder.setOWLOntology(ontologyHolder.getOWLOntologyManager().loadOntologyFromOntologyDocument(
 					new File(FilesLocation.ONTOLOGY)));
 		} catch (OWLOntologyCreationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ontologyHolder.setOWLDataFactory(ontologyHolder.getOWLOntologyManager().getOWLDataFactory());
 
+		// Delete previous instances
 		ontologyHolder.deleteIndividuals();
 		
 		//OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory(); //Standard reasoner
@@ -62,12 +69,12 @@ public class LogicProcess {
 		ontologyHolder.setOWLReasoner(reasonerFactory.createNonBufferingReasoner(ontologyHolder.getOWLOntology()/*,config*/));
 		
 		ontologyHolder.setPrefixOWLOntologyFormat(ontologyHolder.getOWLOntology().getOntologyID().getOntologyIRI().toString());
-		System.out.println("Ontology IRI: " + ontologyHolder.getOWLOntology().getOntologyID().getOntologyIRI().toString());
+		//System.out.println("Ontology IRI: " + ontologyHolder.getOWLOntology().getOntologyID().getOntologyIRI().toString());
 	}
 	
 	public void execute() {
 		init();
-		processxmlv2.execute(ontologyHolder);
+		processxml.execute(ontologyHolder);
 	}
 	
 	// To test

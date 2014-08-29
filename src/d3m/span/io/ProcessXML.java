@@ -33,8 +33,14 @@ import d3m.span.io.processrestrictionselements.Process_exists;
 import d3m.span.io.processrestrictionselements.Process_precedence;
 import d3m.span.io.relations.Relation;
 
+/**
+ * Class that reads the XML with the constraint
+ * and create the instances in the ontology
+ * @author antoniopereira
+ *
+ */
 public class ProcessXML {
-	boolean debug_parserXML = true;
+	boolean debug_parserXML = false;
 	OWLOntologyManager manager;
 	OWLOntology ont;
 
@@ -66,7 +72,6 @@ public class ProcessXML {
 
 		File xmlFile = new File(FilesLocation.RESTRICTIONS_XML);
 
-		//Como passar o XML para instancias da ontologia
 		//Get the DOM Builder Factory
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
@@ -88,7 +93,7 @@ public class ProcessXML {
 		//Iterating through the nodes and extracting the data.
 		NodeList nodeList = document.getDocumentElement().getChildNodes();
 
-		System.out.println("Restrictions' XML -> Length: " + nodeList.getLength());
+		//System.out.println("Restrictions' XML -> Length: " + nodeList.getLength());
 
 		for(int i = 0; i < nodeList.getLength(); i++){
 
@@ -101,8 +106,8 @@ public class ProcessXML {
 				System.out.println("======================= Analyzing a constraint =======================");
 
 				Element restrictionElement = (Element) node;
-				System.out.println("Constraint's name: " + restrictionElement.getElementsByTagName("title").item(0).getTextContent());
-				System.out.println("Note: " + restrictionElement.getElementsByTagName("note").item(0).getTextContent());
+				//System.out.println("Constraint's name: " + restrictionElement.getElementsByTagName("title").item(0).getTextContent());
+				//System.out.println("Note: " + restrictionElement.getElementsByTagName("note").item(0).getTextContent());
 
 				//Object that represents the present restriction
 				ConstraintSequence restrictionSequence = new ConstraintSequence(restrictionElement.getElementsByTagName("title").item(0).getTextContent());
@@ -124,16 +129,16 @@ public class ProcessXML {
 				//handle restriction node
 				for(int j = 0; j < restrictions.getLength(); j++) {
 					Node restrictionElements = restrictions.item(j);
-					System.out.println("Name Element: " + restrictionElements.getNodeName());
+					//System.out.println("Name Element: " + restrictionElements.getNodeName());
 
 					if (node instanceof Element && restrictionElements.getNodeName().equals("constraint")) {
 
-						System.out.println("======================= Constraint =======================");
+						//System.out.println("======================= Constraint =======================");
 
 						NodeList restrictions2 = restrictionElements.getChildNodes();
 						Node restriction2 = restrictions2.item(1);
 
-						System.out.println("Node: " + restriction2.getNodeName());
+						//System.out.println("Node: " + restriction2.getNodeName());
 
 						// TODO TO REFACTOR
 
@@ -164,7 +169,7 @@ public class ProcessXML {
 
 					else if (restrictionElements instanceof Element && restrictionElements.getNodeName().equals("constraintProperties")) {
 
-						System.out.println("======================= Restriction's Property =======================");
+						//System.out.println("======================= Restriction's Property =======================");
 
 						//Insert the properties of the relations
 
@@ -180,7 +185,7 @@ public class ProcessXML {
 
 								if(type.equals("start")){
 
-									System.out.println("\nSTART");
+									//System.out.println("\nSTART");
 
 									// Instantiate ConstraintComposition in the ontology
 									OWLClass restrictionComposition = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
@@ -208,12 +213,12 @@ public class ProcessXML {
 
 								} else {
 
-									System.out.println("========> Encontrei esta relation: " + relationProperty.getNodeName());
-									System.out.println("Type: " + relationProperty.getAttributes().getNamedItem("type").getNodeValue());
-									System.out.println("Relations involved: " +
-											relationProperty.getAttributes().getNamedItem("rel1").getNodeValue() +
-											" -> " + relationProperty.getAttributes().getNamedItem("rel2").getNodeValue());
-									System.out.println("Gap: " + relationProperty.getAttributes().getNamedItem("gap").getNodeValue());
+									//System.out.println("========> Encontrei esta relation: " + relationProperty.getNodeName());
+									//System.out.println("Type: " + relationProperty.getAttributes().getNamedItem("type").getNodeValue());
+									//System.out.println("Relations involved: " +
+									//		relationProperty.getAttributes().getNamedItem("rel1").getNodeValue() +
+									//		" -> " + relationProperty.getAttributes().getNamedItem("rel2").getNodeValue());
+									//System.out.println("Gap: " + relationProperty.getAttributes().getNamedItem("gap").getNodeValue());
 
 									int rel1ID = Integer.parseInt(relationProperty.getAttributes().getNamedItem("rel1").getNodeValue());
 									int rel2ID = Integer.parseInt(relationProperty.getAttributes().getNamedItem("rel2").getNodeValue());
@@ -223,9 +228,9 @@ public class ProcessXML {
 									String rel1 = restrictionSequence.getConstraints().get(rel1ID-1).getInstanceName();
 									String rel2 = restrictionSequence.getConstraints().get(rel2ID-1).getInstanceName();
 
-									System.out.println("\n----------------CONSTRAINTS PROPERTIES-----------------");
-									System.out.println("Relation to insert: " + rel1);
-									System.out.println("Relation to insert: " + rel2);
+									//System.out.println("\n----------------CONSTRAINTS PROPERTIES-----------------");
+									//System.out.println("Relation to insert: " + rel1);
+									//System.out.println("Relation to insert: " + rel2);
 
 									OWLIndividual Relation1Individual = factoryOnt.getOWLNamedIndividual(":"+rel1,
 											ontologyHolder.getPrefixOWLOntologyFormat());
@@ -307,12 +312,11 @@ public class ProcessXML {
 				}
 
 				//Insert the relation Properties
-				//Debug
-				System.out.println("========================================================");
-				System.out.println("Relations in this constraint:");
-				for (Relation relation : restrictionSequence.getConstraints()) {
-					System.out.println(relation.getRelationName());
-				}
+				//System.out.println("========================================================");
+				//System.out.println("Relations in this constraint:");
+				//for (Relation relation : restrictionSequence.getConstraints()) {
+				//	System.out.println(relation.getRelationName());
+				//}
 
 
 				// Get first constraint
