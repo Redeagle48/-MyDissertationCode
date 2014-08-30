@@ -94,8 +94,8 @@ public class Main {
 		//////////////////////////////////////////////
 		// Read the taxonomy relation of the items to be analyzed
 		//////////////////////////////////////////////
-		ProcessXMLTaxonomy processXMLTaxonomy = new ProcessXMLTaxonomy();
-		processXMLTaxonomy.execute();
+		//ProcessXMLTaxonomy processXMLTaxonomy = new ProcessXMLTaxonomy();
+		//processXMLTaxonomy.execute();
 
 		//////////////////////////////////////////////
 		// Read the sequential ontology
