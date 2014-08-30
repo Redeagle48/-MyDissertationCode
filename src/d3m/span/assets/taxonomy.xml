@@ -1,4 +1,4 @@
-<!-- Allow variables in the process -->
+<!-- Allow variables in the process of SPM-->
 <taxonomy>
 	<class id="A">
 		<value>2</value>
