@@ -15,7 +15,7 @@
 	  	</constraint>
 	  	  
 	  	<constraint id="2">
-	  		<precedence gap="2" isParallel="false">
+	  		<precedence gap="2" isParallel="true">
 	  			<antecedent>6</antecedent>
 	  			<consequent>5</consequent>
 	  		</precedence>
@@ -29,7 +29,7 @@
 	  <constraintProperties>
 	  	<constraintSequence type="start" gap="3"/>
 	  	<constraintSequence type="sequential" rel1="1" rel2="2" gap="1"/>
-	  	<constraintSequence type="sequential" rel1="2" rel2="3" gap="0"/>
+	  	<constraintSequence type="concurrential" rel1="2" rel2="3" gap="0"/>
 	  </constraintProperties>
   
   </constraintSet>

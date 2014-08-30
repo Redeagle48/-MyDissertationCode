@@ -6,7 +6,8 @@ public class EndRules extends RuleWriter{
 	
 	public EndRules(){}
 	
-	public SeqD2Rule[] writeRules(String[] item,int[] gap, int ruleCounter, int constraintCounter){
+	@Override
+	public SeqD2Rule[] writeRules(String[] item,int[] gap, int ruleCounter, int constraintCounter, boolean[] isParallel){
 
 		int item_int = Integer.parseInt(item[0]);
 		int rule_order = ++ruleCounter;

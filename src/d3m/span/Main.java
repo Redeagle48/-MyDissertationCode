@@ -124,10 +124,13 @@ public class Main {
 		//System.out.println("\n=====>>> Printing rules of tree");
 		ProcessExtractOntology processExtractOntology = new ProcessExtractOntology();
 		Vector<SeqD2Rule> ruleVector =  processExtractOntology.readFromOntology(logicProcess);
-		//for (SeqD2Rule seqD2Rule : ruleVector) {
-		//	System.out.println(seqD2Rule);
-		//}
-		//System.out.println("===============================\n");
+		
+		System.out.println("\nExpliciting the resulting rules:\n");
+		for (SeqD2Rule seqD2Rule : ruleVector) {
+			System.out.println("Rule: " + seqD2Rule.getRule() + " from Restriction: " + seqD2Rule.getRestriction());
+			System.out.println(seqD2Rule+"\n");
+		}
+		System.out.println("===============================\n");
 
 		//////////////////////////////////////////////
 		// Run the algorithm

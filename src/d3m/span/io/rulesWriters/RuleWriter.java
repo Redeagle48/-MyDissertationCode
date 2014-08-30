@@ -12,6 +12,6 @@ public abstract class RuleWriter {
 	 * @param constraintCounter -> constraint cardinal already written
 	 * @return
 	 */
-	public abstract SeqD2Rule[] writeRules(String[] item,int[] gap, int ruleCounter, int constraintCounter);
+	public abstract SeqD2Rule[] writeRules(String[] item,int[] gap, int ruleCounter, int constraintCounter, boolean[] isParallel);
 	
 }

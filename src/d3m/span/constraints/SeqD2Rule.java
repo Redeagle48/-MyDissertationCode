@@ -24,12 +24,12 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 		this.isParallel = isParallel;
 	}
 
-	short getRestriction() { return this.restriction; }
-	short getRule() { return this.rule; }
-	short getItemset() { return this.itemset; }
-	short getMax_Gap() { return this.max_gap; }
-	short getItem() { return this.item; }
-	boolean getIsParallel() { return this.isParallel; }
+	public short getRestriction() { return this.restriction; }
+	public short getRule() { return this.rule; }
+	public short getItemset() { return this.itemset; }
+	public short getMax_Gap() { return this.max_gap; }
+	public short getItem() { return this.item; }
+	public boolean getIsParallel() { return this.isParallel; }
 
 
 	/**
@@ -73,7 +73,7 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 	public String toString(){
 		String output = "Rule nr: " + this.rule + "\n"
 						+ "Restriction nr: " + this.restriction + "\n"
-						+ "Gap Allowed: " + this.max_gap + "\n"
+						+ "Gap Allowed: " + (!this.isParallel? this.max_gap : "(no applied here)") + "\n"
 						+ "Item: " + this.item + "\n"
 						+ "Is Parallel? " + this.isParallel;
 		return output;
