@@ -10,7 +10,7 @@ public class ExistRules extends RuleWriter {
 	public SeqD2Rule[] writeRules(String[] item, int[] gap, int ruleCounter, int constraintCounter, boolean[] isParallel) {
 		
 		int item_int = Integer.parseInt(item[0]);
-		int rule_order = ruleCounter++;
+		int rule_order = ++ruleCounter;
 		int constraint_order = constraintCounter;
 		int gap_to_be_inserted = gap[0];
 		boolean isParallel_before = isParallel[0];

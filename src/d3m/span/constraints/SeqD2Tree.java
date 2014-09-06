@@ -1,6 +1,7 @@
 package d3m.span.constraints;
 
 import d3m.span.constraints.SeqD2State.State;
+import d3m.span.core.SeqItemset;
 import d3m.span.core.SeqSequence;
 
 
@@ -50,7 +51,10 @@ public class SeqD2Tree {
 			// actual size of the sequence to be analyzed
 			int sequence_size = sequence.size();
 			sequence_state.setCurrentItemset((short)sequence_size);
-			int res = this.rules[sequence_state.getRule()-1].validate(item, sequence_state, sequence_size);
+			
+			SeqItemset itemset = sequence.getItemsetAt(sequence_size-1);
+			
+			int res = this.rules[sequence_state.getRule()-1].validate(item, sequence_state, sequence_size, itemset);
 			if (res == -1) return false; // rejecting the sequence
 
 			// when is inside the gap but not the item

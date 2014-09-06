@@ -121,7 +121,7 @@ public class Main {
 		//////////////////////////////////////////////
 		// Correspond the instantiated ontology to rules
 		//////////////////////////////////////////////
-		//System.out.println("\n=====>>> Printing rules of tree");
+		System.out.println("\n=====>>> Printing rules of tree");
 		ProcessExtractOntology processExtractOntology = new ProcessExtractOntology();
 		Vector<SeqD2Rule> ruleVector =  processExtractOntology.readFromOntology(logicProcess);
 		
@@ -136,8 +136,9 @@ public class Main {
 		// Run the algorithm
 		//////////////////////////////////////////////
 		//SeqD2PrefixGrowth alg = new SeqD2PrefixGrowth(runner.m_sup,db,runner.m_gap, true,ruleVector);
+		SeqD2PrefixGrowth alg = new SeqD2PrefixGrowth(runner.m_sup,db,runner.m_gap, true,ruleVector);
 		System.gc();
-		//Vector<String> result = alg.exec();
+		Vector<String> result = alg.exec();
 
 
 	}

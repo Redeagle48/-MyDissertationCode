@@ -159,23 +159,11 @@
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#Item"/>
-        <NamedIndividual IRI="#3"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Item"/>
         <NamedIndividual IRI="#5"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Item"/>
-        <NamedIndividual IRI="#6"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#Begin"/>
         <NamedIndividual IRI="#Begin_RestrictionTest"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#ConcurrentialConstraint"/>
-        <NamedIndividual IRI="#ConcurrentialProperty1_RestrictionTest"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#ConstraintComposition"/>
@@ -184,10 +172,6 @@
     <ClassAssertion>
         <Class IRI="#Exists"/>
         <NamedIndividual IRI="#Exists_RestrictionTest"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Precedence"/>
-        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#ConstraintDefinition"/>
@@ -209,33 +193,13 @@
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#nextConstraint"/>
-        <NamedIndividual IRI="#ConcurrentialProperty1_RestrictionTest"/>
-        <NamedIndividual IRI="#Exists_RestrictionTest"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#nextConstraint"/>
         <NamedIndividual IRI="#ConstraintComposition_RestrictionTest"/>
         <NamedIndividual IRI="#Begin_RestrictionTest"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#hasItem"/>
         <NamedIndividual IRI="#Exists_RestrictionTest"/>
-        <NamedIndividual IRI="#3"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#antecedent"/>
-        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
-        <NamedIndividual IRI="#6"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#consequent"/>
-        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
         <NamedIndividual IRI="#5"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#nextConstraintSequence"/>
-        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
-        <NamedIndividual IRI="#ConcurrentialProperty1_RestrictionTest"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#hasConstraint"/>
@@ -245,27 +209,17 @@
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#nextConstraint"/>
         <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
-        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
+        <NamedIndividual IRI="#Exists_RestrictionTest"/>
     </ObjectPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#hasGap"/>
         <NamedIndividual IRI="#ConstraintComposition_RestrictionTest"/>
-        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">3</Literal>
-    </DataPropertyAssertion>
-    <DataPropertyAssertion>
-        <DataProperty IRI="#hasGap"/>
-        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
-        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">2</Literal>
-    </DataPropertyAssertion>
-    <DataPropertyAssertion>
-        <DataProperty IRI="#isParallel"/>
-        <NamedIndividual IRI="#Precedence_RestrictionTest"/>
-        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#hasGap"/>
         <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
-        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">1</Literal>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">2</Literal>
     </DataPropertyAssertion>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#antecedent"/>

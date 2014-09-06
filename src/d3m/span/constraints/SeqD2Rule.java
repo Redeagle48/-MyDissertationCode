@@ -1,6 +1,7 @@
 package d3m.span.constraints;
 
 import d3m.span.constraints.SeqD2State.State;
+import d3m.span.core.SeqItemset;
 
 
 public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
@@ -41,7 +42,7 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 	 * 	0 if the sequence is allowed but not pass the rule
 	 *  1 if the rule is passed
 	 */
-	public int validate(short item, SeqD2State sequence_state, int currentItemset) {
+	public int validate(short item, SeqD2State sequence_state, int currentItemset, SeqItemset itemset) {
 
 		if(sequence_state.getMax_Allowed_Itemset() >= currentItemset) {
 			
@@ -53,8 +54,9 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 				}
 			}
 			
-			// when we found the item we were looking for
-			if(item == this.item && sequence_state.getRuleState() == State.IN
+			// when we found the item we were looking for TODO ESTA A VER O INDEX E NAO O ITEM EM SI
+			if((item == this.item /*|| itemset.contains(this.item)*/) // verify if the item is the current to be analyzed or is in the current itemset
+					&& sequence_state.getRuleState() == State.IN
 					&& sequence_state.getStartRuleItemset() <= currentItemset) {
 				sequence_state.setPassRuleState(); // Change rule state to pass
 				sequence_state.setItemFoundItemset((short)currentItemset);
