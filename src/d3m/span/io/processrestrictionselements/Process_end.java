@@ -22,9 +22,10 @@ import d3m.span.io.relations.RelationEnd;
 
 public class Process_end extends ProcessRestrictionElements {
 
-	public Process_end(OntologyHolder ontologyHolder) {
+	public Process_end(OntologyHolder ontologyHolder, int constraint_id) {
 		// TODO Auto-generated constructor stub
 		super.ontologyHolder = ontologyHolder;
+		super.constraint_id = constraint_id;
 	}
 
 	@Override
@@ -40,13 +41,11 @@ public class Process_end extends ProcessRestrictionElements {
 			OWLDataFactory factory = ontologyHolder.getOWLDataFactory();
 			OWLOntologyManager manager = ontologyHolder.getOWLOntologyManager();
 			
-			System.out.println("%%%%%%%%%%% Processando");
-
 			/* Get some new classes. */
 			OWLClass item = factory.getOWLClass(IRI.create(ont.getOntologyID()
 					.getOntologyIRI().toString() + "#End"));
 
-			String individualName = "End_" + restrictionSequence.getSequenceName();
+			String individualName = "End_" + constraint_id + "_" + restrictionSequence.getSequenceName();
 			
 			//restrictionSequence.addRelation(new RelationEnd());
 

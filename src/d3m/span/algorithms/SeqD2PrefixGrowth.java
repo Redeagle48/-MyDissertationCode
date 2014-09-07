@@ -9,6 +9,7 @@ import d3m.span.core.SeqItem;
 import d3m.span.core.SeqItemset;
 import d3m.span.core.SeqProjectedDB;
 import d3m.span.core.SeqSequence;
+import d3m.span.core.Taxonomy.ComposedElement;
 import dm.pam.algorithms.PrefixPam;
 import dm.pam.core.Results;
 import dm.uspam.core.Sequence;
@@ -21,6 +22,9 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 	protected final int CREATE_PROJECTED_DB = 4;
 
 	protected SeqDataset m_dataset = null;
+	
+	/** Taxonomy parent node **/
+	ComposedElement topParent;
 
 	/** The large itemsets or frequent sequences. */
 	protected Vector<Vector<SeqSequence>> m_litemsets = new Vector<Vector<SeqSequence>>();

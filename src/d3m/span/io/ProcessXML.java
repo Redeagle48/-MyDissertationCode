@@ -43,6 +43,9 @@ public class ProcessXML {
 	boolean debug_parserXML = false;
 	OWLOntologyManager manager;
 	OWLOntology ont;
+	
+	// Count the number of each type of constraint
+	int constraint_id = 0;
 
 	public ProcessXML() {}
 
@@ -144,17 +147,17 @@ public class ProcessXML {
 
 						// Unary constraints
 						if(restriction2.getNodeName().equals("begin")) {
-							new Process_begin(ontologyHolder).proceed(restriction2,restrictionSequence);
+							new Process_begin(ontologyHolder,++constraint_id).proceed(restriction2,restrictionSequence);
 						}
 						else if(restriction2.getNodeName().equals("exists")){
-							new Process_exists(ontologyHolder).proceed(restriction2, restrictionSequence);
+							new Process_exists(ontologyHolder,++constraint_id).proceed(restriction2, restrictionSequence);
 						}
 						else if(restriction2.getNodeName().equals("end")) {
-							new Process_end(ontologyHolder).proceed(restriction2,restrictionSequence);
+							new Process_end(ontologyHolder,++constraint_id).proceed(restriction2,restrictionSequence);
 						}
 						// Binary constraints
 						else if(restriction2.getNodeName().equals("precedence")) {
-							new Process_precedence(ontologyHolder).proceed(restrictionElements,restrictionSequence);
+							new Process_precedence(ontologyHolder,++constraint_id).proceed(restrictionElements,restrictionSequence);
 						}
 						// Complex constraints
 						else if(restriction2.getNodeName().equals("palindrome")){

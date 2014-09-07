@@ -11,28 +11,29 @@
 	  	<note>Simple Constraint just to test</note>
 	  	
 	  	<constraint id="1">
+	  		<exists>2</exists>
+	  	</constraint>
+	  	
+	  	<constraint id="2">
 	  		<precedence gap="3" isParallel="false">
 	  			<antecedent>5</antecedent>
 	  			<consequent>6</consequent>
 	  		</precedence>
 	  	</constraint>
-	  	
-	  	<constraint id="2">
-	  		<exists>2</exists>
-	  	</constraint>
-	<!-- 
-		<constraint id="2">
+		<!--
+		<constraint id="3">
 			<exists>5</exists>
 		</constraint>
-	-->
+ 		-->
 	  
 	  <constraintProperties>
+	  	
 	  	<constraintSequence type="start" gap="0"/>
 	  	  
-	  	<constraintSequence type="sequential" rel1="1" rel2="2" gap="10"/>
-	  	<!--
-	  	<constraintSequence type="concurrential" rel1="2" rel2="3" gap="0"/>
-	  	-->
+	  	<constraintSequence type="sequential" rel1="1" rel2="2" gap="2"/>
+	  	
+	    <!--constraintSequence type="concurrential" rel1="2" rel2="3" gap="0"/>-->
+	  	
 	  </constraintProperties>
   
   </constraintSet>

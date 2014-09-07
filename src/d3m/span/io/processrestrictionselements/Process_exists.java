@@ -20,9 +20,10 @@ import d3m.span.io.relations.RelationExists;
 
 public class Process_exists extends ProcessRestrictionElements{
 
-	public Process_exists(OntologyHolder ontologyHolder) {
+	public Process_exists(OntologyHolder ontologyHolder, int constraint_id) {
 		// TODO Auto-generated constructor stub
 		super.ontologyHolder = ontologyHolder;
+		super.constraint_id = constraint_id;
 	}
 
 	@Override
@@ -37,13 +38,11 @@ public class Process_exists extends ProcessRestrictionElements{
 		OWLDataFactory factory = ontologyHolder.getOWLDataFactory();
 		OWLOntologyManager manager = ontologyHolder.getOWLOntologyManager();
 
-		System.out.println("%%%%%%%%%%% Processando");
-
 		/* Get some new classes. */
 		OWLClass item = factory.getOWLClass(IRI.create(ont.getOntologyID()
 				.getOntologyIRI().toString() + "#Exists"));
 
-		String individualName = "Exists_" + restrictionSequence.getSequenceName();
+		String individualName = "Exists_" + constraint_id + "_" + restrictionSequence.getSequenceName();
 
 		// Add individual
 		OWLIndividual relationIndividual = factory.getOWLNamedIndividual(":"+individualName, ontologyHolder.getPrefixOWLOntologyFormat());

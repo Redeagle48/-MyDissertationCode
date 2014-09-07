@@ -24,9 +24,10 @@ import d3m.span.io.relations.RelationPrecedence;
 
 public class Process_precedence extends ProcessRestrictionElements{
 
-	public Process_precedence(OntologyHolder ontologyHolder) {
+	public Process_precedence(OntologyHolder ontologyHolder, int id) {
 		// TODO Auto-generated constructor stub
 		super.ontologyHolder = ontologyHolder;
+		super.constraint_id = id;
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class Process_precedence extends ProcessRestrictionElements{
 
 		String restrictionName = restrictionSequence.getSequenceName();
 
-		OWLIndividual precedenceIndividual = factory.getOWLNamedIndividual(":Precedence_"+restrictionName, ontologyHolder.getPrefixOWLOntologyFormat());
+		OWLIndividual precedenceIndividual = factory.getOWLNamedIndividual("Precedence_"+ constraint_id + "_"+restrictionName, ontologyHolder.getPrefixOWLOntologyFormat());
 
 		OWLClass precedenceClass = factory.getOWLClass(":Precedence", ontologyHolder.getPrefixOWLOntologyFormat());
 
@@ -123,7 +124,7 @@ public class Process_precedence extends ProcessRestrictionElements{
 		//ontologyHolder.processReasoner();
 
 		//COLOCAR A RESTRICAO NA CLASSE
-		restrictionSequence.addConstraint(new RelationPrecedence("Precedence_"+restrictionName, antecedentValue, consequentValue));
+		restrictionSequence.addConstraint(new RelationPrecedence("Precedence_"+ constraint_id + "_" +restrictionName, antecedentValue, consequentValue));
 
 		try {
 			manager.saveOntology(ont);

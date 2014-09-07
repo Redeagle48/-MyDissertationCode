@@ -22,9 +22,10 @@ import d3m.span.io.semanticRestrictions.Restriction_hasFirst;
 
 public class Process_begin extends ProcessRestrictionElements{
 
-	public Process_begin(OntologyHolder ontologyHolder) {
+	public Process_begin(OntologyHolder ontologyHolder,int constraint_id) {
 		// TODO Auto-generated constructor stub
 		super.ontologyHolder = ontologyHolder;
+		super.constraint_id = constraint_id;
 	}
 
 	@Override
@@ -40,13 +41,11 @@ public class Process_begin extends ProcessRestrictionElements{
 			OWLDataFactory factory = ontologyHolder.getOWLDataFactory();
 			OWLOntologyManager manager = ontologyHolder.getOWLOntologyManager();
 			
-			System.out.println("%%%%%%%%%%% Processando");
-
 			/* Get some new classes. */
 			OWLClass item = factory.getOWLClass(IRI.create(ont.getOntologyID()
 					.getOntologyIRI().toString() + "#Begin"));
 
-			String individualName = "Begin_" + restrictionSequence.getSequenceName();
+			String individualName = "Begin_" + constraint_id + "_" + restrictionSequence.getSequenceName();
 			
 			// Add individual
 			OWLIndividual relationIndividual = factory.getOWLNamedIndividual(":"+individualName, ontologyHolder.getPrefixOWLOntologyFormat());

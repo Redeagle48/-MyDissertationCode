@@ -13,23 +13,34 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import d3m.span.core.Taxonomy.AbstractElement;
+import d3m.span.core.Taxonomy.ComposedElement;
+import d3m.span.core.Taxonomy.Element;
+
 public class ProcessXMLTaxonomy {
+	
+	ComposedElement topParent;
+	
+	public ProcessXMLTaxonomy(){
+		topParent = new ComposedElement("topParent");
+	}
 
 	public static void main(String[] args){
 		ProcessXMLTaxonomy processXMLTaxonomy = new ProcessXMLTaxonomy();
 		processXMLTaxonomy.execute();
 	}
 
-	public void execute(){
+	public ComposedElement execute(){
 		try {
-			readXML();
+			return readXML();
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 
-	void readXML() throws ParserConfigurationException, SAXException, IOException{
+	ComposedElement readXML() throws ParserConfigurationException, SAXException, IOException{
 
 		File xmlFile = new File(FilesLocation.TAXONOMY_XML);
 
@@ -50,7 +61,7 @@ public class ProcessXMLTaxonomy {
 		document.getDocumentElement().normalize();
 		
 		NodeList classList  = document.getElementsByTagName("class");
-
+		
 		for(int i = 0; i < classList.getLength(); i++){
 			System.out.println("Class nr."+(i+1));
 			Node node = classList.item(i);
@@ -58,6 +69,7 @@ public class ProcessXMLTaxonomy {
 			NamedNodeMap attr = node.getAttributes();
 			Node id = attr.getNamedItem("id");
 			System.out.println("--> ID: " + id.getNodeValue());
+			ComposedElement ce = new ComposedElement(id.getNodeValue());
 
 			NodeList childList = node.getChildNodes();
 			for (int j = 0; j < childList.getLength(); j++) {
@@ -67,8 +79,15 @@ public class ProcessXMLTaxonomy {
 
 					String childValue = childNode.getTextContent();
 					System.out.println("---> Item: " + childValue);
+					AbstractElement e = new Element(childValue);
+					ce.addElement(e);
 				}
 			}
+			
+			topParent.addElement(ce);
 		}
+		
+		//topParent.print();
+		return topParent;
 	}
 }

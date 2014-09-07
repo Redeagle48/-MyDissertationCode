@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import d3m.span.io.relationProperties.RelationProperty;
 import d3m.span.io.relations.Relation;
-import d3m.span.io.semanticRestrictions.RestrictionSemantic;
 
 
 /****************

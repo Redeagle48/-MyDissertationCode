@@ -1,28 +1,17 @@
 package d3m.span;
 
 import java.io.File;
-import java.util.Set;
 import java.util.Vector;
-
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLOntology;
 
 import d3m.span.algorithms.SeqD2PrefixGrowth;
 import d3m.span.constraints.SeqD2Rule;
 import d3m.span.core.SeqDataset;
+import d3m.span.core.Taxonomy.ComposedElement;
 import d3m.span.io.LogicProcess;
 import d3m.span.io.OntologyHolder;
 import d3m.span.io.ProcessExtractOntology;
 import d3m.span.io.ProcessXMLTaxonomy;
 import d3m.span.io.SeqReader;
-import d3m.span.ontologies.Ontology;
-import d3m.span.ontologies.io.OWLReader;
 
 
 public class Main {
@@ -95,7 +84,7 @@ public class Main {
 		// Read the taxonomy relation of the items to be analyzed
 		//////////////////////////////////////////////
 		//ProcessXMLTaxonomy processXMLTaxonomy = new ProcessXMLTaxonomy();
-		//processXMLTaxonomy.execute();
+		//ComposedElement topParent = processXMLTaxonomy.execute();
 
 		//////////////////////////////////////////////
 		// Read the sequential ontology
