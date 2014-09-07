@@ -13,10 +13,10 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 
-import logicprocess.FilesLocation;
-import logicprocess.GlobalVariables;
-import logicprocess.OntologyHolder;
-import logicprocess.RestrictionSequence;
+//import logicprocess.FilesLocation;
+//import logicprocess.GlobalVariables;
+//import logicprocess.OntologyHolder;
+//import logicprocess.RestrictionSequence;
 
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -26,19 +26,19 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-import semanticRestrictions.RestrictionSemantic;
+//import semanticRestrictions.RestrictionSemantic;
 
 public class ProcessSequences {
 
 	ArrayList<ArrayList<String>> sequences;
 
 	// PRIVATE 
-	private final Path fFilePath;
+	private final Path fFilePath = null;
 	private final static Charset ENCODING = StandardCharsets.UTF_8;
 
 	public ProcessSequences() {
 		sequences = new ArrayList<ArrayList<String>>();
-		fFilePath = Paths.get(FilesLocation.SEQUENCES);
+		//fFilePath = Paths.get(FilesLocation.SEQUENCES);
 	}
 
 	public void execute(OntologyHolder ontologyHolder) {
@@ -60,6 +60,8 @@ public class ProcessSequences {
 
 		Set<OWLIndividual> individuals = item.getIndividuals(ont);
 
+		System.out.println("\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
+		
 		//Get relations evolving each individual restriction
 		for (OWLIndividual owlIndividual : individuals) {
 			ConstraintSequence restrictionSequence = new ConstraintSequence(owlIndividual.toStringID());
@@ -80,19 +82,19 @@ public class ProcessSequences {
 						element = entry.getValue().toString().split("#|>")[1];
 					}
 
-					try {
-						Constructor c = null;
-						RestrictionSemantic restrictionSemantic = null;
-						try {
-							c = Class.forName("semanticRestrictions.Restriction_"+relation).getConstructor(String.class, ConstraintSequence.class);
-							try {
-								restrictionSemantic = (RestrictionSemantic) c.newInstance(element, restrictionSequence);
-								System.out.println("The relation: " + restrictionSemantic.getRestrictionSequence().getSequenceName());
-								System.out.println("The item: " + restrictionSemantic.getItem());
-							} catch (IllegalArgumentException
-									| InvocationTargetException e1) {
+					//try {
+						//Constructor c = null;
+						//RestrictionSemantic restrictionSemantic = null;
+						//try {
+							//c = Class.forName("semanticRestrictions.Restriction_"+relation).getConstructor(String.class, ConstraintSequence.class);
+							//try {
+							//	restrictionSemantic = (RestrictionSemantic) c.newInstance(element, restrictionSequence);
+							//	System.out.println("The relation: " + restrictionSemantic.getRestrictionSequence().getSequenceName());
+							//	System.out.println("The item: " + restrictionSemantic.getItem());
+							//} catch (//IllegalArgumentException
+									/*| InvocationTargetException e1) {
 								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								//e1.printStackTrace();
 							}
 						} catch (NoSuchMethodException e1) {
 							// TODO Auto-generated catch block
@@ -101,7 +103,7 @@ public class ProcessSequences {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						restrictionSequence.addConstraint(restrictionSemantic);
+						//restrictionSequence.addConstraint(restrictionSemantic);
 
 					} catch (InstantiationException | IllegalAccessException
 							| ClassNotFoundException e) {
@@ -142,29 +144,29 @@ public class ProcessSequences {
 			for (int j = 0; j < restrictionSet.size(); j++) {
 				ConstraintSequence restrictionSequence = restrictionSet.get(j);
 				System.out.println("===> Handling restriction: " + restrictionSequence.getSequenceName());
-				ArrayList<RestrictionSemantic> relations = restrictionSequence.getConstraints();
+				//ArrayList<RestrictionSemantic> relations = restrictionSequence.getConstraints();
 				//For each relation in the restriction
-				for (RestrictionSemantic restrictionSemantic : relations) {
-					System.out.println("=======> Handling relation: " + restrictionSemantic.getRelationName());
+				//for (RestrictionSemantic restrictionSemantic : relations) {
+					//System.out.println("=======> Handling relation: " + restrictionSemantic.getRelationName());
 					//if a sequence does not respect the relation => restriction is violated
-					if(!restrictionSemantic.execute(sequences.get(i))){
-						System.out.println("=============>Sequence " + sequences.get(i) 
-								+ " doesn't respect the restriction " + restrictionSequence.getSequenceName()
-								+ " in the relation " + restrictionSemantic.getRelationName() +"\n");
+					//if(!restrictionSemantic.execute(sequences.get(i))){
+						//System.out.println("=============>Sequence " + sequences.get(i) 
+						//		+ " doesn't respect the restriction " + restrictionSequence.getSequenceName()
+						//		+ " in the relation " + restrictionSemantic.getRelationName() +"\n");
 						sequencesRespectRestrictions[i] = false;
 						break;
 					}
 				}
 				System.out.println();
-				if(sequencesRespectRestrictions[i])
-					System.out.println("The Sequence " + sequences.get(i) + " respects the restriction "
-							+ restrictionSequence.getSequenceName()+"\n");
-				sequencesRespectRestrictions[i] = true;
+				//if(sequencesRespectRestrictions[i])
+					//System.out.println("The Sequence " + sequences.get(i) + " respects the restriction "
+					//		+ restrictionSequence.getSequenceName()+"\n");
+				//sequencesRespectRestrictions[i] = true;
 			}
-		}
+		//}
 
 
-	}
+	//}
 
 	public final void processLineByLine() throws IOException {
 		try (Scanner scanner =  new Scanner(fFilePath, ENCODING.name())){

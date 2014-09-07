@@ -18,7 +18,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import d3m.span.io.relations.RelationBegin;
-import d3m.span.io.semanticRestrictions.Restriction_hasFirst;
 
 public class Process_begin extends ProcessRestrictionElements{
 
