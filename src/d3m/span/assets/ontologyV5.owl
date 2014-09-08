@@ -1,0 +1,378 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.d2pm.com/ontologies/ontology.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.d2pm.com/ontologies/ontology.owl">
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="" IRI="http://www.d2pm.com/ontologies/ontology.owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Ontology to represent sequential and concurrent events in sequential pattern mining</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#Begin"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BinaryConstraint"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CardinalExistence"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ComplexConstraints"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ConcurrentialConstraint"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Constraint"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ConstraintComposition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ConstraintDefinition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ConstraintType"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#End"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Exists"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Item"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Palindrome"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Precedence"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SequentialConstraint"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UnaryConstraint"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#antecedent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#consequent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasConstraint"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasItem"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPrecedence"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasUnaryConstraint"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#nextConstraint"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#nextConstraintSequence"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasGap"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#isParallel"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#Begin"/>
+        <Class IRI="#UnaryConstraint"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BinaryConstraint"/>
+        <Class IRI="#Constraint"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CardinalExistence"/>
+        <Class IRI="#ComplexConstraints"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ComplexConstraints"/>
+        <Class IRI="#Constraint"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ConcurrentialConstraint"/>
+        <Class IRI="#ConstraintType"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Constraint"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ConstraintComposition"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ConstraintType"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#End"/>
+        <Class IRI="#UnaryConstraint"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Exists"/>
+        <Class IRI="#UnaryConstraint"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Item"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Palindrome"/>
+        <Class IRI="#ComplexConstraints"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Precedence"/>
+        <Class IRI="#BinaryConstraint"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SequentialConstraint"/>
+        <Class IRI="#ConstraintType"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UnaryConstraint"/>
+        <Class IRI="#Constraint"/>
+    </SubClassOf>
+    <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#5"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#6"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ConstraintComposition"/>
+        <NamedIndividual IRI="#ConstraintComposition_RestrictionTest"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Exists"/>
+        <NamedIndividual IRI="#Exists_1_RestrictionTest"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Precedence"/>
+        <NamedIndividual IRI="#Precedence_2_RestrictionTest"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ConstraintDefinition"/>
+        <NamedIndividual IRI="#RestrictionTest"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SequentialConstraint"/>
+        <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nextConstraint"/>
+        <NamedIndividual IRI="#ConstraintComposition_RestrictionTest"/>
+        <NamedIndividual IRI="#Exists_1_RestrictionTest"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasItem"/>
+        <NamedIndividual IRI="#Exists_1_RestrictionTest"/>
+        <NamedIndividual IRI="#2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nextConstraintSequence"/>
+        <NamedIndividual IRI="#Exists_1_RestrictionTest"/>
+        <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#antecedent"/>
+        <NamedIndividual IRI="#Precedence_2_RestrictionTest"/>
+        <NamedIndividual IRI="#5"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#consequent"/>
+        <NamedIndividual IRI="#Precedence_2_RestrictionTest"/>
+        <NamedIndividual IRI="#6"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasConstraint"/>
+        <NamedIndividual IRI="#RestrictionTest"/>
+        <NamedIndividual IRI="#ConstraintComposition_RestrictionTest"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nextConstraint"/>
+        <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
+        <NamedIndividual IRI="#Precedence_2_RestrictionTest"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasGap"/>
+        <NamedIndividual IRI="#ConstraintComposition_RestrictionTest"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasGap"/>
+        <NamedIndividual IRI="#Precedence_2_RestrictionTest"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#isParallel"/>
+        <NamedIndividual IRI="#Precedence_2_RestrictionTest"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">false</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasGap"/>
+        <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#int">2</Literal>
+    </DataPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#antecedent"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#consequent"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasConstraint"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasItem"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasUnaryConstraint"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#nextConstraint"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#nextConstraintSequence"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#antecedent"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#consequent"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasConstraint"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasItem"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#nextConstraint"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#nextConstraintSequence"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#antecedent"/>
+        <Class IRI="#Precedence"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#consequent"/>
+        <Class IRI="#Precedence"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasConstraint"/>
+        <Class IRI="#ConstraintDefinition"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasItem"/>
+        <Class IRI="#Constraint"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasItem"/>
+        <Class IRI="#ConstraintType"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasUnaryConstraint"/>
+        <Class IRI="#UnaryConstraint"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#nextConstraint"/>
+        <Class IRI="#ConstraintComposition"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#nextConstraint"/>
+        <Class IRI="#ConstraintType"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#nextConstraintSequence"/>
+        <Class IRI="#Constraint"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#antecedent"/>
+        <Class IRI="#Item"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#consequent"/>
+        <Class IRI="#Item"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasConstraint"/>
+        <Class IRI="#ConstraintComposition"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasItem"/>
+        <Class IRI="#Item"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasUnaryConstraint"/>
+        <Class IRI="#Item"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#nextConstraint"/>
+        <Class IRI="#Constraint"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#nextConstraintSequence"/>
+        <Class IRI="#ConstraintType"/>
+    </ObjectPropertyRange>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasGap"/>
+        <Class IRI="#Constraint"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasGap"/>
+        <Class IRI="#ConstraintType"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#isParallel"/>
+        <Class IRI="#Constraint"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasGap"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#isParallel"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.2.4.1806) http://owlapi.sourceforge.net -->
+
