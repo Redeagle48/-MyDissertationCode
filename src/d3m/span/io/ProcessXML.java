@@ -2,12 +2,16 @@ package d3m.span.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -20,9 +24,11 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
+import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -43,7 +49,7 @@ public class ProcessXML {
 	boolean debug_parserXML = false;
 	OWLOntologyManager manager;
 	OWLOntology ont;
-	
+
 	// Count the number of each type of constraint
 	int constraint_id = 0;
 
@@ -60,14 +66,159 @@ public class ProcessXML {
 	public void execute(OntologyHolder ontologyHolder) {
 		//System.out.println("Analyzing restriction's XML..........isValid?: " + isValidXML());
 		try {
-			readXML(ontologyHolder);
+			readTaxonomyXML(ontologyHolder);
+			readConstraintsXML(ontologyHolder);
 
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void readXML(OntologyHolder ontologyHolder) throws ParserConfigurationException, SAXException, IOException {
+	public void readTaxonomyXML(OntologyHolder ontologyHolder) throws ParserConfigurationException, SAXException, IOException{
+		OWLOntology ont = ontologyHolder.getOWLOntology();
+		OWLDataFactory factoryOnt = ontologyHolder.getOWLDataFactory();
+		OWLOntologyManager manager = ontologyHolder.getOWLOntologyManager();
+
+		File xmlFile = new File(FilesLocation.TAXONOMY_XML);
+
+		HashMap<String,Boolean> elements_state = new HashMap<String,Boolean>();
+
+		//Get the DOM Builder Factory
+		DocumentBuilderFactory factory = 
+				DocumentBuilderFactory.newInstance();
+
+		//Get the DOM Builder
+		DocumentBuilder dbuilder = factory.newDocumentBuilder();
+
+		//Load and Parse the XML document
+		//document contains the complete XML as a Tree.
+		Document document = dbuilder.parse(xmlFile);
+
+		//optional, but recommended
+		//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
+		document.getDocumentElement().normalize();
+
+		NodeList element_List  = document.getElementsByTagName("element");
+		for(int i = 0; i < element_List.getLength(); i++){
+			Node element_node = element_List.item(i);
+			String element_name = element_node.getTextContent();
+			OWLClass element_class = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
+					.getOntologyIRI().toString() + "#Element"));
+			OWLIndividual element_individual = factoryOnt.getOWLNamedIndividual(":"+element_name,
+					ontologyHolder.getPrefixOWLOntologyFormat());
+			OWLClassAssertionAxiom classAssertion_ComposedElement = factoryOnt.getOWLClassAssertionAxiom(
+					element_class, element_individual);
+			manager.addAxiom(ont, classAssertion_ComposedElement);
+
+			elements_state.put(":"+element_name, true);
+		}
+
+		NodeList composedElement_List  = document.getElementsByTagName("composedElement");
+
+		OWLClass composedElement_class = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
+				.getOntologyIRI().toString() + "#ComposedElement"));
+		OWLIndividual composedElement_individual_topparent = factoryOnt.getOWLNamedIndividual(":TopElement",
+				ontologyHolder.getPrefixOWLOntologyFormat());
+		OWLClassAssertionAxiom classAssertion_ComposedElement = factoryOnt.getOWLClassAssertionAxiom(
+				composedElement_class, composedElement_individual_topparent);
+		manager.addAxiom(ont, classAssertion_ComposedElement);
+
+		OWLObjectProperty containsElement = factoryOnt.getOWLObjectProperty(":containsElement",ontologyHolder.getPrefixOWLOntologyFormat());
+		OWLObjectProperty isContainedByElement = factoryOnt.getOWLObjectProperty(":isContainedBy",ontologyHolder.getPrefixOWLOntologyFormat());
+
+		for(int i = 0; i < composedElement_List.getLength(); i++){
+			System.out.println("ComposedElement nr."+(i+1));
+			Node node = composedElement_List.item(i);
+
+			NamedNodeMap attr = node.getAttributes();
+			Node id = attr.getNamedItem("id");
+			System.out.println("--> ID: " + id.getNodeValue());
+
+			OWLIndividual composedElement_individual_parent = factoryOnt.getOWLNamedIndividual(":"+id.getNodeValue(),
+					ontologyHolder.getPrefixOWLOntologyFormat());
+			classAssertion_ComposedElement = factoryOnt.getOWLClassAssertionAxiom(
+					composedElement_class, composedElement_individual_parent);
+			manager.addAxiom(ont, classAssertion_ComposedElement);
+
+			elements_state.put(":"+id.getNodeValue(), true);
+
+			NodeList childList = node.getChildNodes();
+			for (int j = 0; j < childList.getLength(); j++) {
+				Node childNode = childList.item(j);
+
+				if(childNode.getNodeName().equals("value")){
+
+					String childValue = childNode.getTextContent();
+					System.out.println("---> Item: " + childValue);
+
+					OWLClass element_class = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
+							.getOntologyIRI().toString() + "#Element"));
+					OWLIndividual element_individual = factoryOnt.getOWLNamedIndividual(":"+childValue,
+							ontologyHolder.getPrefixOWLOntologyFormat());
+					OWLClassAssertionAxiom classAssertion_Element = factoryOnt.getOWLClassAssertionAxiom(
+							element_class, element_individual);
+					manager.addAxiom(ont, classAssertion_Element);
+
+					OWLAxiom addaxiom3 = factoryOnt
+							.getOWLObjectPropertyAssertionAxiom(containsElement, composedElement_individual_parent, element_individual);
+					manager.addAxiom(ont, addaxiom3);
+					
+					OWLAxiom addaxiom4 = factoryOnt
+							.getOWLObjectPropertyAssertionAxiom(isContainedByElement, element_individual, composedElement_individual_parent);
+					manager.addAxiom(ont, addaxiom4);
+
+					elements_state.put(":"+childValue, false);
+
+
+				} else if(childNode.getNodeName().equals("composedValue")){
+
+					String childValue = childNode.getTextContent();
+					System.out.println("---> Composed Value: " + childValue);
+
+					OWLIndividual composedValue_individual = factoryOnt.getOWLNamedIndividual(":"+childValue,
+							ontologyHolder.getPrefixOWLOntologyFormat());
+
+					OWLAxiom addaxiom3 = factoryOnt
+							.getOWLObjectPropertyAssertionAxiom(containsElement, composedElement_individual_parent, composedValue_individual);
+					manager.addAxiom(ont, addaxiom3);
+					
+					OWLAxiom addaxiom4 = factoryOnt
+							.getOWLObjectPropertyAssertionAxiom(isContainedByElement, composedValue_individual, composedElement_individual_parent);
+					manager.addAxiom(ont, addaxiom4);
+
+					elements_state.put(":"+childValue, false);
+
+				}
+			}
+		}
+
+		Set<Entry<String, Boolean>> set = elements_state.entrySet();
+		containsElement = factoryOnt.getOWLObjectProperty(":containsElement",ontologyHolder.getPrefixOWLOntologyFormat());
+		for (Entry<String, Boolean> entry : set) {
+			if(entry.getValue()) {
+				OWLIndividual composedElement_individual = factoryOnt.getOWLNamedIndividual(entry.getKey(),
+						ontologyHolder.getPrefixOWLOntologyFormat());
+				OWLAxiom addaxiom3 = factoryOnt
+						.getOWLObjectPropertyAssertionAxiom(containsElement, composedElement_individual_topparent, composedElement_individual);
+				manager.addAxiom(ont, addaxiom3);
+				
+				OWLAxiom addaxiom4 = factoryOnt
+						.getOWLObjectPropertyAssertionAxiom(isContainedByElement, composedElement_individual, composedElement_individual_topparent);
+				manager.addAxiom(ont, addaxiom4);
+				
+			}
+		}
+
+		try {
+			manager.saveOntology(ont);
+			//restrictionSequence.insertItem(itemValue);
+			//restrictionSequence.insertRoot();
+		} catch (OWLOntologyStorageException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void readConstraintsXML(OntologyHolder ontologyHolder) throws ParserConfigurationException, SAXException, IOException {
 
 		OWLOntology ont = ontologyHolder.getOWLOntology();
 		OWLDataFactory factoryOnt = ontologyHolder.getOWLDataFactory();
@@ -346,7 +497,7 @@ public class ProcessXML {
 					e.printStackTrace();
 				}
 
-				ontologyHolder.processReasoner();
+				ontologyHolder.processReasoner(); // to ensure the consistency of the intantiate ontology
 			}
 		}
 	}

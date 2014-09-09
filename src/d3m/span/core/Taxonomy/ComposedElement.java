@@ -4,20 +4,55 @@ import java.util.Vector;
 
 public class ComposedElement extends AbstractElement{
 	
-	Vector<AbstractElement> elements;
+	Vector<AbstractElement> elements; // Elements contained by this one
+	ComposedElement parentElement; // Element that contains this one
 	
-	public ComposedElement(String el){
+	public ComposedElement(ComposedElement parent, String el){
 		elements = new Vector<AbstractElement>();
 		super.elem = el;
+		this.parentElement = parent;
+	}
+	
+	public ComposedElement getParent(){
+		return this.parentElement;
 	}
 	
 	public void addElement(AbstractElement el){
 		elements.add(el);
 	}
 	
-	public boolean visitElement(String elem){
+	public void removeElement(AbstractElement el){
+		this.elements.remove(el);
+	}
+	
+	public void removeElement(String el_name){
+		this.elements.remove(getElement(el_name));
+	}
+	
+	public AbstractElement getElement(String el_name){
+		
+		AbstractElement out = null;
+		
+		for (AbstractElement ae : elements) {
+			if(ae.elem == el_name){
+				out = ae;
+			} else {
+				out = ae.getElement(el_name);
+				if(out!=null){
+					return out;
+				}
+			}
+		}
+		return out;
+	}
+	
+	public boolean alreadyExistsElement(String elem){
+		
+		if(this.elem.equals(elem))
+			return true;
+		
 		for (AbstractElement el : elements) {
-			if(el.visitElement(elem)) return true;
+			if(el.alreadyExistsElement(elem)) return true;
 		}
 		return false;
 	}

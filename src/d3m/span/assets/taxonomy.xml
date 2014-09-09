@@ -1,13 +1,23 @@
 <!-- Allow variables in the process of SPM-->
 <taxonomy>
-	<class id="A">
+
+	<element>1</element>
+	<element>4</element>
+
+	<composedElement id="A"> <!-- a composed element -->
 		<value>2</value>
 		<value>5</value>
 		<value>6</value>
-	</class>
+	</composedElement>
+	
+	<composedElement id="C"> <!-- a composed element -->
+		<value>9</value>
+	</composedElement>
 
-	<class id="B">
+	<composedElement id="B">
+		<composedValue>A</composedValue> <!-- to be referenced elements must be defined before -->
 		<value>8</value>
 		<value>3</value>
-	</class>
+	</composedElement>
+	
 </taxonomy>

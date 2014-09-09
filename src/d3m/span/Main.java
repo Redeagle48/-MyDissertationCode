@@ -81,39 +81,24 @@ public class Main {
 		}
 
 		//////////////////////////////////////////////
-		// Read the taxonomy relation of the items to be analyzed
-		//////////////////////////////////////////////
-		//ProcessXMLTaxonomy processXMLTaxonomy = new ProcessXMLTaxonomy();
-		//ComposedElement topParent = processXMLTaxonomy.execute();
-
-		//////////////////////////////////////////////
-		// Read the sequential ontology
-		//////////////////////////////////////////////
-		//OWLReader reader = null; 
-		//try {
-		//	reader = new OWLReader(runner.m_fileOntology);
-		//	Ontology ont = new Ontology();
-			//reader.updateOntology(ont);
-
-			//System.out.println("==> RESULT: " + ont.toString());
-
-		//} catch(Exception e) {
-		//	e.printStackTrace();
-		//}
-
-		//////////////////////////////////////////////
 		// Instatiate the sequential ontology
 		//////////////////////////////////////////////
 		LogicProcess logicProcess = new LogicProcess();
 		logicProcess.execute();
 
 		//////////////////////////////////////////////
+		// Read the taxonomy from the ontology NOT YET DONE
+		//////////////////////////////////////////////
+		//ProcessXMLTaxonomy processXMLTaxonomy = new ProcessXMLTaxonomy();
+		//ComposedElement topParent = processXMLTaxonomy.execute();
+
+		//////////////////////////////////////////////
 		// Correspond the instantiated ontology to rules
 		//////////////////////////////////////////////
 		System.out.println("\n=====>>> Printing rules of tree");
-		ProcessExtractOntology processExtractOntology = new ProcessExtractOntology();
-		Vector<SeqD2Rule> ruleVector =  processExtractOntology.readFromOntology(logicProcess);
-		
+		ProcessExtractOntology processExtractOntology = new ProcessExtractOntology(logicProcess);
+		Vector<SeqD2Rule> ruleVector =  processExtractOntology.execute();
+
 		System.out.println("\nExpliciting the resulting rules:\n");
 		for (SeqD2Rule seqD2Rule : ruleVector) {
 			System.out.println("Rule: " + seqD2Rule.getRule() + " from Restriction: " + seqD2Rule.getRestriction());

@@ -28,6 +28,9 @@
         <Class IRI="#ComplexConstraints"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#ComposedElement"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#ConcurrentialConstraint"/>
     </Declaration>
     <Declaration>
@@ -41,6 +44,9 @@
     </Declaration>
     <Declaration>
         <Class IRI="#ConstraintType"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Element"/>
     </Declaration>
     <Declaration>
         <Class IRI="#End"/>
@@ -70,6 +76,9 @@
         <ObjectProperty IRI="#consequent"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#containsElement"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#hasConstraint"/>
     </Declaration>
     <Declaration>
@@ -80,6 +89,9 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#hasUnaryConstraint"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isContainedBy"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#nextConstraint"/>
@@ -110,6 +122,10 @@
         <Class IRI="#Constraint"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#ComposedElement"/>
+        <Class IRI="#Element"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#ConcurrentialConstraint"/>
         <Class IRI="#ConstraintType"/>
     </SubClassOf>
@@ -122,7 +138,15 @@
         <Class abbreviatedIRI="owl:Thing"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#ConstraintDefinition"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#ConstraintType"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Element"/>
         <Class abbreviatedIRI="owl:Thing"/>
     </SubClassOf>
     <SubClassOf>
@@ -154,16 +178,60 @@
         <Class IRI="#Constraint"/>
     </SubClassOf>
     <ClassAssertion>
+        <Class IRI="#Element"/>
+        <NamedIndividual IRI="#1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Element"/>
+        <NamedIndividual IRI="#2"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#Item"/>
         <NamedIndividual IRI="#2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Element"/>
+        <NamedIndividual IRI="#3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Element"/>
+        <NamedIndividual IRI="#4"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Element"/>
+        <NamedIndividual IRI="#5"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#Item"/>
         <NamedIndividual IRI="#5"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#Element"/>
+        <NamedIndividual IRI="#6"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#Item"/>
         <NamedIndividual IRI="#6"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Element"/>
+        <NamedIndividual IRI="#8"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Element"/>
+        <NamedIndividual IRI="#9"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ComposedElement"/>
+        <NamedIndividual IRI="#A"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ComposedElement"/>
+        <NamedIndividual IRI="#B"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ComposedElement"/>
+        <NamedIndividual IRI="#C"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#ConstraintComposition"/>
@@ -185,6 +253,100 @@
         <Class IRI="#SequentialConstraint"/>
         <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
     </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ComposedElement"/>
+        <NamedIndividual IRI="#TopElement"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#1"/>
+        <NamedIndividual IRI="#TopElement"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#2"/>
+        <NamedIndividual IRI="#A"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#3"/>
+        <NamedIndividual IRI="#B"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#4"/>
+        <NamedIndividual IRI="#TopElement"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#5"/>
+        <NamedIndividual IRI="#A"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#6"/>
+        <NamedIndividual IRI="#A"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#8"/>
+        <NamedIndividual IRI="#B"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#9"/>
+        <NamedIndividual IRI="#C"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#A"/>
+        <NamedIndividual IRI="#2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#A"/>
+        <NamedIndividual IRI="#6"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#A"/>
+        <NamedIndividual IRI="#5"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#A"/>
+        <NamedIndividual IRI="#B"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#B"/>
+        <NamedIndividual IRI="#3"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#B"/>
+        <NamedIndividual IRI="#8"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#B"/>
+        <NamedIndividual IRI="#A"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#B"/>
+        <NamedIndividual IRI="#TopElement"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#C"/>
+        <NamedIndividual IRI="#9"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#C"/>
+        <NamedIndividual IRI="#TopElement"/>
+    </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#nextConstraint"/>
         <NamedIndividual IRI="#ConstraintComposition_RestrictionTest"/>
@@ -219,6 +381,26 @@
         <ObjectProperty IRI="#nextConstraint"/>
         <NamedIndividual IRI="#SequentialProperty1_RestrictionTest"/>
         <NamedIndividual IRI="#Precedence_2_RestrictionTest"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#TopElement"/>
+        <NamedIndividual IRI="#C"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#TopElement"/>
+        <NamedIndividual IRI="#B"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#TopElement"/>
+        <NamedIndividual IRI="#1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#TopElement"/>
+        <NamedIndividual IRI="#4"/>
     </ObjectPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#hasGap"/>
@@ -268,6 +450,10 @@
         <ObjectProperty IRI="#nextConstraintSequence"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#containsElement"/>
+        <ObjectProperty IRI="#isContainedBy"/>
+    </InverseObjectProperties>
     <FunctionalObjectProperty>
         <ObjectProperty IRI="#antecedent"/>
     </FunctionalObjectProperty>
@@ -293,6 +479,10 @@
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#consequent"/>
         <Class IRI="#Precedence"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#containsElement"/>
+        <Class IRI="#ComposedElement"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#hasConstraint"/>
@@ -311,6 +501,10 @@
         <Class IRI="#UnaryConstraint"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <Class IRI="#Element"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#nextConstraint"/>
         <Class IRI="#ConstraintComposition"/>
     </ObjectPropertyDomain>
@@ -331,6 +525,10 @@
         <Class IRI="#Item"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="#containsElement"/>
+        <Class IRI="#Element"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="#hasConstraint"/>
         <Class IRI="#ConstraintComposition"/>
     </ObjectPropertyRange>
@@ -341,6 +539,10 @@
     <ObjectPropertyRange>
         <ObjectProperty IRI="#hasUnaryConstraint"/>
         <Class IRI="#Item"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <Class IRI="#ComposedElement"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#nextConstraint"/>

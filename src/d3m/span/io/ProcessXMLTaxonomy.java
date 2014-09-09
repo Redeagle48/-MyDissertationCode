@@ -18,9 +18,9 @@ import d3m.span.core.Taxonomy.ComposedElement;
 import d3m.span.core.Taxonomy.Element;
 
 public class ProcessXMLTaxonomy {
-	
+
 	ComposedElement topParent;
-	
+
 	public ProcessXMLTaxonomy(){
 		topParent = new ComposedElement("topParent");
 	}
@@ -30,14 +30,13 @@ public class ProcessXMLTaxonomy {
 		processXMLTaxonomy.execute();
 	}
 
-	public ComposedElement execute(){
+	public void execute(){
 		try {
-			return readXML();
+			readXML();
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
 	}
 
 	ComposedElement readXML() throws ParserConfigurationException, SAXException, IOException{
@@ -59,9 +58,9 @@ public class ProcessXMLTaxonomy {
 		//optional, but recommended
 		//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
 		document.getDocumentElement().normalize();
-		
+
 		NodeList classList  = document.getElementsByTagName("class");
-		
+
 		for(int i = 0; i < classList.getLength(); i++){
 			System.out.println("Class nr."+(i+1));
 			Node node = classList.item(i);
@@ -83,10 +82,10 @@ public class ProcessXMLTaxonomy {
 					ce.addElement(e);
 				}
 			}
-			
+
 			topParent.addElement(ce);
 		}
-		
+
 		//topParent.print();
 		return topParent;
 	}

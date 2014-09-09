@@ -13,6 +13,9 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import d3m.span.constraints.SeqD2Rule;
+import d3m.span.core.Taxonomy.AbstractElement;
+import d3m.span.core.Taxonomy.ComposedElement;
+import d3m.span.core.Taxonomy.Element;
 import d3m.span.io.rulesWriters.BeginRules;
 import d3m.span.io.rulesWriters.EndRules;
 import d3m.span.io.rulesWriters.ExistRules;
@@ -20,15 +23,111 @@ import d3m.span.io.rulesWriters.PrecedenceRules;
 
 public class ProcessExtractOntology {
 
-	public ProcessExtractOntology(){}
+	LogicProcess logicProcess;
 
-	public Vector<SeqD2Rule> readFromOntology(LogicProcess logicProcess){
+	public ProcessExtractOntology(LogicProcess lp){
+		this.logicProcess = lp;
+	}
+
+	public Vector<SeqD2Rule> execute(){
+		readTaxonomyFromOntology();
+		return readConstraintsFromOntology();
+	}
+
+	boolean alreadyExistsElement(ComposedElement parent, String el_name){
+		// Fazer um visitor pelos nos ja existentes
+		return parent.alreadyExistsElement(el_name);
+	}
+
+	void readTaxonomyFromOntology(){
+		
+		// TESTAR!!!!!!!
+		
+		System.out.println("\n=============READING THE TAXONOMY FROM THE ONTOLOGY=============");
+
+		OntologyHolder ontologyHolder = this.logicProcess.getOntologyHolder();
+		// Read the ontology
+		OWLOntology ont = ontologyHolder.getOWLOntology();
+		OWLDataFactory factory = ontologyHolder.getOWLDataFactory();
+
+		// Get ConstraintComposition instance
+		OWLClass constraintClass = factory.getOWLClass(IRI.create(ont.getOntologyID()
+				.getOntologyIRI().toString() + "#ComposedElement"));
+
+		Set<OWLIndividual> individualsNamed = constraintClass.getIndividuals(ont);
+		Object[] arr = individualsNamed.toArray();
+
+		ComposedElement topElement = new ComposedElement(null,"TopElement");
+
+		for (Object object : arr) {
+			OWLIndividual composedElement = (OWLIndividual) object;
+
+			String composedElement_value_id = composedElement.toStringID();
+			composedElement_value_id = composedElement_value_id.split("#")[1];
+
+			OWLObjectProperty containsElement = factory.getOWLObjectProperty(":containsElement",ontologyHolder.getPrefixOWLOntologyFormat());
+			OWLObjectProperty isContainedByElement = factory.getOWLObjectProperty(":isContainedBy",ontologyHolder.getPrefixOWLOntologyFormat());
+
+			individualsNamed = composedElement.getObjectPropertyValues(containsElement, ont);
+			Object[] arr2 = individualsNamed.toArray();
+
+			Set<OWLIndividual> parent_set = composedElement.getObjectPropertyValues(isContainedByElement,ont);
+			Object o = parent_set.toArray()[0];
+			String parent_name = o.toString();
+			parent_name = parent_name.split("#")[1];
+
+			AbstractElement ce = null;
+			if(!alreadyExistsElement(topElement, parent_name)){
+				ce = new Element(topElement,parent_name);
+				topElement.addElement(ce);
+			} else{
+				ce = topElement.getElement(parent_name);
+			}
+
+			if(arr2.length!=0){
+				//Means that is a ComposedElement -> reference other element//
+				ComposedElement c = ce.getParent();
+				c.removeElement(ce);
+				ce = new ComposedElement((ComposedElement)c,parent_name);
+				c.addElement(ce);
+			}
+
+			for (Object element_object : arr2) {
+
+				OWLIndividual element = (OWLIndividual)element_object;
+
+				parent_set = element.getObjectPropertyValues(isContainedByElement,ont);
+				o = parent_set.toArray()[0];
+				parent_name = o.toString();
+				parent_name = parent_name.split("#")[1];
+				
+
+				String element_value_id = element.toStringID();
+				element_value_id = element_value_id.split("#")[1];
+
+				if(!alreadyExistsElement(topElement, element_value_id)) {
+					Element el = new Element((ComposedElement)ce,element_value_id);
+					((ComposedElement)ce).addElement(el);
+				} else {
+					ComposedElement c = (ComposedElement)topElement.getElement(element_value_id);
+					ComposedElement c_parent = c.getParent();
+					c.removeElement(c_parent);
+					ce = new ComposedElement((ComposedElement)c_parent,element_value_id);
+					c.addElement(ce);
+				}
+
+			}
+		}
+		topElement.print();
+	}
+
+	Vector<SeqD2Rule> readConstraintsFromOntology(){
 
 		int constraintsCounter = 0; // Constraints already processed
 
 		System.out.println("\n=============WRITING RULES FROM CONSTRAINTS=============");
 
-		OntologyHolder ontologyHolder = logicProcess.getOntologyHolder();
+		OntologyHolder ontologyHolder = this.logicProcess.getOntologyHolder();
 
 		// Vector with the rules to be applied to the algorithm
 		Vector<SeqD2Rule> ruleVec = new Vector<SeqD2Rule>();
@@ -199,7 +298,7 @@ public class ProcessExtractOntology {
 				// Obtain gap inside constraint
 				OWLDataProperty hasGap = factory.getOWLDataProperty(":hasGap",ontologyHolder.getPrefixOWLOntologyFormat());
 				Set<OWLLiteral> hasGap_set = owlIndividual.getDataPropertyValues(hasGap, ont);
- 
+
 				int hasGap_int = -1;
 				if(!hasGap_set.isEmpty()) { // in the case of concurrency that is no gap
 					Object[] hasGap_arr = hasGap_set.toArray();
