@@ -59,10 +59,14 @@ public class ComposedElement extends AbstractElement{
 
 	@Override
 	public void print() {
-		System.out.println("Elements belonging to the concept: " + super.elem);
+		
+		System.out.println("Start ComposedElement:" + this.elem);
+		
 		for (AbstractElement el : elements) {
 			el.print();
 		}
+		
+		System.out.println("End ComposedElement:" + this.elem);
 	}
 
 	

@@ -24,6 +24,10 @@ import d3m.span.io.rulesWriters.PrecedenceRules;
 public class ProcessExtractOntology {
 
 	LogicProcess logicProcess;
+	
+	OntologyHolder ontologyHolder;
+	OWLOntology ont;
+	OWLDataFactory factory;
 
 	public ProcessExtractOntology(LogicProcess lp){
 		this.logicProcess = lp;
@@ -39,85 +43,68 @@ public class ProcessExtractOntology {
 		return parent.alreadyExistsElement(el_name);
 	}
 
-	void readTaxonomyFromOntology(){
+	void aux_readTaxonomyFromOntology(ComposedElement ce, Set<OWLIndividual> set){
 		
-		// TESTAR!!!!!!!
+		OWLObjectProperty containsElement = factory.getOWLObjectProperty(":containsElement",ontologyHolder.getPrefixOWLOntologyFormat());
+		
+		for (OWLIndividual elements_individual : set) {
+			
+			String element_name = elements_individual.toStringID();
+			element_name = element_name.split("#")[1];
+			
+			OWLIndividual child_OWLIndividual = factory.getOWLNamedIndividual(":"+element_name,
+					ontologyHolder.getPrefixOWLOntologyFormat());
+			Set<OWLIndividual> child_set = child_OWLIndividual.getObjectPropertyValues(containsElement, ont);
+			
+			if(child_set.size() != 0){
+				ComposedElement ce_child = new ComposedElement(ce, element_name);
+				ce.addElement(ce_child);
+				aux_readTaxonomyFromOntology(ce_child, child_set);
+			} else {
+				Element e = new Element(ce,element_name);
+				ce.addElement(e);
+			}
+			
+		}
+	}
+	
+	void readTaxonomyFromOntology(){
 		
 		System.out.println("\n=============READING THE TAXONOMY FROM THE ONTOLOGY=============");
 
-		OntologyHolder ontologyHolder = this.logicProcess.getOntologyHolder();
+		ontologyHolder = this.logicProcess.getOntologyHolder();
 		// Read the ontology
-		OWLOntology ont = ontologyHolder.getOWLOntology();
-		OWLDataFactory factory = ontologyHolder.getOWLDataFactory();
-
-		// Get ConstraintComposition instance
-		OWLClass constraintClass = factory.getOWLClass(IRI.create(ont.getOntologyID()
-				.getOntologyIRI().toString() + "#ComposedElement"));
-
-		Set<OWLIndividual> individualsNamed = constraintClass.getIndividuals(ont);
-		Object[] arr = individualsNamed.toArray();
+		ont = ontologyHolder.getOWLOntology();
+		factory = ontologyHolder.getOWLDataFactory();
 
 		ComposedElement topElement = new ComposedElement(null,"TopElement");
+		
+		OWLObjectProperty containsElement = factory.getOWLObjectProperty(":containsElement",ontologyHolder.getPrefixOWLOntologyFormat());
 
-		for (Object object : arr) {
-			OWLIndividual composedElement = (OWLIndividual) object;
-
-			String composedElement_value_id = composedElement.toStringID();
-			composedElement_value_id = composedElement_value_id.split("#")[1];
-
-			OWLObjectProperty containsElement = factory.getOWLObjectProperty(":containsElement",ontologyHolder.getPrefixOWLOntologyFormat());
-			OWLObjectProperty isContainedByElement = factory.getOWLObjectProperty(":isContainedBy",ontologyHolder.getPrefixOWLOntologyFormat());
-
-			individualsNamed = composedElement.getObjectPropertyValues(containsElement, ont);
-			Object[] arr2 = individualsNamed.toArray();
-
-			Set<OWLIndividual> parent_set = composedElement.getObjectPropertyValues(isContainedByElement,ont);
-			Object o = parent_set.toArray()[0];
-			String parent_name = o.toString();
-			parent_name = parent_name.split("#")[1];
-
-			AbstractElement ce = null;
-			if(!alreadyExistsElement(topElement, parent_name)){
-				ce = new Element(topElement,parent_name);
+		OWLIndividual topElement_OWLIndividual = factory.getOWLNamedIndividual(":TopElement",
+				ontologyHolder.getPrefixOWLOntologyFormat());
+		
+		Set<OWLIndividual> topElementChild = topElement_OWLIndividual.getObjectPropertyValues(containsElement, ont);
+		
+		for (OWLIndividual elements_individual : topElementChild) {
+			
+			String element_name = elements_individual.toStringID();
+			element_name = element_name.split("#")[1];
+			
+			OWLIndividual child_OWLIndividual = factory.getOWLNamedIndividual(":"+element_name,
+					ontologyHolder.getPrefixOWLOntologyFormat());
+			Set<OWLIndividual> child_set = child_OWLIndividual.getObjectPropertyValues(containsElement, ont);
+			
+			if(child_set.size() != 0){
+				ComposedElement ce = new ComposedElement(topElement, element_name);
+				aux_readTaxonomyFromOntology(ce, child_set);
 				topElement.addElement(ce);
-			} else{
-				ce = topElement.getElement(parent_name);
-			}
-
-			if(arr2.length!=0){
-				//Means that is a ComposedElement -> reference other element//
-				ComposedElement c = ce.getParent();
-				c.removeElement(ce);
-				ce = new ComposedElement((ComposedElement)c,parent_name);
-				c.addElement(ce);
-			}
-
-			for (Object element_object : arr2) {
-
-				OWLIndividual element = (OWLIndividual)element_object;
-
-				parent_set = element.getObjectPropertyValues(isContainedByElement,ont);
-				o = parent_set.toArray()[0];
-				parent_name = o.toString();
-				parent_name = parent_name.split("#")[1];
-				
-
-				String element_value_id = element.toStringID();
-				element_value_id = element_value_id.split("#")[1];
-
-				if(!alreadyExistsElement(topElement, element_value_id)) {
-					Element el = new Element((ComposedElement)ce,element_value_id);
-					((ComposedElement)ce).addElement(el);
-				} else {
-					ComposedElement c = (ComposedElement)topElement.getElement(element_value_id);
-					ComposedElement c_parent = c.getParent();
-					c.removeElement(c_parent);
-					ce = new ComposedElement((ComposedElement)c_parent,element_value_id);
-					c.addElement(ce);
-				}
-
+			} else {
+				Element e = new Element(topElement,element_name);
+				topElement.addElement(e);
 			}
 		}
+		
 		topElement.print();
 	}
 
