@@ -183,10 +183,10 @@
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#Element"/>
-        <NamedIndividual IRI="#2"/>
+        <NamedIndividual IRI="#12"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="#Item"/>
+        <Class IRI="#Element"/>
         <NamedIndividual IRI="#2"/>
     </ClassAssertion>
     <ClassAssertion>
@@ -226,6 +226,10 @@
         <NamedIndividual IRI="#A"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#Item"/>
+        <NamedIndividual IRI="#A"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#ComposedElement"/>
         <NamedIndividual IRI="#B"/>
     </ClassAssertion>
@@ -236,6 +240,10 @@
     <ClassAssertion>
         <Class IRI="#ConstraintComposition"/>
         <NamedIndividual IRI="#ConstraintComposition_RestrictionTest"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ComposedElement"/>
+        <NamedIndividual IRI="#D"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#Exists"/>
@@ -261,6 +269,11 @@
         <ObjectProperty IRI="#isContainedBy"/>
         <NamedIndividual IRI="#1"/>
         <NamedIndividual IRI="#TopElement"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#12"/>
+        <NamedIndividual IRI="#D"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#isContainedBy"/>
@@ -301,6 +314,11 @@
         <ObjectProperty IRI="#containsElement"/>
         <NamedIndividual IRI="#A"/>
         <NamedIndividual IRI="#2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#A"/>
+        <NamedIndividual IRI="#D"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#containsElement"/>
@@ -353,9 +371,24 @@
         <NamedIndividual IRI="#Exists_1_RestrictionTest"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#D"/>
+        <NamedIndividual IRI="#12"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#D"/>
+        <NamedIndividual IRI="#A"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isContainedBy"/>
+        <NamedIndividual IRI="#D"/>
+        <NamedIndividual IRI="#TopElement"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="#hasItem"/>
         <NamedIndividual IRI="#Exists_1_RestrictionTest"/>
-        <NamedIndividual IRI="#2"/>
+        <NamedIndividual IRI="#A"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#nextConstraintSequence"/>
@@ -391,6 +424,11 @@
         <ObjectProperty IRI="#containsElement"/>
         <NamedIndividual IRI="#TopElement"/>
         <NamedIndividual IRI="#B"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#containsElement"/>
+        <NamedIndividual IRI="#TopElement"/>
+        <NamedIndividual IRI="#D"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#containsElement"/>

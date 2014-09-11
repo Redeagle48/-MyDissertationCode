@@ -3,6 +3,7 @@ package d3m.span.constraints;
 import d3m.span.constraints.SeqD2State.State;
 import d3m.span.core.SeqItemset;
 import d3m.span.core.SeqSequence;
+import d3m.span.core.Taxonomy.ComposedElement;
 
 
 public class SeqD2Tree {
@@ -44,7 +45,7 @@ public class SeqD2Tree {
 	 * Validates the state according to the rules
 	 * @param sequence
 	 */
-	boolean validate(short item, SeqD2State sequence_state, SeqSequence sequence) {
+	boolean validate(short item, SeqD2State sequence_state, SeqSequence sequence, ComposedElement taxonomy) {
 
 		if(this.rules.length != 0 && this.rules.length >= sequence_state.getRule()) { // Protect when there are no rules or all the rules where passed
 
@@ -54,7 +55,7 @@ public class SeqD2Tree {
 			
 			SeqItemset itemset = sequence.getItemsetAt(sequence_size-1);
 			
-			int res = this.rules[sequence_state.getRule()-1].validate(item, sequence_state, sequence_size, itemset);
+			int res = this.rules[sequence_state.getRule()-1].validate(item, sequence_state, sequence_size, itemset, taxonomy);
 			if (res == -1) return false; // rejecting the sequence
 
 			// when is inside the gap but not the item

@@ -5,9 +5,14 @@
 	<element>4</element>
 
 	<composedElement id="A"> <!-- a composed element -->
+		<composedValue>D</composedValue>
 		<value>2</value>
 		<value>5</value>
 		<value>6</value>
+	</composedElement>
+	
+	<composedElement id="D"> <!-- a composed element -->
+		<value>12</value>
 	</composedElement>
 	
 	<composedElement id="C"> <!-- a composed element -->

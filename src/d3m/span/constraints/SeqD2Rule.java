@@ -2,6 +2,8 @@ package d3m.span.constraints;
 
 import d3m.span.constraints.SeqD2State.State;
 import d3m.span.core.SeqItemset;
+import d3m.span.core.Taxonomy.AbstractElement;
+import d3m.span.core.Taxonomy.ComposedElement;
 
 
 public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
@@ -10,13 +12,13 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 	short restriction;
 	short max_gap;
 	short itemset;
-	short item; // item to be discovered
+	String item; // item to be discovered
 	boolean isParallel;
 
 	short pos; // position in the analyzed sequence
 
 	public SeqD2Rule(short rule, short restriction, 
-			short gap_interTransaction, short gap_intraRestriction, short itemset, short item, boolean isParallel){
+			short gap_interTransaction, short gap_intraRestriction, short itemset, String item, boolean isParallel){
 		this.rule = rule;
 		this.restriction = restriction;
 		this.max_gap = gap_interTransaction;
@@ -29,7 +31,7 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 	public short getRule() { return this.rule; }
 	public short getItemset() { return this.itemset; }
 	public short getMax_Gap() { return this.max_gap; }
-	public short getItem() { return this.item; }
+	public String getItem() { return this.item; }
 	public boolean getIsParallel() { return this.isParallel; }
 
 
@@ -42,7 +44,10 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 	 * 	0 if the sequence is allowed but not pass the rule
 	 *  1 if the rule is passed
 	 */
-	public int validate(short item, SeqD2State sequence_state, int currentItemset, SeqItemset itemset) {
+	public int validate(short item, SeqD2State sequence_state, 
+			int currentItemset, SeqItemset itemset, ComposedElement taxonomy) {
+		
+		AbstractElement ruleItem = taxonomy.getElement(this.item);
 
 		if(sequence_state.getMax_Allowed_Itemset() >= currentItemset) {
 			
@@ -54,8 +59,10 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 				}
 			}
 			
-			// when we found the item we were looking for TODO ESTA A VER O INDEX E NAO O ITEM EM SI
-			if((item == this.item)
+			// when we found the item we were looking for
+			System.out.println("ruleItem: " + ruleItem.getThisElement() + " Item: " + item);
+			if((ruleItem.isTheSame(String.valueOf(item)))
+			//if((item == this.item)
 					&& sequence_state.getRuleState() == State.IN
 					&& sequence_state.getStartRuleItemset() <= currentItemset) {
 				sequence_state.setPassRuleState(); // Change rule state to pass

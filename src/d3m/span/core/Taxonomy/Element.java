@@ -31,4 +31,14 @@ public class Element extends AbstractElement{
 	public void print() {
 		System.out.println(super.elem);
 	}
+
+	@Override
+	public boolean isTheSame(String item) {
+		return elem.equals(item);
+	}
+
+	@Override
+	public String getThisElement() {
+		return elem;
+	}
 }

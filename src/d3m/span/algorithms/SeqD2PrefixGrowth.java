@@ -32,7 +32,7 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 	protected int m_nrOfPatterns;
 	/** The list of frequent items in the dataset */
 	protected SeqItem[] flist;
-
+	
 	/** Constraint guiding the algorithm. */
 	SeqD2Constraint d2seqconstraint = new SeqD2Constraint();
 
@@ -65,13 +65,15 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 	 * @param reader The reader created to read a file with sequences
 	 * @param distance The large distance accepted to consider subsequences
 	 */
-	public SeqD2PrefixGrowth(double minSup, SeqDataset db, int distance, boolean on, Vector<SeqD2Rule> rules)
+	public SeqD2PrefixGrowth(double minSup, SeqDataset db, int distance, boolean on, Vector<SeqD2Rule> rules, ComposedElement topElement)
 	{
 		m_dataset = db;
 		d2seqconstraint.minSup = (float)minSup;
 		d2seqconstraint.m_globalNr = (long) Math.round(Math.ceil(m_dataset.getSize()*minSup));
 		d2seqconstraint.m_distance = distance;
 		d2seqconstraint.setRules(rules);
+		d2seqconstraint.setTaxonomy(topElement);
+		
 		//super(minSup, db, distance, on);
 	}
 

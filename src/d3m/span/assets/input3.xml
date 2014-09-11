@@ -11,7 +11,7 @@
 	  	<note>Simple Constraint just to test</note>
 	  	
 	  	<constraint id="1">
-	  		<exists>2</exists>
+	  		<exists>A</exists>
 	  	</constraint>
 	  	
 	  	<constraint id="2">

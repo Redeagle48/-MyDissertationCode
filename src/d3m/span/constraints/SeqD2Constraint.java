@@ -14,6 +14,7 @@ import d3m.span.core.SeqItem;
 import d3m.span.core.SeqItemset;
 import d3m.span.core.SeqProjectedDB;
 import d3m.span.core.SeqSequence;
+import d3m.span.core.Taxonomy.ComposedElement;
 
 public class SeqD2Constraint extends D2Constraint {
 
@@ -27,6 +28,9 @@ public class SeqD2Constraint extends D2Constraint {
 
 	/** The tree containing the constraints. */
 	public SeqD2Tree tree = new SeqD2Tree();
+	
+	/** Taxonomy */
+	protected ComposedElement topElement;
 
 	/** TO TEST **/
 	public SeqD2Constraint() {
@@ -58,11 +62,15 @@ public class SeqD2Constraint extends D2Constraint {
 			tree.addRule(seqD2Rule);
 		}
 	}
+	
+	public void setTaxonomy(ComposedElement topElement){
+		this.topElement = topElement;
+	}
 
 	public boolean isAccept(SeqSequence b, SeqItem[] seqItems){
 		SeqD2State sequence_state = b.getState();
 		short item = (short)Integer.parseInt(seqItems[b.getLastItemset().elementIdAt(b.getLastItemset().size()-1)].getElement());
-		boolean res = tree.validate(item, sequence_state, b);
+		boolean res = tree.validate(item, sequence_state, b, topElement);
 		return res;
 	}
 

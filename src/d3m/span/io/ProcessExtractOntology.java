@@ -28,9 +28,16 @@ public class ProcessExtractOntology {
 	OntologyHolder ontologyHolder;
 	OWLOntology ont;
 	OWLDataFactory factory;
+	
+	ComposedElement topElement;
 
 	public ProcessExtractOntology(LogicProcess lp){
 		this.logicProcess = lp;
+		topElement = null;
+	}
+	
+	public ComposedElement getTaxonomy(){
+		return this.topElement;
 	}
 
 	public Vector<SeqD2Rule> execute(){
@@ -39,7 +46,6 @@ public class ProcessExtractOntology {
 	}
 
 	boolean alreadyExistsElement(ComposedElement parent, String el_name){
-		// Fazer um visitor pelos nos ja existentes
 		return parent.alreadyExistsElement(el_name);
 	}
 
@@ -77,7 +83,7 @@ public class ProcessExtractOntology {
 		ont = ontologyHolder.getOWLOntology();
 		factory = ontologyHolder.getOWLDataFactory();
 
-		ComposedElement topElement = new ComposedElement(null,"TopElement");
+		topElement = new ComposedElement(null,"TopElement");
 		
 		OWLObjectProperty containsElement = factory.getOWLObjectProperty(":containsElement",ontologyHolder.getPrefixOWLOntologyFormat());
 

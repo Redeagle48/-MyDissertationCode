@@ -8,7 +8,9 @@ public class BeginRules extends RuleWriter{
 
 	public SeqD2Rule[] writeRules(String[] item,int[] gap, int ruleCounter, int constraintCounter, boolean[] isParallel){
 
-		int item_int = Integer.parseInt(item[0]);
+		//int item_int = Integer.parseInt(item[0]);
+		String item_value = item[0];
+		
 		int rule_order = ++ruleCounter;
 		int constraint_order = constraintCounter;
 		int gap_to_be_inserted = gap[0];
@@ -20,7 +22,7 @@ public class BeginRules extends RuleWriter{
 						(short)gap_to_be_inserted, 		// gap_interTransaction
 						(short)0, 		// gap_intraRestriction
 						(short)0, 		// itemset
-						(short)item_int,		// item
+						item_value,		// item
 						isParallel_before);		// isParallel
 		return new SeqD2Rule[]{rule};
 	}

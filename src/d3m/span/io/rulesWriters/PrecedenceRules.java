@@ -9,8 +9,12 @@ public class PrecedenceRules extends RuleWriter{
 	@Override
 	public SeqD2Rule[] writeRules(String[] item,int[] gap, int ruleCounter, int constraintCounter, boolean[] isParallel){
 
-		int antecedent = Integer.parseInt(item[0]);
-		int consequent = Integer.parseInt(item[1]);
+		//int antecedent = Integer.parseInt(item[0]);
+		String antecedent_value = item[0];
+		
+		//int consequent = Integer.parseInt(item[1]);
+		String consequent_value = item[1];
+		
 		int rule_order = ++ruleCounter;
 		int constraint_order = constraintCounter;
 		int gap_before_constraint = gap[0];
@@ -24,7 +28,7 @@ public class PrecedenceRules extends RuleWriter{
 						(short)gap_before_constraint, 		// gap_interTransaction
 						(short)0, 		// gap_intraRestriction
 						(short)0, 		// itemset
-						(short)antecedent,		// item
+						antecedent_value,		// item
 						isParallel_before);		// isParallel
 
 		rule_order = ++ruleCounter;
@@ -35,7 +39,7 @@ public class PrecedenceRules extends RuleWriter{
 						(short)gap_between_constraint, 		// gap_interTransaction
 						(short)0, 		// gap_intraRestriction
 						(short)0, 		// itemset
-						(short)consequent,		// item
+						consequent_value,		// item
 						isParallel_inside);		// isParallel
 
 		return new SeqD2Rule[]{rule1,rule2};

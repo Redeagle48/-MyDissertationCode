@@ -87,17 +87,12 @@ public class Main {
 		logicProcess.execute();
 
 		//////////////////////////////////////////////
-		// Read the taxonomy from the ontology NOT YET DONE
-		//////////////////////////////////////////////
-		//ProcessXMLTaxonomy processXMLTaxonomy = new ProcessXMLTaxonomy();
-		//ComposedElement topParent = processXMLTaxonomy.execute();
-
-		//////////////////////////////////////////////
 		// Correspond the instantiated ontology to rules
 		//////////////////////////////////////////////
 		System.out.println("\n=====>>> Printing rules of tree");
 		ProcessExtractOntology processExtractOntology = new ProcessExtractOntology(logicProcess);
 		Vector<SeqD2Rule> ruleVector =  processExtractOntology.execute();
+		ComposedElement topElement = processExtractOntology.getTaxonomy();
 
 		System.out.println("\nExpliciting the resulting rules:\n");
 		for (SeqD2Rule seqD2Rule : ruleVector) {
@@ -105,12 +100,15 @@ public class Main {
 			System.out.println(seqD2Rule+"\n");
 		}
 		System.out.println("===============================\n");
+		
+		System.out.println("\n=====>>> Printing the taxonomy");
+		topElement.print();
 
 		//////////////////////////////////////////////
 		// Run the algorithm
 		//////////////////////////////////////////////
 		//SeqD2PrefixGrowth alg = new SeqD2PrefixGrowth(runner.m_sup,db,runner.m_gap, true,ruleVector);
-		SeqD2PrefixGrowth alg = new SeqD2PrefixGrowth(runner.m_sup,db,runner.m_gap, true,ruleVector);
+		SeqD2PrefixGrowth alg = new SeqD2PrefixGrowth(runner.m_sup,db,runner.m_gap, true,ruleVector,topElement);
 		System.gc();
 		Vector<String> result = alg.exec();
 
