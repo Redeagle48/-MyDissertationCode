@@ -8,6 +8,7 @@ import java.util.Vector;
 import ontologies.OntoException;
 import d3m.d2pm.constraints.D2Constraint;
 import d3m.d2pm.core.D2Item;
+import d3m.span.GlobalVariables;
 import d3m.span.constraints.SeqD2State.State;
 import d3m.span.core.SeqDataset;
 import d3m.span.core.SeqItem;
@@ -28,7 +29,7 @@ public class SeqD2Constraint extends D2Constraint {
 
 	/** The tree containing the constraints. */
 	public SeqD2Tree tree = new SeqD2Tree();
-	
+
 	/** Taxonomy */
 	protected ComposedElement topElement;
 
@@ -58,19 +59,35 @@ public class SeqD2Constraint extends D2Constraint {
 	}
 
 	public void setRules(Vector<SeqD2Rule> rulesVector) {
-		for (SeqD2Rule seqD2Rule : rulesVector) {
-			tree.addRule(seqD2Rule);
+		if(rulesVector != null) {
+			for (SeqD2Rule seqD2Rule : rulesVector) {
+				tree.addRule(seqD2Rule);
+			}
 		}
 	}
-	
+
 	public void setTaxonomy(ComposedElement topElement){
 		this.topElement = topElement;
 	}
 
 	public boolean isAccept(SeqSequence b, SeqItem[] seqItems){
-		SeqD2State sequence_state = b.getState();
-		short item = (short)Integer.parseInt(seqItems[b.getLastItemset().elementIdAt(b.getLastItemset().size()-1)].getElement());
-		boolean res = tree.validate(item, sequence_state, b, topElement);
+
+		long t1 = System.currentTimeMillis();
+
+		boolean res = false;
+		if(tree.getRules().length != 0) {
+			SeqD2State sequence_state = b.getState();
+			short item = (short)Integer.parseInt(seqItems[b.getLastItemset().elementIdAt(b.getLastItemset().size()-1)].getElement());
+			res = tree.validate(item, sequence_state, b, topElement);
+		} else {res=true;}
+
+		long t2 =System.currentTimeMillis();
+
+		long delta = t2-t1;
+
+		GlobalVariables.Timer.set(GlobalVariables.VERIFYCONSTRAINT, 
+				delta+GlobalVariables.Timer.get(GlobalVariables.VERIFYCONSTRAINT));
+
 		return res;
 	}
 
@@ -106,6 +123,8 @@ public class SeqD2Constraint extends D2Constraint {
 	public void generateC1 (SeqDataset db, long[] arrayItemsCount) throws Exception 
 	// Equal to Algorithm.java dm.uspam.algorithms
 	{
+		long t1 =System.currentTimeMillis();
+		
 		//long time = 0;
 		//if (m_profileOn) time = System.currentTimeMillis();
 		SeqItem[] alphabet = db.getAlphabet();
@@ -129,6 +148,13 @@ public class SeqD2Constraint extends D2Constraint {
 	                            					  GENERATE_C1);
 	    }
 		 */
+		
+		long t2 =System.currentTimeMillis();
+
+		long delta = t2-t1;
+
+		GlobalVariables.Timer.set(GlobalVariables.GENERATECANDIDATES, 
+				delta+GlobalVariables.Timer.get(GlobalVariables.GENERATECANDIDATES));
 	}
 
 	//________________________________________________________________
@@ -143,6 +169,9 @@ public class SeqD2Constraint extends D2Constraint {
 			long[] arParalelElems, long[] arLastSup, SeqDataset m_dataset)
 					throws Exception
 					{
+		
+		long t1 =System.currentTimeMillis();
+		
 		long time = 0;
 		//if (m_profileOn) time = System.currentTimeMillis();
 
@@ -167,9 +196,20 @@ public class SeqD2Constraint extends D2Constraint {
 					GENERATE_C1);
 		}
 		 */	
+
+		long t2 =System.currentTimeMillis();
+
+		long delta = t2-t1;
+
+		GlobalVariables.Timer.set(GlobalVariables.GENERATECANDIDATES, 
+				delta+GlobalVariables.Timer.get(GlobalVariables.GENERATECANDIDATES));
+		
 					}
 
 	public SeqProjectedDB createProjectedDB(SeqSequence alfa, SeqDataset m_db){
+
+		long t1 =System.currentTimeMillis();
+
 
 		long time = 0;
 		//if (m_profileOn) time = System.currentTimeMillis();
@@ -202,7 +242,15 @@ public class SeqD2Constraint extends D2Constraint {
 			m_membersProfiling.setElementAt(new Long(old.longValue()+System.currentTimeMillis()-time), 
 					CREATE_PROJECTED_DB);
 		}
-		 */		
+		 */
+
+		long t2 =System.currentTimeMillis();
+
+		long delta = t2-t1;
+
+		GlobalVariables.Timer.set(GlobalVariables.PROJECTDB, 
+				delta+GlobalVariables.Timer.get(GlobalVariables.PROJECTDB));
+
 		return proj;
 
 	}
@@ -217,6 +265,8 @@ public class SeqD2Constraint extends D2Constraint {
 	 */
 	public SeqProjectedDB createProjectedDB(SeqItemset set, SeqProjectedDB db, SeqDataset m_dataset) throws Exception
 	{
+		long t1 =System.currentTimeMillis();
+
 		long time = 0;
 		//if (m_profileOn) time = System.currentTimeMillis();
 		Vector<Integer> vecDB = new Vector<Integer>();
@@ -249,6 +299,14 @@ public class SeqD2Constraint extends D2Constraint {
 	                            					  CREATE_PROJECTED_DB);
 	    }	
 		 */	
+
+		long t2 =System.currentTimeMillis();
+
+		long delta = t2-t1;
+
+		GlobalVariables.Timer.set(GlobalVariables.PROJECTDB, 
+				delta+GlobalVariables.Timer.get(GlobalVariables.PROJECTDB));
+
 		return proj;
 	}
 
@@ -262,6 +320,9 @@ public class SeqD2Constraint extends D2Constraint {
 	 */
 	public SeqProjectedDB createProjectedDB(SeqSequence alfa, SeqProjectedDB db, SeqDataset m_dataset) throws Exception
 	{
+
+		long t1 =System.currentTimeMillis();
+
 		long time = 0;
 		//if (m_profileOn) time = System.currentTimeMillis();
 		Vector<Integer> vecDB = new Vector<Integer>();
@@ -301,6 +362,14 @@ public class SeqD2Constraint extends D2Constraint {
 	                            					  CREATE_PROJECTED_DB);
 	    }
 		 */
+
+		long t2 =System.currentTimeMillis();
+
+		long delta = t2-t1;
+
+		GlobalVariables.Timer.set(GlobalVariables.PROJECTDB, 
+				delta+GlobalVariables.Timer.get(GlobalVariables.PROJECTDB));
+
 		return proj;
 	}
 

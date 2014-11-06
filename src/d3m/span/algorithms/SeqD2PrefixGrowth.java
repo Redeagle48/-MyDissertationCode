@@ -1,5 +1,6 @@
 package d3m.span.algorithms;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import d3m.span.constraints.SeqD2Constraint;
@@ -17,12 +18,20 @@ import dm.uspam.io.SequencesReader;
 
 public class SeqD2PrefixGrowth extends PrefixPam {
 
+	/** To profiling */
+	protected final int GENERATE_C1 = 1;
 	protected final int SATISFIES = 2;
 	protected final int SORT_FREQUENT_LIST = 3;
 	protected final int CREATE_PROJECTED_DB = 4;
+	protected final int RUN = 5;
+	
+	ArrayList<Long> m_membersProfiling = new ArrayList<Long>();
+	
+	/** To activate profiling */
+	boolean on = false;
 
 	protected SeqDataset m_dataset = null;
-	
+
 	/** Taxonomy parent node **/
 	ComposedElement topParent;
 
@@ -32,7 +41,7 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 	protected int m_nrOfPatterns;
 	/** The list of frequent items in the dataset */
 	protected SeqItem[] flist;
-	
+
 	/** Constraint guiding the algorithm. */
 	SeqD2Constraint d2seqconstraint = new SeqD2Constraint();
 
@@ -74,6 +83,8 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 		d2seqconstraint.setRules(rules);
 		d2seqconstraint.setTaxonomy(topElement);
 		
+		this.on = on;
+
 		//super(minSup, db, distance, on);
 	}
 
@@ -256,11 +267,11 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 					&& d2seqconstraint.isAccept(alfa2, m_dataset.getAlphabet()))
 			{
 				alfa2.setSupport((int)arSerialSup[i]);
-				
+
 				// Check if this sequence respect all the constraints, if yes it is a frequent one
 				if(alfa2.getState().isAllPassTheRuleState() || alfa2.getState().isNoRulesTheRuleState())
 					frequent.addElement(alfa2);
-				
+
 				//System.out.println(alfa2.toString());
 				// 3. For each alfa', construct alfa'-projected database, and call 
 				// the procedure again with (alfa', alfaSize+1, alfa'-projectedDB) 
@@ -320,7 +331,9 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 	public Results run()
 	{
 		long time = 0;
-		//if (m_profileOn) time = System.currentTimeMillis();
+
+		// debug
+		if (on) time = System.currentTimeMillis();
 
 		// Creates 1-itemsets candidates
 		int n = m_dataset.getAlphabet().length; //m_itemsets do sequence esta vazio
@@ -374,8 +387,8 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 					b_patterns = runRecursively(b, 1, f_list, d2seqconstraint.createProjectedDB(b,m_dataset));
 					patterns.addAll(b_patterns);
 
-					System.out.println(b.toString()+"# _PATTERNS = "+ b_patterns.size());
-					System.out.println(b.toString()+"===>>>"+b_patterns.toString());
+					//System.out.println(b.toString()+"# _PATTERNS = "+ b_patterns.size());
+					//System.out.println(b.toString()+"===>>>"+b_patterns.toString());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -388,16 +401,19 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 
 		System.out.println("\n =======>>>>>> FINAL RESULTS");
 		System.out.println("# PATTERNS = "+ m_nrOfPatterns);
-		System.out.println("PATTERNS ===>>> " + patterns);
+		//System.out.println("PATTERNS ===>>> " + patterns);
 
-		/*
-		if (m_profileOn)
-		{
-			Long old = (Long) m_membersProfiling.elementAt(RUN);
-			m_membersProfiling.setElementAt(new Long(old.longValue()+System.currentTimeMillis()-time), 
-					RUN);
+		for (int i = 0; i < 6; i++){
+			m_membersProfiling.add(i, (long)0);
 		}
-		 */	
+
+		if (on)
+		{
+			Long old = (Long) m_membersProfiling.get(RUN);
+			m_membersProfiling.set(RUN, 
+					new Long(old.longValue()+System.currentTimeMillis()-time));
+			System.out.println("Time:" + m_membersProfiling.get(RUN));
+		}	
 
 		return null;
 	}
@@ -422,16 +438,19 @@ public class SeqD2PrefixGrowth extends PrefixPam {
 			String st_results = "\t"+String.valueOf((System.currentTimeMillis()-initialTime))
 					+ "\t" + String.valueOf(m_nrOfPatterns)
 					+ "\t" + String.valueOf(m_maxUsedMemory);
-			if (m_profileOn)
+			*/
+			/*
+			if (on)
 			{
-				for (int i=0; i<m_membersNameProfiling.size(); i++)
+				for (int i=0; i<m_membersProfiling.size(); i++)
 				{
 					st_alg += "\t";
-					st_resume += "\t" +m_membersNameProfiling.elementAt(i);
+					st_resume += "\t" +m_membersProfiling.elementAt(i);
 					st_results += "\t" +((Long)m_membersProfiling.elementAt(i)).toString();
 
 				}
-			} */
+			}
+			*/
 			Vector<String> vec = new Vector<String>(3);
 			//vec.addElement(st_alg);
 			//vec.addElement(st_resume);

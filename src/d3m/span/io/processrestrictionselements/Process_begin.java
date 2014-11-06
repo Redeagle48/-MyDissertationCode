@@ -29,9 +29,9 @@ public class Process_begin extends ProcessRestrictionElements{
 
 	@Override
 	public void proceed(Node node, ConstraintSequence restrictionSequence) {
-		System.out.println("========> Processing Begin restriction");
+		//System.out.println("========> Processing Begin restriction");
 		NodeList nodeElements = node.getChildNodes();
-		System.out.println("Item name to be inserted: " + nodeElements.item(0).getNodeValue());
+		//System.out.println("Item name to be inserted: " + nodeElements.item(0).getNodeValue());
 		
 		String itemValue = nodeElements.item(0).getNodeValue();
 

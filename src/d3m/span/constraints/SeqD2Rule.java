@@ -60,7 +60,7 @@ public class SeqD2Rule { // Dividir em rules para intra e inter restricoes
 			}
 			
 			// when we found the item we were looking for
-			System.out.println("ruleItem: " + ruleItem.getThisElement() + " Item: " + item);
+			//System.out.println("ruleItem: " + ruleItem.getThisElement() + " Item: " + item);
 			if((ruleItem.isTheSame(String.valueOf(item)))
 			//if((item == this.item)
 					&& sequence_state.getRuleState() == State.IN

@@ -127,12 +127,12 @@ public class ProcessXML {
 		OWLObjectProperty isContainedByElement = factoryOnt.getOWLObjectProperty(":isContainedBy",ontologyHolder.getPrefixOWLOntologyFormat());
 
 		for(int i = 0; i < composedElement_List.getLength(); i++){
-			System.out.println("ComposedElement nr."+(i+1));
+			//System.out.println("ComposedElement nr."+(i+1));
 			Node node = composedElement_List.item(i);
 
 			NamedNodeMap attr = node.getAttributes();
 			Node id = attr.getNamedItem("id");
-			System.out.println("--> ID: " + id.getNodeValue());
+			//System.out.println("--> ID: " + id.getNodeValue());
 
 			OWLIndividual composedElement_individual_parent = factoryOnt.getOWLNamedIndividual(":"+id.getNodeValue(),
 					ontologyHolder.getPrefixOWLOntologyFormat());
@@ -149,7 +149,7 @@ public class ProcessXML {
 				if(childNode.getNodeName().equals("value")){
 
 					String childValue = childNode.getTextContent();
-					System.out.println("---> Item: " + childValue);
+					//System.out.println("---> Item: " + childValue);
 
 					OWLClass element_class = factoryOnt.getOWLClass(IRI.create(ont.getOntologyID()
 							.getOntologyIRI().toString() + "#Element"));
@@ -173,7 +173,7 @@ public class ProcessXML {
 				} else if(childNode.getNodeName().equals("composedValue")){
 
 					String childValue = childNode.getTextContent();
-					System.out.println("---> Composed Value: " + childValue);
+					//System.out.println("---> Composed Value: " + childValue);
 
 					OWLIndividual composedValue_individual = factoryOnt.getOWLNamedIndividual(":"+childValue,
 							ontologyHolder.getPrefixOWLOntologyFormat());
@@ -241,7 +241,7 @@ public class ProcessXML {
 		//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
 		document.getDocumentElement().normalize();
 
-		if(debug_parserXML)
+		if(false)
 			System.out.println("Restrictions' XML -> Root element: " + document.getDocumentElement().getNodeName());
 
 		//Iterating through the nodes and extracting the data.
@@ -257,7 +257,7 @@ public class ProcessXML {
 
 			if (node instanceof Element && nodeList.item(1).getNodeName().equals("constraintSet")) {
 
-				System.out.println("======================= Analyzing a constraint =======================");
+				//System.out.println("======================= Analyzing a constraint =======================");
 
 				Element restrictionElement = (Element) node;
 				//System.out.println("Constraint's name: " + restrictionElement.getElementsByTagName("title").item(0).getTextContent());
